@@ -1,0 +1,1 @@
+User returns to Start Menu after the end of Match.
