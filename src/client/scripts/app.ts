@@ -2,7 +2,7 @@ class Grid{
   canvas: HTMLCanvasElement
   ctx: CanvasRenderingContext2D
   height: number = window.innerHeight
-  width: number = window.innerWidth
+  width: number = window.innerWidth-300;
   cellSizeWidth: number = this.width/136;
   cellSizeHeight: number = this.height/136;
   
@@ -15,8 +15,8 @@ class Grid{
   
 DrawBrick(x: number, y:number, smallx:number, smally:number) {
     this.ctx.fillStyle = '#FFA500';
-    this.ctx.fillRect(x+smallx*this.cellSizeWidth , y+smally*this.cellSizeHeight, this.cellSizeWidth, this.cellSizeHeight);
-  //console.log(x + " x; " + y + " y; " + smallx +" smallx; " + smally + " smally; ");
+  this.ctx.fillRect(( x*this.cellSizeWidth + smallx*this.cellSizeWidth), (y*this.cellSizeHeight + smally*this.cellSizeHeight), this.cellSizeWidth, this.cellSizeHeight);
+  console.log((x*this.cellSizeWidth + smallx*this.cellSizeWidth) + " x; " + (y*this.cellSizeHeight + smally*this.cellSizeHeight) + " y; " + smallx +" smallx; " + smally + " smally; ");
   };
   
   DrawHardBrick(x: number,y: number) {
@@ -101,6 +101,10 @@ for(var i: number = 0; i < 17; i++) {
 }
 
 wholeMap[0][0] = blockBrick;
+wholeMap[1][0] = blockBrick;
+wholeMap[10][10] = blockBrick;
+wholeMap[15][15] = blockBrick;
+
 wholeMap[16][16] = blockBrick;
 
   let myGrid = new Grid()
