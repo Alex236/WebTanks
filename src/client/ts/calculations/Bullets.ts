@@ -1,12 +1,9 @@
-namespace Calculations
-{
-    export class Bullets
-    {
-        private bullets: Bullet[] = [];
+import { Bullet } from './Bullet';
 
-        public getBullets(): Bullet[]
-        {
-            return this.bullets;
-        }
+export class Bullets {
+    private bullets: Bullet[] = [];
+
+    public get ListOfBullets(): Bullet[] {
+        return this.bullets;
     }
 }

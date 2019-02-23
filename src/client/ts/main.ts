@@ -1,4 +1,6 @@
-import {ArrayList} from "ts-collections/collection/ArrayList"
-import { Collection } from "ts-collections/collection/Collection";
-let ksdnf: ArrayList<string> = Collection.emptyList<string>();
-ksdnf.add("a");
+import { Timer } from './View/Timer';
+import { Rounds } from './View/Rounds';
+
+let timer = new Timer();
+let maps = new Rounds();
+let roundOne = Rounds.roundOne;

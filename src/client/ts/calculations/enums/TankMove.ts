@@ -1,10 +1,6 @@
-namespace Calculations
-{
-    export enum TankMove
-    {
-        up,
-        down,
-        left,
-        right
-    }
+export enum TankMove {
+    up,
+    down,
+    left,
+    right
 }

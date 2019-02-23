@@ -1,12 +1,9 @@
-namespace Calculations
-{
-    export class Tanks
-    {
-        private tanks: Tank[] = [];
+import { Tank } from './Tank';
 
-        public getTanks(): Tank[]
-        {
-            return this.tanks;
-        }
+export class Tanks {
+    private tanks: Tank[] = [];
+
+    public get ListOfTanks(): Tank[] {
+        return this.tanks;
     }
 }

@@ -1,7 +1,3 @@
-namespace Calculations
-{
-    export enum BlockType
-    {
-        
-    }
+export enum BlockType {
+
 }

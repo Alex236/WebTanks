@@ -1,12 +1,7 @@
-namespace Calculations
-{
-    export class DestroyedBlocks
-    {
-        private destroyedBlocks: Coordinates[] = [];
+export class DestroyedBlocks {
+    private destroyedBlocks: Coordinates[] = [];
 
-        public getDestroyedBlocks(): Coordinates[]
-        {
-            return this.destroyedBlocks;
-        }
+    public get ListOfDestroyedBlocks(): Coordinates[] {
+        return this.destroyedBlocks;
     }
 }

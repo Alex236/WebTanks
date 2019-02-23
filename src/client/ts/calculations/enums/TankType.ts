@@ -1,8 +1,4 @@
-namespace Calculations
-{
-    export enum TankType
-    {
-        user,
-        enemy
-    }
+export enum TankType {
+    user,
+    enemy
 }

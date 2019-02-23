@@ -1,34 +1,25 @@
-namespace Calculations
-{
-    export class Coordinates
-    {
-        private x: number;
-        private y: number;
+export class Coordinates {
+    private x: number;
+    private y: number;
 
-        constructor(x: number, y: number)
-        {
-            this.x = x;
-            this.y = y;
-        }
+    constructor(x: number, y: number) {
+        this.x = x;
+        this.y = y;
+    }
 
-        public getX(): number
-        {
-            return this.x;
-        }
+    public get X(): number {
+        return this.x;
+    }
 
-        public getY(): number
-        {
-            return this.y;
-        }
+    public get Y(): number {
+        return this.y;
+    }
 
-        public setX(x: number): void
-        {
-            this.x = x;
-        }
+    public set X(x: number) {
+        this.x = x;
+    }
 
-        public setY(y: number): void
-        {
-            this.y = y;
-        }
+    public set Y(y: number) {
+        this.y = y;
     }
 }

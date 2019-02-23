@@ -1,43 +1,36 @@
-namespace Calculations
-{
-    export class Tank
-    {
-        private user: string;
-        private coordinates: Coordinates;
-        private tankType: TankType;
-        private tankMove: TankMove;
+import { TankMove } from './enums/TankMove';
+import { TankType } from './enums/TankType';
 
-        constructor(user: string, coordinates: Coordinates, tankType: TankType, tankMove: TankMove)
-        {
-            this.user = user;
-            this.coordinates = coordinates;
-            this.tankType = tankType;
-            this.tankMove = tankMove;
-        }
+export class Tank {
+    private user: string;
+    private coordinates: Coordinates;
+    private tankType: TankType;
+    private tankMove: TankMove;
 
-        public getMove(): TankMove
-        {
-            return this.tankMove;
-        }
+    constructor(user: string, coordinates: Coordinates, tankType: TankType, tankMove: TankMove) {
+        this.user = user;
+        this.coordinates = coordinates;
+        this.tankType = tankType;
+        this.tankMove = tankMove;
+    }
 
-        public getType(): TankType
-        {
-            return this.tankType;
-        }
+    public get move(): TankMove {
+        return this.tankMove;
+    }
 
-        public getCoordinates(): Coordinates
-        {
-            return this.coordinates;
-        }
+    public get type(): TankType {
+        return this.tankType;
+    }
 
-        public setCoordinates(coordinates: Coordinates): void
-        {
-            this.coordinates = coordinates;
-        }
+    public get tankCoordinates(): Coordinates {
+        return this.coordinates;
+    }
 
-        public setMove(tankMove: TankMove): void
-        {
-            this.tankMove = tankMove;
-        }
+    public set tankCoordinates(coordinates: Coordinates) {
+        this.coordinates = coordinates;
+    }
+
+    public set move(tankMove: TankMove) {
+        this.tankMove = tankMove;
     }
 }

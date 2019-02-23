@@ -1,19 +1,15 @@
-namespace Calculations
-{
-    export class Bullet
-    {
-        private coordinates: Coordinates;
-        private bulletMove: BulletMove;
+import { BulletMove } from './enums/BulletMove';
 
-        constructor(coordinates: Coordinates, bulletMove: BulletMove)
-        {
-            this.coordinates = coordinates;
-            this.bulletMove = bulletMove;
-        }
+export class Bullet {
+    private coordinates: Coordinates;
+    private bulletMove: BulletMove;
 
-        public getCoordinates(): Coordinates
-        {
-            return this.coordinates;
-        }
+    constructor(coordinates: Coordinates, bulletMove: BulletMove) {
+        this.coordinates = coordinates;
+        this.bulletMove = bulletMove;
+    }
+
+    public get bulletCoordinates(): Coordinates {
+        return this.coordinates;
     }
 }
