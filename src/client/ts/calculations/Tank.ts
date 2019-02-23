@@ -1,5 +1,6 @@
 import { TankMove } from './enums/TankMove';
 import { TankType } from './enums/TankType';
+import { Coordinates } from './Coordinates';
 
 export class Tank {
     private user: string;
@@ -32,5 +33,10 @@ export class Tank {
 
     public set move(tankMove: TankMove) {
         this.tankMove = tankMove;
+    }
+
+    public get name(): string
+    {
+        return this.user;
     }
 }
