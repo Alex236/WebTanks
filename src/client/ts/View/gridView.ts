@@ -11,7 +11,7 @@ module gridView{
     this.canvas = <HTMLCanvasElement>document.getElementById('canvas')
     this.canvas.width = this.width
     this.canvas.height = this.height
-    this.ctx = this.canvas.getContext("2d");
+    this.ctx = <CanvasRenderingContext2D>this.canvas.getContext("2d");
   };
   
   drawBase(x:number, y:number){
@@ -19,34 +19,19 @@ module gridView{
     img.src = "https://res.cloudinary.com/phonecasemaggie/image/upload/v1550860699/TanksAsserts/flag_ukraine_36335.png";
     this.ctx.drawImage(img,( x*4*this.cellSizeWidth), (y*4*this.cellSizeHeight), this.cellSizeWidth*4, this.cellSizeHeight*4);
   };
-/*
-  drawTankOne(x:number, y:number){
-    let tank = document.createElement("img")
-    tank.src = "https://res.cloudinary.com/phonecasemaggie/image/upload/v1551004169/TanksAsserts/tankOne.ico";
-    this.ctx.drawImage(tank, x*this.cellSizeWidth, y*this.cellSizeHeight, this.cellSizeWidth*4, this.cellSizeHeight*4);
-   };
-
-
-
-  drawTankTwo(x:number, y:number){
-    let tank = document.createElement("img")
-    tank.src = "https://res.cloudinary.com/phonecasemaggie/image/upload/v1551004169/TanksAsserts/tankTwo.ico";
-    this.ctx.drawImage(tank, x*this.cellSizeWidth, y*this.cellSizeHeight, this.cellSizeWidth*4, this.cellSizeHeight*4);
-  };
-*/
   drawTankImageOne(x:number, y:number, position:string){
     let tank = document.createElement("img")
     switch(position){
-      case "down"://Down
+      case "down":
       tank.src = "https://res.cloudinary.com/phonecasemaggie/image/upload/v1551004169/TanksAsserts/tankOne.ico";
       break;
-      case "up"://Up
+      case "up":
       tank.src = "https://res.cloudinary.com/phonecasemaggie/image/upload/a_180/v1551004169/TanksAsserts/tankOne.ico";
       break;
-      case "right"://Right
+      case "right":
       tank.src = "https://res.cloudinary.com/phonecasemaggie/image/upload/a_270/v1551004169/TanksAsserts/tankOne.ico";
       break;
-      case "left"://Left
+      case "left":
       tank.src = "https://res.cloudinary.com/phonecasemaggie/image/upload/a_90/v1551004169/TanksAsserts/tankOne.ico";
       break;
 
@@ -57,16 +42,16 @@ module gridView{
   drawTankImageTwo(x:number, y:number, position:string){
     let tank = document.createElement("img")
     switch(position){
-      case "down"://Down
+      case "down":
       tank.src = "https://res.cloudinary.com/phonecasemaggie/image/upload/v1551004169/TanksAsserts/tankTwo.ico";
       break;
-      case "up"://Up
+      case "up":
       tank.src = "https://res.cloudinary.com/phonecasemaggie/image/upload/a_180/v1551004169/TanksAsserts/tankTwo.ico";
       break;
-      case "right"://Right
+      case "right":
       tank.src = "https://res.cloudinary.com/phonecasemaggie/image/upload/a_270/v1551004169/TanksAsserts/tankTwo.ico";
       break;
-      case "left"://Left
+      case "left":
       tank.src = "https://res.cloudinary.com/phonecasemaggie/image/upload/a_90/v1551004169/TanksAsserts/tankTwo.ico";
       break;
 
@@ -80,11 +65,11 @@ module gridView{
 
     if(i%2==0){
         this.drawTankImageOne(x,y,position)
-    }else{
+    }else if (position){
         this.drawTankImageTwo(x,y,position);
     }
     this.ctx.restore();
-    window.requestAnimationFrame(function(){this.drawTank(i, x, y)});
+    //window.requestAnimationFrame(function(){this.drawTank(i, x, y)});
   }
 
   DrawBrick(x: number, y:number) {
