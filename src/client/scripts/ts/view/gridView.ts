@@ -20,13 +20,29 @@ module gridView{
     this.ctx.drawImage(img,( x*4*this.cellSizeWidth), (y*4*this.cellSizeHeight), this.cellSizeWidth*4, this.cellSizeHeight*4);
   };
 
-drawTank(x:number, y:number){
+  drawTankOne(x:number, y:number){
     let tank = document.createElement("img")
     tank.src = "https://res.cloudinary.com/phonecasemaggie/image/upload/v1550945748/TanksAsserts/tankOneDown.ico";
-    //tankTwo.src = "https://res.cloudinary.com/phonecasemaggie/image/upload/v1550945509/TanksAsserts/TankTwoDown.ico";
-      this.ctx.drawImage(tank, x*this.cellSizeWidth, y*this.cellSizeHeight, this.cellSizeWidth*4, this.cellSizeHeight*4);
+    this.ctx.drawImage(tank, x*this.cellSizeWidth, y*this.cellSizeHeight, this.cellSizeWidth*4, this.cellSizeHeight*4);
+   };
+
+  drawTankTwo(x:number, y:number){
+    let tank = document.createElement("img")
+    tank.src = "https://res.cloudinary.com/phonecasemaggie/image/upload/v1550945509/TanksAsserts/TankTwoDown.ico";
+    this.ctx.drawImage(tank, x*this.cellSizeWidth, y*this.cellSizeHeight, this.cellSizeWidth*4, this.cellSizeHeight*4);
   };
-  
+
+  drawTank(i:number, x:number, y:number){
+    //this.ctx.clearRect(x*this.cellSizeWidth, y*this.cellSizeHeight, this.cellSizeWidth*4, this.cellSizeHeight*4);
+
+    if(i%2==0){
+      this.drawTankOne(x,y);
+    }else{
+      this.drawTankTwo(x,y);
+    }
+    requestAnimationFrame(function(){this.drawTank(i, x, y)});
+  }
+
   DrawBrick(x: number, y:number) {
     let img = document.createElement("img")
     img.src = "https://res.cloudinary.com/phonecasemaggie/image/upload/v1550848759/TanksAsserts/crateWood.png";

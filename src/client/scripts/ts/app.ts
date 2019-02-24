@@ -24,25 +24,28 @@ document.addEventListener('keydown', function (event) {
 let myGrid = new gridView.Grid()
 myGrid.drawGrid(rOne);
 myGrid.drawBase(6,12);
-myGrid.drawTank(0,0);
 
+var x = 0;
+setInterval(function(){ 
+  myGrid.drawTank(x,tanksCoord[0],tanksCoord[1]);
+  x++;
+}, 100);
 /*
-class Timer {
+  class Timer {
   constructor(public counter = 10000) {
 
         let intervalId = setInterval(() => {
             this.counter = this.counter - 1;
             
-  let myGrid = new gridView.Grid()
-myGrid.drawGrid(roundOne);
-          myGrid.drawBase(6,12);
-          myGrid.drawTank(tanksCoord[0],tanksCoord[1]);
-          
+  //let myGrid = new gridView.Grid()
+//myGrid.drawGrid(roundOne);
+          //myGrid.drawBase(6,12);
+          //myGrid.drawTank(tanksCoord[0],tanksCoord[1]);
           
             if(this.counter === 0) clearInterval(intervalId)
         }, 300)
     }
 }
 
-  let timer = new Timer();
+  let timer = new Timer();s
   */
