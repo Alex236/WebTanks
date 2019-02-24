@@ -19,28 +19,69 @@ module gridView{
     img.src = "https://res.cloudinary.com/phonecasemaggie/image/upload/v1550860699/TanksAsserts/flag_ukraine_36335.png";
     this.ctx.drawImage(img,( x*4*this.cellSizeWidth), (y*4*this.cellSizeHeight), this.cellSizeWidth*4, this.cellSizeHeight*4);
   };
-
+/*
   drawTankOne(x:number, y:number){
     let tank = document.createElement("img")
-    tank.src = "https://res.cloudinary.com/phonecasemaggie/image/upload/v1550945748/TanksAsserts/tankOneDown.ico";
+    tank.src = "https://res.cloudinary.com/phonecasemaggie/image/upload/v1551004169/TanksAsserts/tankOne.ico";
     this.ctx.drawImage(tank, x*this.cellSizeWidth, y*this.cellSizeHeight, this.cellSizeWidth*4, this.cellSizeHeight*4);
    };
 
+
+
   drawTankTwo(x:number, y:number){
     let tank = document.createElement("img")
-    tank.src = "https://res.cloudinary.com/phonecasemaggie/image/upload/v1550945509/TanksAsserts/TankTwoDown.ico";
+    tank.src = "https://res.cloudinary.com/phonecasemaggie/image/upload/v1551004169/TanksAsserts/tankTwo.ico";
+    this.ctx.drawImage(tank, x*this.cellSizeWidth, y*this.cellSizeHeight, this.cellSizeWidth*4, this.cellSizeHeight*4);
+  };
+*/
+  drawTankImageOne(x:number, y:number, position:string){
+    let tank = document.createElement("img")
+    switch(position){
+      case "down"://Down
+      tank.src = "https://res.cloudinary.com/phonecasemaggie/image/upload/v1551004169/TanksAsserts/tankOne.ico";
+      break;
+      case "up"://Up
+      tank.src = "https://res.cloudinary.com/phonecasemaggie/image/upload/a_180/v1551004169/TanksAsserts/tankOne.ico";
+      break;
+      case "right"://Right
+      tank.src = "https://res.cloudinary.com/phonecasemaggie/image/upload/a_270/v1551004169/TanksAsserts/tankOne.ico";
+      break;
+      case "left"://Left
+      tank.src = "https://res.cloudinary.com/phonecasemaggie/image/upload/a_90/v1551004169/TanksAsserts/tankOne.ico";
+      break;
+
+    }
     this.ctx.drawImage(tank, x*this.cellSizeWidth, y*this.cellSizeHeight, this.cellSizeWidth*4, this.cellSizeHeight*4);
   };
 
-  drawTank(i:number, x:number, y:number){
+  drawTankImageTwo(x:number, y:number, position:string){
+    let tank = document.createElement("img")
+    switch(position){
+      case "down"://Down
+      tank.src = "https://res.cloudinary.com/phonecasemaggie/image/upload/v1551004169/TanksAsserts/tankTwo.ico";
+      break;
+      case "up"://Up
+      tank.src = "https://res.cloudinary.com/phonecasemaggie/image/upload/a_180/v1551004169/TanksAsserts/tankTwo.ico";
+      break;
+      case "right"://Right
+      tank.src = "https://res.cloudinary.com/phonecasemaggie/image/upload/a_270/v1551004169/TanksAsserts/tankTwo.ico";
+      break;
+      case "left"://Left
+      tank.src = "https://res.cloudinary.com/phonecasemaggie/image/upload/a_90/v1551004169/TanksAsserts/tankTwo.ico";
+      break;
+
+    }
+    this.ctx.drawImage(tank, x*this.cellSizeWidth, y*this.cellSizeHeight, this.cellSizeWidth*4, this.cellSizeHeight*4);
+  };
+
+  drawTank(i:number, x:number, y:number, position:string){
     this.ctx.globalCompositeOperation = 'source-over';
     this.ctx.save();
-    
+
     if(i%2==0){
-      
-      this.drawTankOne(x,y);
+        this.drawTankImageOne(x,y,position)
     }else{
-      this.drawTankTwo(x,y);
+        this.drawTankImageTwo(x,y,position);
     }
     this.ctx.restore();
     window.requestAnimationFrame(function(){this.drawTank(i, x, y)});
