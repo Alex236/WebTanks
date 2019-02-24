@@ -5,6 +5,6 @@
         "outDir": "js"
     },
   "files": [
-    "app.ts"
+    "ts/app.ts"
   ]
 }
