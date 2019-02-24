@@ -22,11 +22,12 @@ document.addEventListener('keydown', function (event) {
 });
 
 let myGrid = new gridView.Grid()
-myGrid.drawGrid(rOne);
-myGrid.drawBase(6,12);
+
 
 var x = 0;
 setInterval(function(){ 
+  myGrid.drawGrid(rOne);
+  myGrid.drawBase(6,12);
   myGrid.drawTank(x,tanksCoord[0],tanksCoord[1]);
   x++;
 }, 100);

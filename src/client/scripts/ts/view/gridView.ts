@@ -33,14 +33,17 @@ module gridView{
   };
 
   drawTank(i:number, x:number, y:number){
-    //this.ctx.clearRect(x*this.cellSizeWidth, y*this.cellSizeHeight, this.cellSizeWidth*4, this.cellSizeHeight*4);
-
+    this.ctx.globalCompositeOperation = 'source-over';
+    this.ctx.save();
+    
     if(i%2==0){
+      
       this.drawTankOne(x,y);
     }else{
       this.drawTankTwo(x,y);
     }
-    requestAnimationFrame(function(){this.drawTank(i, x, y)});
+    this.ctx.restore();
+    window.requestAnimationFrame(function(){this.drawTank(i, x, y)});
   }
 
   DrawBrick(x: number, y:number) {
