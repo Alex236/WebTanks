@@ -7,19 +7,19 @@ let position = "down"
 
 document.addEventListener('keydown', function (event) {
   switch(event.keyCode) {
-      case(87):
+      case(38):
         tanksCoord[1] = tanksCoord[1] - 1;
         position = "up"
         break;
-      case(68):
+      case(39):
         tanksCoord[0] = tanksCoord[0] + 1;
         position = "right"
         break;
-      case(83):
+      case(40):
         tanksCoord[1] = tanksCoord[1] + 1;
         position = "down"
         break;
-      case(65):
+      case(37):
         tanksCoord[0] = tanksCoord[0] - 1;
         position = "left"
         break;
