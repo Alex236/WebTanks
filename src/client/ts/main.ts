@@ -1,9 +1,7 @@
-var p = <HTMLElement> document.getElementById("myP");
-p.innerHTML = "liaudh;kg/sdg";
+///<reference path="./View/gridView.ts"/>
 
-setInterval(iteration, 30);
-
-function iteration()
-{
-
-}
+let MyGrid = new gridView.Grid();
+MyGrid.drawBase(10,10);
+setInterval(() => {
+    
+}, 30);
