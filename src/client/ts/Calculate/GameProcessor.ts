@@ -31,4 +31,14 @@ export class GameProcessor
         Calculate.doStep(buttons, this.tanks, this.tank, this.field);
         //draw
     }
+
+    public get getTanks(): Tank[]
+    {
+        return this.tanks.ListOfTanks;
+    }
+
+    public get getField(): BlockType[][]
+    {
+        return this.field;
+    }
 }

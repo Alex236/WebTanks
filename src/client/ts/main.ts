@@ -1,7 +1,10 @@
-///<reference path="./View/gridView.ts"/>
+import { GameProcessor } from "./Calculate/GameProcessor";
+import { MapToGamingField } from "./Calculate/MapToGamingField";
+import { Map } from "./Calculate/Map";
 
-let MyGrid = new gridView.Grid();
-MyGrid.drawBase(10,10);
+let gameProcessor = new GameProcessor(MapToGamingField.convertor(Map.map));
+
 setInterval(() => {
-    
+    gameProcessor.calculate;
+    //add view
 }, 30);

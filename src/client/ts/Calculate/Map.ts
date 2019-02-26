@@ -2,28 +2,23 @@ import { BlockType } from "./enums/BlockType";
 
 export class Map
 {
-    private loadedMap: BlockType[][];
+    private static loadedMap: BlockType[][] = [
+        [BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick],
+        [BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick],
+        [BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick],
+        [BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick],
+        [BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick],
+        [BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick],
+        [BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick],
+        [BlockType.brick, BlockType.road, BlockType.road, BlockType.road, BlockType.road, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick],
+        [BlockType.brick, BlockType.road, BlockType.road, BlockType.road, BlockType.road, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick],
+        [BlockType.brick, BlockType.road, BlockType.road, BlockType.road, BlockType.road, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick],
+        [BlockType.brick, BlockType.road, BlockType.road, BlockType.road, BlockType.road, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick],
+        [BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick],
+        [BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick],
+    ];
 
-    constructor()
-    {
-        this.loadedMap = [
-            [BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick],
-            [BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick],
-            [BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick],
-            [BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick],
-            [BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick],
-            [BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick],
-            [BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick],
-            [BlockType.brick, BlockType.road, BlockType.road, BlockType.road, BlockType.road, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick],
-            [BlockType.brick, BlockType.road, BlockType.road, BlockType.road, BlockType.road, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick],
-            [BlockType.brick, BlockType.road, BlockType.road, BlockType.road, BlockType.road, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick],
-            [BlockType.brick, BlockType.road, BlockType.road, BlockType.road, BlockType.road, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick],
-            [BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick],
-            [BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick, BlockType.brick],
-        ]
-    }
-
-    public get map(): BlockType[][]
+    public static get map(): BlockType[][]
     {
         return this.loadedMap;
     }
