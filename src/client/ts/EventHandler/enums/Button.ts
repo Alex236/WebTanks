@@ -1,4 +1,4 @@
-export enum Button {
+enum Button {
     up = 38,
     down = 40,
     left = 37,

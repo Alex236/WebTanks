@@ -1,5 +1,4 @@
-module gridView{
-  export class Grid{
+export class Grid{
   canvas: HTMLCanvasElement
   ctx: CanvasRenderingContext2D
   height: number = window.innerHeight
@@ -118,4 +117,4 @@ module gridView{
       }
     }
   }
-} 
+ 

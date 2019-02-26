@@ -1,18 +1,19 @@
-import { BlockType } from "./enums/BlockType";
-import { Tank } from "./Tank";
-import { Coordinates } from "./Coordinates";
-import { TankType } from "./enums/TankType";
-import { TankMove } from "./enums/TankMove";
-import { Tanks } from "./Tanks";
-import { PressedButtons } from "../EventHandler/PressedButtons";
-import { Calculate } from "./Calculate";
-import { Button } from '../EventHandler/enums/Button'
+/// <reference path="./enums/TankType.ts"/>
+/// <reference path="./enums/TankMove.ts"/>
+/// <reference path="./Tanks.ts"/>
+/// <reference path="../EventHandler/PressedButtons.ts"/>
+/// <reference path="./Calculate.ts"/>
+/// <reference path="./Coordinates.ts"/>
+/// <reference path="../EventHandler/enums/Button.ts"/>
+/// <reference path="../EventHandler/enums/Button.ts"/>
+/// <reference path="../EventHandler/enums/Button.ts"/>
 
-export class GameProcessor
+
+class GameProcessor
 {
-    private tank: Tank;
+    public tank: Tank;
     private field: BlockType[][];
-    private tanks: Tanks;
+    public tanks: Tanks;
     private pressedButtons: PressedButtons;
 
     constructor(field: BlockType[][])

@@ -1,4 +1,4 @@
-export enum TankMove {
+enum TankMove {
     up,
     down,
     left,

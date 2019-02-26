@@ -1,8 +1,9 @@
-import { TankMove } from './enums/TankMove';
-import { TankType } from './enums/TankType';
-import { Coordinates } from './Coordinates';
+///<reference path="./enums/TankMove.ts" />
+///<reference path="./enums/TankType.ts" />
+///<reference path="./Coordinates.ts" />
 
-export class Tank {
+
+class Tank {
     private user: string;
     private coordinates: Coordinates;
     private tankType: TankType;

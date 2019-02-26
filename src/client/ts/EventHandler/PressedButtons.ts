@@ -1,6 +1,6 @@
-import { Button } from "./enums/Button";
+///<reference path="./enums/Button.ts" />
 
-export class PressedButtons
+class PressedButtons
 {
     public checkPressedButtons(): Button[]
     {

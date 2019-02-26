@@ -1,6 +1,6 @@
-import { BulletMove } from './enums/BulletMove';
+///<reference path="./enums/BulletMove.ts"/>
 
-export class Bullet {
+class Bullet {
     private coordinates: Coordinates;
     private bulletMove: BulletMove;
 

@@ -1,4 +1,4 @@
-export enum TankType {
+enum TankType {
     user,
     enemy
 }

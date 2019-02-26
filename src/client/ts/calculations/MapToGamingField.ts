@@ -1,20 +1,20 @@
-import { BlockType } from "./enums/BlockType";
-import { Parameters } from "../Parameters";
+///<reference path="./enums/BlockType.ts" />
+///<reference path="../Parameters.ts" />
 
-export class MapToGamingField {
+class MapToGamingField {
     static convertor(map: BlockType[][]): BlockType[][] {
         let field = new Array();
 
-        for (let i: number = 0; i < Parameters.mapHeight; i++)
+        for (let i: number = 0; i < MyParameters.mapHeight; i++)
         {
-            for (let iField = 0; iField < Parameters.coeficientOfFfieldForMap; iField++)
+            for (let iField = 0; iField < MyParameters.coeficientOfFfieldForMap; iField++)
             {
-                field[i*Parameters.coeficientOfFfieldForMap+iField] = new Array();
-                for (let j: number = 0; j < Parameters.mapHeight; j++)
+                field[i*MyParameters.coeficientOfFfieldForMap+iField] = new Array();
+                for (let j: number = 0; j < MyParameters.mapHeight; j++)
                 {
-                    for (let jField = 0; jField < Parameters.coeficientOfFfieldForMap; jField++)
+                    for (let jField = 0; jField < MyParameters.coeficientOfFfieldForMap; jField++)
                     {
-                        field[i * Parameters.coeficientOfFfieldForMap + iField][j * Parameters.coeficientOfFfieldForMap + jField]
+                        field[i * MyParameters.coeficientOfFfieldForMap + iField][j * MyParameters.coeficientOfFfieldForMap + jField]
                         = map[i][j];
                     }
                 }

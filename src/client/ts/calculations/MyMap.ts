@@ -1,6 +1,6 @@
-import { BlockType } from "./enums/BlockType";
+///<reference path="./enums/BlockType.ts" />
 
-export class Map
+class MyMap
 {
     private loadedMap: BlockType[][];
 

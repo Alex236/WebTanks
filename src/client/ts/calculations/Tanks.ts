@@ -1,6 +1,6 @@
-import { Tank } from './Tank';
+///<reference path="./Tank.ts" />
 
-export class Tanks {
+class Tanks {
     private tanks: Tank[] = [];
 
     public get ListOfTanks(): Tank[] {

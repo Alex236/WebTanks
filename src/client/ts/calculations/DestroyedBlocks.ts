@@ -1,4 +1,4 @@
-export class DestroyedBlocks {
+class DestroyedBlocks {
     private destroyedBlocks: Coordinates[] = [];
 
     public get ListOfDestroyedBlocks(): Coordinates[] {

@@ -1,6 +1,6 @@
-import { Bullet } from './Bullet';
+///<reference path="./Bullet.ts"/>
 
-export class Bullets {
+class Bullets {
     private bullets: Bullet[] = [];
 
     public get ListOfBullets(): Bullet[] {

@@ -1,10 +1,10 @@
-import { Button } from '../EventHandler/enums/Button'
-import { Tank } from './Tank';
-import { Tanks } from './Tanks';
-import { BlockType } from './enums/BlockType';
-import { Parameters } from '../Parameters';
+///<reference path='../EventHandler/enums/Button.ts' />
+///<reference path='./Tank.ts' />
+///<reference path='./Tanks.ts' />
+///<reference path='./enums/BlockType.ts' />
+///<reference path='../Parameters.ts' />
 
-export class Calculate {
+class Calculate {
     public static doStep(buttons: Button[], tanks: Tanks, tank: Tank, field: BlockType[][]) {
         if(buttons == null) return;
         for (let i: number = 0; i < buttons.length; i++) {
@@ -24,7 +24,7 @@ export class Calculate {
         switch (pressedButton) {
             case Button.up:
                 if (tank.tankCoordinates.Y > 0) {
-                    for (let i: number = 0; i < Parameters.tankSize; i++) {
+                    for (let i: number = 0; i < MyParameters.tankSize; i++) {
                         if (field[tank.tankCoordinates.Y - 1][tank.tankCoordinates.X + i] != BlockType.road) {
                             return false;
                         }
@@ -33,8 +33,8 @@ export class Calculate {
                 }
                 break;
             case Button.down:
-                if (tank.tankCoordinates.Y < Parameters.fieldHeight - 1) {
-                    for (let i: number = 0; i < Parameters.tankSize; i++) {
+                if (tank.tankCoordinates.Y < MyParameters.fieldHeight - 1) {
+                    for (let i: number = 0; i < MyParameters.tankSize; i++) {
                         if (field[tank.tankCoordinates.Y + 1][tank.tankCoordinates.X + i] != BlockType.road) {
                             return false;
                         }
@@ -44,7 +44,7 @@ export class Calculate {
                 break;
             case Button.left:
                 if (tank.tankCoordinates.X > 0) {
-                    for (let i: number = 0; i < Parameters.tankSize; i++) {
+                    for (let i: number = 0; i < MyParameters.tankSize; i++) {
                         if (field[tank.tankCoordinates.Y + i][tank.tankCoordinates.X - 1] != BlockType.road) {
                             return false;
                         }
@@ -53,8 +53,8 @@ export class Calculate {
                 }
                 break;
             case Button.right:
-                if (tank.tankCoordinates.X < Parameters.fieldWidth - 1) {
-                    for (let i: number = 0; i < Parameters.tankSize; i++) {
+                if (tank.tankCoordinates.X < MyParameters.fieldWidth - 1) {
+                    for (let i: number = 0; i < MyParameters.tankSize; i++) {
                         if (field[tank.tankCoordinates.Y + i][tank.tankCoordinates.X - 1] != BlockType.road) {
                             return false;
                         }

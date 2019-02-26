@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "build": "tsc-bundle ./src/client/ts/main.ts && webpack --config webpack.config.js"
+  },
+  "devDependencies": {
+    "source-map-loader": "^0.2.4",
+    "ts-loader": "^5.3.3",
+    "webpack-cli": "^3.2.3"
+  },
+  "dependencies": {
+    "@webpack-cli/init": "^0.1.3"
+  }
+}

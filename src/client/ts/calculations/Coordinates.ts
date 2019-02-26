@@ -1,12 +1,12 @@
-export class Coordinates {
-    private x: number;
-    private y: number;
+class Coordinates {
+    public x: number;
+    public y: number;
 
     constructor(x: number, y: number) {
         this.x = x;
         this.y = y;
     }
-
+/*
     public get X(): number {
         return this.x;
     }
@@ -22,4 +22,5 @@ export class Coordinates {
     public set Y(y: number) {
         this.y = y;
     }
+    */
 }

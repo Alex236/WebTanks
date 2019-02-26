@@ -1,4 +1,4 @@
-export enum BlockType {
+enum BlockType {
     road,
     hardBrick,
     brick,
