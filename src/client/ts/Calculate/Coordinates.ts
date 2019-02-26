@@ -7,19 +7,19 @@ export class Coordinates {
         this.y = y;
     }
 
-    public get X(): number {
+    public getX(): number {
         return this.x;
     }
 
-    public get Y(): number {
+    public getY(): number {
         return this.y;
     }
 
-    public set X(x: number) {
+    public setX(x: number) {
         this.x = x;
     }
 
-    public set Y(y: number) {
+    public setY(y: number) {
         this.y = y;
     }
 }

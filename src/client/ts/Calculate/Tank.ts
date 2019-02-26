@@ -15,28 +15,27 @@ export class Tank {
         this.tankMove = tankMove;
     }
 
-    public get move(): TankMove {
+    public getMove(): TankMove {
         return this.tankMove;
     }
 
-    public get type(): TankType {
+    public getType(): TankType {
         return this.tankType;
     }
 
-    public get tankCoordinates(): Coordinates {
+    public getTankCoordinates(): Coordinates {
         return this.coordinates;
     }
 
-    public set tankCoordinates(coordinates: Coordinates) {
+    public setTankCoordinates(coordinates: Coordinates) {
         this.coordinates = coordinates;
     }
 
-    public set move(tankMove: TankMove) {
+    public setMove(tankMove: TankMove) {
         this.tankMove = tankMove;
     }
 
-    public get name(): string
-    {
+    public getName(): string {
         return this.user;
     }
 }

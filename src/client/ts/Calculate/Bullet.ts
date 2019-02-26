@@ -9,7 +9,7 @@ export class Bullet {
         this.bulletMove = bulletMove;
     }
 
-    public get bulletCoordinates(): Coordinates {
+    public getBulletCoordinates(): Coordinates {
         return this.coordinates;
     }
 }
