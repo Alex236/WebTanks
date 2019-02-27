@@ -3,19 +3,24 @@ import { Tank } from './Tank';
 import { Tanks } from './Tanks';
 import { BlockType } from './enums/BlockType';
 import { Parameters } from '../Parameters';
+import { PressedButtons } from '../EventHandler/PressedButtons'
 
-export class Calculate {
-    public static doStep(buttons: Button[], tanks: Tanks, tank: Tank, field: BlockType[][]) {
-        if (buttons == null) return;
-        for (let i: number = 0; i < buttons.length; i++) {
-            if (buttons[i] == Button.space) {
-                //shoot
-            }
-            else {
-                if (!Calculate.move(buttons[i], tank, field)) {
-                    buttons.splice(i, 1);
-                }
-            }
+export class CalculateTanksMove {
+    public static doStep(tanks: Tanks, tank: Tank, field: BlockType[][]) {
+        if(PressedButtons.setArrowUp) {
+            this.move(Button.up ,tank, field);
+        }
+        if(PressedButtons.setArrowDown) {
+            this.move(Button.down ,tank, field);
+        }
+        if(PressedButtons.setArrowLeft) {
+            this.move(Button.left ,tank, field);
+        }
+        if(PressedButtons.setArrowRight) {
+            this.move(Button.right ,tank, field);
+        }
+        if(PressedButtons.setSpace) {
+            this.move(Button.space ,tank, field);
         }
     }
 

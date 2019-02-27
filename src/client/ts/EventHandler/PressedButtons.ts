@@ -1,38 +1,47 @@
-import { Button } from "./enums/Button";
+export class PressedButtons {
+    private static arrowUp: boolean = false;
+    private static arrowDown: boolean = false;
+    private static arrowLeft: boolean = false;
+    private static arrowRight: boolean = false;
+    private static space: boolean = false;
 
-export class PressedButtons
-{
-    public checkPressedButtons(): Button[]
-    {
-        console.log("checkPressedButtons");
-        let buttons = new Array();
-        document.addEventListener('keydown', function(event)
-        {
-            switch(event.keyCode)
-            {
-                case Button.up:
-                buttons.push(Button.up);
-                console.log("stepU push");
-                break;
-                case Button.down:
-                buttons.push(Button.down);
-                console.log("stepD push");
-                break;
-                case Button.left:
-                buttons.push(Button.left);
-                console.log("stepL push");
-                break;
-                case Button.right:
-                buttons.push(Button.right);
-                console.log("stepR push");
-                break;
-                case Button.space:
-                buttons.push(Button.space);
-                console.log("shoot push");
-                break;
-            }
-        });
-        console.log(buttons.length);
-        return buttons;
+    public static getArrowUp(): boolean {
+        return PressedButtons.arrowUp;
+    }
+
+    public static getArrowDown(): boolean {
+        return PressedButtons.arrowDown;
+    }
+
+    public static getArrowLeft(): boolean {
+        return PressedButtons.arrowLeft;
+    }
+    
+    public static getArrowRight(): boolean {
+        return PressedButtons.arrowRight;
+    }
+    
+    public static getSpace(): boolean {
+        return PressedButtons.space;
+    }
+
+    public static setArrowUp(state: boolean) {
+        PressedButtons.arrowUp = state;
+    }
+
+    public static setArrowDown(state: boolean) {
+        PressedButtons.arrowDown = state;
+    }
+
+    public static setArrowLeft(state: boolean) {
+        PressedButtons.arrowLeft = state;
+    }
+
+    public static setArrowRight(state: boolean) {
+        PressedButtons.arrowRight = state;
+    }
+
+    public static setSpace(state: boolean) {
+        PressedButtons.space = state;
     }
 }

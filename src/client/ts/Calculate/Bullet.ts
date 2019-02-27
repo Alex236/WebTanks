@@ -1,4 +1,5 @@
-import { BulletMove } from './enums/BulletMove';
+import { BulletMove } from "./enums/BulletMove";
+import { Coordinates } from "./Coordinates";
 
 export class Bullet {
     private coordinates: Coordinates;
@@ -9,7 +10,11 @@ export class Bullet {
         this.bulletMove = bulletMove;
     }
 
-    public getBulletCoordinates(): Coordinates {
+    public getCoordinates(): Coordinates {
         return this.coordinates;
     }
+
+    public getMove(): BulletMove {
+        return this.bulletMove;
+    } 
 }

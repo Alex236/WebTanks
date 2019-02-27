@@ -8,4 +8,5 @@ export class Parameters {
     static readonly coeficientOfFfieldForMap: number = 4;
     static readonly intervalForCalculations = 250;
     static readonly tankSize: number = 4;
+    static readonly bulletSize: number = 2;
 }
