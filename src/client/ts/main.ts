@@ -4,6 +4,7 @@ import { Events } from "./EventHandler/Events";
 import { Tank } from "./Calculate/Tank"
 import { Grid } from "./view/GridView";
 import { Rounds } from "./view/Rounds";
+import { TankMove } from "./Calculate/enums/TankMove"
 
 let rounds = new Rounds();
 let rOne = rounds.roundOne;
@@ -21,6 +22,7 @@ setInterval(() => {
     //logs
     let y: number = tanks[0].getTankCoordinates().getY();
     let x: number = tanks[0].getTankCoordinates().getX();
+    let move: TankMove = tanks[0].getMove();
 
     console.log(x + " " + y);
     //add view
