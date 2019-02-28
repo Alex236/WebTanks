@@ -49,16 +49,16 @@ export class CalculateTanksMove {
                 break;
             case Button.down:
                 if (tank.getTankCoordinates().getY() < Parameters.fieldHeight - 1) {
-                    console.log("ok");
+                    //console.log("ok");
                     for (let i: number = 0; i < Parameters.tankSize; i++) {
-                        console.log(i);
-                        console.log(tank.getTankCoordinates().getX() + i);
-                        console.log(tank.getTankCoordinates().getY() + 1);
-                        if (field[tank.getTankCoordinates().getY() + 1][tank.getTankCoordinates().getX() + i] != BlockType.road) {
+                        //console.log(i);
+                        //console.log(tank.getTankCoordinates().getX() + i);
+                        //console.log(tank.getTankCoordinates().getY() + 1);
+                        if (field[tank.getTankCoordinates().getY() + Parameters.tankSize + 1][tank.getTankCoordinates().getX() + i] != BlockType.road) {
                             return false;
                         }
                     }
-                    console.log("move");
+                    //console.log("move");
                     tank.getTankCoordinates().setY(tank.getTankCoordinates().getY() + 1);
                 }
                 break;
@@ -79,16 +79,16 @@ export class CalculateTanksMove {
                 break;
             case Button.right:
                 if (tank.getTankCoordinates().getX() < Parameters.fieldWidth - 1) {
-                    console.log("ok");
+                    //console.log("ok");
                     for (let i: number = 0; i < Parameters.tankSize; i++) {
-                        console.log(i);
-                        console.log(tank.getTankCoordinates().getX() + 1);
-                        console.log(tank.getTankCoordinates().getY() + i);
-                        if (field[tank.getTankCoordinates().getY() + i][tank.getTankCoordinates().getX() + 1] != BlockType.road) {
+                        //console.log(i);
+                        //console.log(tank.getTankCoordinates().getX() + 1);
+                        //console.log(tank.getTankCoordinates().getY() + i);
+                        if (field[tank.getTankCoordinates().getY() + i][tank.getTankCoordinates().getX() + Parameters.tankSize + 1] != BlockType.road) {
                             return false;
                         }
                     }
-                    console.log("move");
+                    //console.log("move");
                     tank.getTankCoordinates().setX(tank.getTankCoordinates().getX() + 1);
                 }
                 break;

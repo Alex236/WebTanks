@@ -28,10 +28,10 @@ export class GameProcessor {
     public calculate() {
         this.events.checkPressedButtons();
         CalculateTanksMove.doStep(this.tanks, this.tank, this.field);
-        this.fieldProcessor.setTanksOnMap(this.field, this.getTanks());
+        //this.fieldProcessor.setTanksOnMap(this.field, this.getTanks());
         //bullets
 
-        this.fieldProcessor.clearMap(this.field);
+        //this.fieldProcessor.clearMap(this.field);
     }
 
     public getTanks(): Tank[] {

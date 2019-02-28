@@ -15,4 +15,4 @@ setInterval(() => {
     let x: number = tanks[0].getTankCoordinates().getX();
     console.log(x + " " + y);
     //add view
-}, 1000);
+}, 250);
