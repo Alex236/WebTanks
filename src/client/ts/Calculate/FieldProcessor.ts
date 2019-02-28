@@ -5,8 +5,8 @@ import { Bullet } from "./Bullet";
 
 export class FieldProcessor {
     public clearMap(field: BlockType[][]) {
-        for(let i: number = 0; i < Parameters.mapHeight; i++) {
-            for(let j: number = 0; j < Parameters.mapWidth; j++) {
+        for(let i: number = 0; i < Parameters.fieldHeight; i++) {
+            for(let j: number = 0; j < Parameters.fieldWidth; j++) {
                 if(field[i][j] == BlockType.tank) {
                     field[i][j] = BlockType.road;
                 }

@@ -29,14 +29,6 @@ export class GameProcessor {
         this.events.checkPressedButtons();
         CalculateTanksMove.doStep(this.tanks, this.tank, this.field);
         this.fieldProcessor.setTanksOnMap(this.field, this.getTanks());
-        for(let i: number = 0; i < 52; i++) {
-            let res: string = "";
-            for(let j: number = 0; j < 52; j++) {
-                res = res + this.field[i][j] + " ";
-            }
-            console.log(res);
-            res = "";
-        }
         //bullets
         this.fieldProcessor.clearMap(this.field);
     }
