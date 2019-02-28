@@ -7,6 +7,12 @@ import { PressedButtons } from '../EventHandler/PressedButtons'
 
 export class CalculateTanksMove {
     public static doStep(tanks: Tanks, tank: Tank, field: BlockType[][]) {
+        console.log(PressedButtons.getArrowUp());
+        console.log(PressedButtons.getArrowDown());
+        console.log(PressedButtons.getArrowLeft());
+        console.log(PressedButtons.getArrowRight());
+        console.log(PressedButtons.getSpace());
+
         if(PressedButtons.setArrowUp) {
             this.move(Button.up ,tank, field);
         }
