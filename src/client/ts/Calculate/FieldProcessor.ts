@@ -7,7 +7,7 @@ export class FieldProcessor {
     public clearMap(field: BlockType[][]) {
         for(let i: number = 0; i < Parameters.mapHeight; i++) {
             for(let j: number = 0; j < Parameters.mapWidth; j++) {
-                if(field[i][j] == BlockType.tank || field[i][j] == BlockType.bullet) {
+                if(field[i][j] == BlockType.tank) {
                     field[i][j] = BlockType.road;
                 }
             }

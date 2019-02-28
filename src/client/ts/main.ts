@@ -1,5 +1,4 @@
 import { GameProcessor } from "./Calculate/GameProcessor";
-import { MapToGamingField } from "./Calculate/MapToGamingField";
 import { Map } from "./Calculate/Map";
 import { Events } from "./EventHandler/Events";
 import { Tank } from "./Calculate/Tank"
@@ -15,4 +14,4 @@ setInterval(() => {
     let x: number = tanks[0].getTankCoordinates().getX();
     console.log(x + " " + y);
     //add view
-}, 250);
+}, 1000);
