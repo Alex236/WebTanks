@@ -17,20 +17,18 @@ let myGrid = new Grid();
 var iter = 0;
 setInterval(() => {
     gameProcessor.calculate();
-
+    console.log("loop");
     //logs
     let y: number = tanks[0].getTankCoordinates().getY();
     let x: number = tanks[0].getTankCoordinates().getX();
-<<<<<<< HEAD
+
     console.log(x + " " + y);
     //add view
-=======
+
     
     myGrid.drawGrid(rOne);
     myGrid.drawBase(6,12);
     myGrid.drawTank(iter,x,y,position);
 
     iter++;
-
->>>>>>> c816e63fe3c60704dda761b32bfad44d452d007a
-}, 1000);
+}, 200);

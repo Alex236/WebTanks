@@ -39,7 +39,7 @@ export class CalculateTanksMove {
             case Button.down:
                 if (tank.getTankCoordinates().getY() < Parameters.fieldHeight - 1) {
                     for (let i: number = 0; i < Parameters.tankSize; i++) {
-                        if (field[tank.getTankCoordinates().getY() + Parameters.tankSize + 1][tank.getTankCoordinates().getX() + i] != BlockType.road) {
+                        if (field[tank.getTankCoordinates().getY() + Parameters.tankSize][tank.getTankCoordinates().getX() + i] != BlockType.road) {//
                             return false;
                         }
                     }
@@ -59,7 +59,7 @@ export class CalculateTanksMove {
             case Button.right:
                 if (tank.getTankCoordinates().getX() < Parameters.fieldWidth - 1) {
                     for (let i: number = 0; i < Parameters.tankSize; i++) {
-                        if (field[tank.getTankCoordinates().getY() + i][tank.getTankCoordinates().getX() + Parameters.tankSize + 1] != BlockType.road) {
+                        if (field[tank.getTankCoordinates().getY() + i][tank.getTankCoordinates().getX() + Parameters.tankSize] != BlockType.road) {//
                             return false;
                         }
                     }
