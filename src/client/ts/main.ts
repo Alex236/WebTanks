@@ -11,22 +11,22 @@ let rOne = rounds.roundOne;
 let tanksCoord = new Array(0,0)
 let position = "down"
 
-let gameProcessor = new GameProcessor(Map.getField());
+let gameProcessor = new GameProcessor(rOne);
 let tanks: Tank[] = gameProcessor.getTanks();
 
 let myGrid = new Grid();
-var x = 0;
+var iter = 0;
 setInterval(() => {
     gameProcessor.calculate();
 
     //logs
     let y: number = tanks[0].getTankCoordinates().getY();
     let x: number = tanks[0].getTankCoordinates().getX();
-    console.log(x + " " + y);
     
     myGrid.drawGrid(rOne);
     myGrid.drawBase(6,12);
-    myGrid.drawTank(x,tanksCoord[1],tanksCoord[0],position);
-    x++;
+    myGrid.drawTank(iter,x,y,position);
 
-}, 250);
+    iter++;
+
+}, 1000);
