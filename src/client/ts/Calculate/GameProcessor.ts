@@ -17,7 +17,7 @@ export class GameProcessor {
     private fieldProcessor: FieldProcessor;
 
     constructor(field: BlockType[][]) {
-        this.tank = new Tank("user", new Coordinates(16, 32), TankType.user, TankMove.down);
+        this.tank = new Tank("user", new Coordinates(26, 26), TankType.user, TankMove.down);
         this.field = field;
         this.tanks = new Tanks();
         this.tanks.addTank(this.tank);
