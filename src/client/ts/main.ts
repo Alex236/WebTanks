@@ -27,7 +27,6 @@ setInterval(() => {
     let x: number = tanks[0].getTankCoordinates().getX();
     let move: TankMove = tanks[0].getMove();
 
-
     console.log(move);
 
     drawAll.run(rOne, [x,y], position, iter);
