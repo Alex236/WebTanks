@@ -1,36 +1,10 @@
-import { GameProcessor } from "./Calculate/GameProcessor";
+import { Game } from "./Game";
+import { User } from "./Calculate/User";
+import { Tank } from "./Calculate/Tank";
+import { Coordinates } from "./Calculate/Coordinates";
+import { TankType } from "./Calculate/enums/TankType";
+import { TankMove } from "./Calculate/enums/TankMove";
 import { Map } from "./Calculate/Map";
-import { Events } from "./EventHandler/Events";
-import { Tank } from "./Calculate/Tank"
-import { Grid } from "./view/GridView";
-import { Rounds } from "./view/Rounds";
-import { TankMove } from "./Calculate/enums/TankMove"
 
-let rounds = new Rounds();
-let rOne = rounds.roundOne;
-let tanksCoord = new Array(0,0)
-let position = "down"
-
-let gameProcessor = new GameProcessor(rOne);
-let tanks: Tank[] = gameProcessor.getTanks();
-
-let myGrid = new Grid();
-var iter = 0;
-setInterval(() => {
-    gameProcessor.calculate();
-    console.log("loop");
-    //logs
-    let y: number = tanks[0].getTankCoordinates().getY();
-    let x: number = tanks[0].getTankCoordinates().getX();
-    let move: TankMove = tanks[0].getMove();
-
-    console.log(x + " " + y);
-    //add view
-
-    
-    myGrid.drawGrid(rOne);
-    myGrid.drawBase(6,12);
-    myGrid.drawTank(iter,x,y,position);
-
-    iter++;
-}, 200);
+let game = new Game(new User(new Tank(new Coordinates(26, 26), TankType.user, TankMove.up), "name"), Map.getField());
+game.gameProcess();

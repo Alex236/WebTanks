@@ -3,13 +3,11 @@ import { TankType } from './enums/TankType';
 import { Coordinates } from './Coordinates';
 
 export class Tank {
-    private user: string;
     private coordinates: Coordinates;
     private tankType: TankType;
     private tankMove: TankMove;
 
-    constructor(user: string, coordinates: Coordinates, tankType: TankType, tankMove: TankMove) {
-        this.user = user;
+    constructor(coordinates: Coordinates, tankType: TankType, tankMove: TankMove) {
         this.coordinates = coordinates;
         this.tankType = tankType;
         this.tankMove = tankMove;
@@ -33,9 +31,5 @@ export class Tank {
 
     public setMove(tankMove: TankMove) {
         this.tankMove = tankMove;
-    }
-
-    public getName(): string {
-        return this.user;
     }
 }

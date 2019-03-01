@@ -1,30 +1,33 @@
 import { Button } from '../EventHandler/enums/Button'
 import { Tank } from './Tank';
-import { Tanks } from './Tanks';
 import { BlockType } from './enums/BlockType';
 import { Parameters } from '../Parameters';
-import { PressedButtons } from '../EventHandler/PressedButtons'
+import { Users } from './Users';
+import { User } from './User';
 
 export class CalculateTanksMove {
-    public static doStep(tanks: Tanks, tank: Tank, field: BlockType[][]) {
-        if(PressedButtons.getArrowUp()) {
-            this.move(Button.up ,tank, field);
+    public doStep(users: Users, field: BlockType[][]) {
+        for(let i: number = 0; i < users.getListOfUsers().length; i++) {
+            this.step(users.getListOfUsers()[i], field);
+        }        
+    }
+
+    private step(user: User, field: BlockType[][]) {
+        if(user.getPressedButtons().getArrowUp()) {
+            this.move(Button.up ,user.getTank(), field);
         }
-        if(PressedButtons.getArrowDown()) {
-            this.move(Button.down ,tank, field);
+        if(user.getPressedButtons().getArrowDown()) {
+            this.move(Button.down , user.getTank(), field);
         }
-        if(PressedButtons.getArrowLeft()) {
-            this.move(Button.left ,tank, field);
+        if(user.getPressedButtons().getArrowLeft()) {
+            this.move(Button.left , user.getTank(), field);
         }
-        if(PressedButtons.getArrowRight()) {
-            this.move(Button.right ,tank, field);
-        }
-        if(PressedButtons.getSpace()) {
-            //shoot
+        if(user.getPressedButtons().getArrowRight()) {
+            this.move(Button.right , user.getTank(), field);
         }
     }
 
-    private static move(pressedButton: Button, tank: Tank, field: BlockType[][]): boolean {
+    private move(pressedButton: Button, tank: Tank, field: BlockType[][]): boolean {
         switch (pressedButton) {
             case Button.up:
                 if (tank.getTankCoordinates().getY() > 0) {
