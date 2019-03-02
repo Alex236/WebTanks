@@ -1,7 +1,7 @@
-import { Bullet } from "./Bullet"
-import { Bullets } from "./Bullets"
-import { BulletMove } from "./enums/BulletMove";
-import { BlockType } from "./enums/BlockType";
+import { Bullet } from "../Models/Bullet"
+import { Bullets } from "../Models/Bullets"
+import { BulletMove } from "../Models/enums/BulletMove";
+import { BlockType } from "../Models/enums/BlockType";
 
 export class CalculateBulletMove {
     private bullets: Bullets;

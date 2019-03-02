@@ -1,9 +1,7 @@
-import { BlockType } from "./enums/BlockType";
+import { BlockType } from "../Models/enums/BlockType";
 import { Parameters } from "../Parameters";
-import { Tank } from "./Tank";
-import { Bullet } from "./Bullet";
-import { Users } from "./Users";
-import { Bullets } from "./Bullets";
+import { Users } from "../Models/Users";
+import { Bullets } from "../Models/Bullets";
 
 export class FieldProcessor {
     private field: BlockType[][];

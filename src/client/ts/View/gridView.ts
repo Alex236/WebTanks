@@ -1,8 +1,8 @@
-import { Users } from "../Calculate/Users";
-import { User } from "../Calculate/User";
-import { Tank } from "../Calculate/Tank";
-import { TankType } from "../Calculate/enums/TankType";
-import { TankMove } from "../Calculate/enums/TankMove";
+import { Users } from "../Models/Users";
+import { User } from "../Models/User";
+import { Tank } from "../Models/Tank";
+import { TankType } from "../Models/enums/TankType";
+import { TankMove } from "../Models/enums/TankMove";
 
 export class Grid {
   canvas: HTMLCanvasElement

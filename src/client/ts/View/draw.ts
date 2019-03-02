@@ -1,7 +1,6 @@
 import { Grid } from "./GridView";
-import { Rounds } from "./Rounds";
-import { Users } from "../Calculate/Users";
-import { User } from "../Calculate/User";
+import { Users } from "../Models/Users";
+import { User } from "../Models/User";
 
 export class Draw{
 

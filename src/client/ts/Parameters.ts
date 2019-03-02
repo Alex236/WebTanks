@@ -5,9 +5,7 @@ export class Parameters {
     static readonly fieldHeight: number = 52;
     static readonly mapWidth: number = 13;
     static readonly mapHeight: number = 13;
-    static readonly coeficientOfFfieldForMap: number = 4;
-    static readonly intervalForCalculations = 250;
     static readonly tankSize: number = 4;
     static readonly bulletSize: number = 2;
-    static readonly timer: number = 100;
+    static readonly timer: number = 25;
 }

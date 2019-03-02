@@ -1,7 +1,7 @@
 export enum BlockType {
     road,
-    hardBrick,
     brick,
+    hardBrick,
     green,
     tank,
     bullet

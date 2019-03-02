@@ -1,5 +1,5 @@
-import { TankMove } from './enums/TankMove';
-import { TankType } from './enums/TankType';
+import { TankMove } from '../Models/enums/TankMove';
+import { TankType } from '../Models/enums/TankType';
 import { Coordinates } from './Coordinates';
 
 export class Tank {

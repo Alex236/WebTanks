@@ -1,10 +1,10 @@
-import { Users } from "./Calculate/Users";
+import { Users } from "./Models/Users";
 import { Parameters } from "./Parameters"
 import { EventType } from "./EventHandler/enums/EventType";
 import { Button } from "./EventHandler/enums/Button";
-import { User } from "./Calculate/User";
-import { Bullets } from "./Calculate/Bullets";
-import { BlockType } from "./Calculate/enums/BlockType";
+import { User } from "./Models/User";
+import { Bullets } from "./Models/Bullets";
+import { BlockType } from "./Models/enums/BlockType";
 import { Draw } from "./View/Draw";
 import { CalculateTanksMove } from "./Calculate/CalculateTanksMove";
 import { CalculateBulletMove } from "./Calculate/CalculateBulletMove";
@@ -35,6 +35,7 @@ export class Game {
         this.deleteUselessEvents();
         this.calculateTanksMove.doStep();
         this.fieldProcessor.setTanksOnMap();
+        //generate bullets
         this.calculateBulletMove.doStep();
         this.fieldProcessor.setBulletsOnMap();
         this.fieldProcessor.clearMap()
