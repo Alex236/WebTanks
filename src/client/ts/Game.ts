@@ -6,9 +6,9 @@ import { User } from "./Models/User";
 import { Bullets } from "./Models/Bullets";
 import { BlockType } from "./Models/enums/BlockType";
 import { Draw } from "./View/Draw";
-import { CalculateTanksMove } from "./Calculate/CalculateTanksMove";
-import { CalculateBulletMove } from "./Calculate/CalculateBulletMove";
-import { FieldProcessor } from "./Calculate/FieldProcessor";
+import { CalculateTanksMove } from "./Controllers/CalculateTanksMove";
+import { CalculateBulletMove } from "./Controllers/CalculateBulletMove";
+import { FieldProcessor } from "./Controllers/FieldProcessor";
 
 
 export class Game {

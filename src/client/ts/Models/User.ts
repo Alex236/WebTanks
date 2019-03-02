@@ -1,5 +1,5 @@
 import { Tank } from "./Tank";
-import { PressedUserButtons } from "../Calculate/PressedUserButtons";
+import { PressedUserButtons } from "../Controllers/PressedUserButtons";
 
 export class User {
     private tank: Tank;
