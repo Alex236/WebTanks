@@ -1,10 +1,20 @@
 import { Bullet } from "./Bullet"
+import { Bullets } from "./Bullets"
 import { BulletMove } from "./enums/BulletMove";
+import { BlockType } from "./enums/BlockType";
 
 export class CalculateBulletMove {
-    public doStep(bullets: Bullet[]) {
-        for(let i: number = 0; i < bullets.length; i++) {
-            this.step(bullets[i]);
+    private bullets: Bullets;
+    private field: BlockType[][];
+
+    constructor(bullets: Bullets, field: BlockType[][]) {
+        this.bullets = bullets;
+        this.field = field;
+    }
+
+    public doStep() {
+        for(let i: number = 0; i < this.bullets.getListOfBullets().length; i++) {
+            this.step(this.bullets.getListOfBullets()[i]);
         }
     }
 

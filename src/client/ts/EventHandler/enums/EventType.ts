@@ -4,5 +4,6 @@ export enum EventType {
     pressedLeft,
     pressedRight,
     pressedSpace,
-    bulletFlight
+    bulletFlight,
+    eventFromOtherUser
 }

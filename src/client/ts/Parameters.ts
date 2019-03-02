@@ -9,5 +9,5 @@ export class Parameters {
     static readonly intervalForCalculations = 250;
     static readonly tankSize: number = 4;
     static readonly bulletSize: number = 2;
-    static readonly timer: number = 1000;
+    static readonly timer: number = 100;
 }

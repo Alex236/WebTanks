@@ -44,4 +44,12 @@ export class PressedUserButtons {
     public setSpace(state: boolean) {
         this.space = state;
     }
+
+    public cleanButtons() {
+        this.arrowUp = false;
+        this.arrowDown = false;
+        this.arrowLeft = false;
+        this.arrowRight = false;
+        this.space = false;
+    }
 }

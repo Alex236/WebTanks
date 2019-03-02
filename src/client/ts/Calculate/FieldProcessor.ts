@@ -2,33 +2,45 @@ import { BlockType } from "./enums/BlockType";
 import { Parameters } from "../Parameters";
 import { Tank } from "./Tank";
 import { Bullet } from "./Bullet";
+import { Users } from "./Users";
+import { Bullets } from "./Bullets";
 
 export class FieldProcessor {
-    public clearMap(field: BlockType[][]) {
+    private field: BlockType[][];
+    private users: Users;
+    private bullets: Bullets;
+
+    constructor(field: BlockType[][], users: Users, bullets: Bullets) {
+        this.field = field;
+        this.users = users;
+        this.bullets = bullets;
+    }
+
+    public clearMap() {
         for(let i: number = 0; i < Parameters.fieldHeight; i++) {
             for(let j: number = 0; j < Parameters.fieldWidth; j++) {
-                if(field[i][j] == BlockType.tank) {
-                    field[i][j] = BlockType.road;
+                if(this.field[i][j] == BlockType.tank) {
+                    this.field[i][j] = BlockType.road;
                 }
             }
         }
     }
 
-    public setTanksOnMap(field: BlockType[][], tanks: Tank[]) {
-        for(let tanksNumber: number = 0; tanksNumber < tanks.length; tanksNumber++) {
+    public setTanksOnMap() {
+        for(let tanksNumber: number = 0; tanksNumber < this.users.getListOfUsers().length; tanksNumber++) {
             for(let i: number = 0; i < Parameters.tankSize; i++) {
                 for(let j: number = 0; j < Parameters.tankSize; j++) {
-                    field[i + tanks[tanksNumber].getTankCoordinates().getY()][j + tanks[tanksNumber].getTankCoordinates().getX()] = BlockType.tank;
+                    this.field[i + this.users.getListOfUsers()[tanksNumber].getTank().getTankCoordinates().getY()][j + this.users.getListOfUsers()[tanksNumber].getTank().getTankCoordinates().getX()] = BlockType.tank;
                 }
             }
         }
     }
 
-    public setBulletsOnMap(field: BlockType[][], bullets: Bullet[]) {
-        for(let bulletsNumber: number = 0; bulletsNumber < bullets.length; bulletsNumber++) {
+    public setBulletsOnMap() {
+        for(let bulletsNumber: number = 0; bulletsNumber < this.bullets.getListOfBullets().length; bulletsNumber++) {
             for(let i: number = 0; i < Parameters.bulletSize; i++) {
                 for(let j: number = 0; j < Parameters.tankSize; j++) {
-                    field[i + bullets[bulletsNumber].getCoordinates().getY()][j + bullets[bulletsNumber].getCoordinates().getX()] = BlockType.bullet;
+                    this.field[i + this.bullets.getListOfBullets()[bulletsNumber].getCoordinates().getY()][j + this.bullets.getListOfBullets()[bulletsNumber].getCoordinates().getX()] = BlockType.bullet;
                 }
             }
         }

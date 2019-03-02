@@ -5,25 +5,34 @@ import { Parameters } from '../Parameters';
 import { Users } from './Users';
 import { User } from './User';
 
+
 export class CalculateTanksMove {
-    public doStep(users: Users, field: BlockType[][]) {
-        for(let i: number = 0; i < users.getListOfUsers().length; i++) {
-            this.step(users.getListOfUsers()[i], field);
+    private users: Users;
+    private field: BlockType[][];
+
+    constructor(users: Users, field: BlockType[][]) {
+        this.users = users;
+        this.field = field;
+    }
+
+    public doStep() {
+        for(let i: number = 0; i < this.users.getListOfUsers().length; i++) {
+            this.step(this.users.getListOfUsers()[i]);
         }        
     }
 
-    private step(user: User, field: BlockType[][]) {
+    private step(user: User) {
         if(user.getPressedButtons().getArrowUp()) {
-            this.move(Button.up ,user.getTank(), field);
+            this.move(Button.up ,user.getTank(), this.field);
         }
         if(user.getPressedButtons().getArrowDown()) {
-            this.move(Button.down , user.getTank(), field);
+            this.move(Button.down , user.getTank(), this.field);
         }
         if(user.getPressedButtons().getArrowLeft()) {
-            this.move(Button.left , user.getTank(), field);
+            this.move(Button.left , user.getTank(), this.field);
         }
         if(user.getPressedButtons().getArrowRight()) {
-            this.move(Button.right , user.getTank(), field);
+            this.move(Button.right , user.getTank(), this.field);
         }
     }
 
