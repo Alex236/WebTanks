@@ -1,3 +1,8 @@
+import { Users } from "../Calculate/Users";
+import { User } from "../Calculate/User";
+import { Tank } from "../Calculate/Tank";
+import { TankType } from "../Calculate/enums/TankType";
+
 export class Grid {
   canvas: HTMLCanvasElement
   ctx: CanvasRenderingContext2D
@@ -58,17 +63,26 @@ export class Grid {
     this.ctx.drawImage(tank, x * this.cellSizeWidth, y * this.cellSizeHeight, this.cellSizeWidth * 4, this.cellSizeHeight * 4);
   };
 
-  drawTank(i: number, x: number, y: number, position: string) {
-    this.ctx.globalCompositeOperation = 'source-over';
-    this.ctx.save();
-
-    if (i % 2 == 0) {
-      this.drawTankImageOne(x, y, position)
-    } else if (position) {
-      this.drawTankImageTwo(x, y, position);
+  drawAllTanks(allUsers: User[]){
+    for(let i = 0; i < allUsers.length; i++){
+      let tank = allUsers[i].getTank();
+      this.drawTank(tank.getTankCoordinates().getX(),tank.getTankCoordinates().getY(), tank.getType());
     }
-    this.ctx.restore();
-    //window.requestAnimationFrame(function(){this.drawTank(i, x, y)});
+  }
+
+  drawTank(x: number, y: number, type: TankType) {
+    this.ctx.globalCompositeOperation = 'source-over';
+    let tank = document.createElement("img")
+
+    switch(type){
+      case TankType.user : 
+        tank.src = "https://res.cloudinary.com/phonecasemaggie/image/upload/v1551004169/TanksAsserts/tankTwo.ico";
+        break;
+      case TankType.enemy :
+        tank.src = "https://res.cloudinary.com/phonecasemaggie/image/upload/v1551525407/TanksAsserts/redOne.ico";
+        break;
+    }
+    this.ctx.drawImage(tank, x * this.cellSizeWidth, y * this.cellSizeHeight, this.cellSizeWidth * 4, this.cellSizeHeight * 4);
   }
 
   DrawBrick(x: number, y: number) {

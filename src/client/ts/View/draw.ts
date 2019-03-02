@@ -1,24 +1,16 @@
 import { Grid } from "./GridView";
 import { Rounds } from "./Rounds";
+import { Users } from "../Calculate/Users";
+import { User } from "../Calculate/User";
 
-export class draw{
-    private _map: number[][];
-    private _tankCoordinate: number[];
-    private _position: string; 
-    private _iterForAnimation: number;
+export class Draw{
 
-    constructor (map: number[][], tankCoordinate: number[], position: string, iter: number){
-        this._map = map;
-        this._tankCoordinate = tankCoordinate;
-        this._position = position;
-        this._iterForAnimation = iter;
-    }
-
-    public run(map: number[][], tankCoordinate: number[], position: string, iter: number){
+    public run(map: number[][], allUsers: User[]){
         let myGrid = new Grid();
         myGrid.drawGrid(map);
         myGrid.drawBase(6,12);
-        myGrid.drawTank(iter, tankCoordinate[0], tankCoordinate[1], position);
+
+        myGrid.drawAllTanks(allUsers);
     }
 
 }

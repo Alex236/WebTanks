@@ -5,12 +5,14 @@ import { Button } from "./EventHandler/enums/Button";
 import { User } from "./Calculate/User";
 import { Bullets } from "./Calculate/Bullets";
 import { BlockType } from "./Calculate/enums/BlockType";
+import { Draw } from "./View/Draw";
 
 export class Game {
     private users: Users = new Users();
     private allEvents: EventType[] = [];
     private bullets: Bullets = new Bullets();
     private map: BlockType[][];
+    private _draw: Draw = new Draw();
 
     constructor(user: User, map: BlockType[][]) {
         this.users.addUser(user);
@@ -44,7 +46,7 @@ export class Game {
     }
 
     private draw() {
-
+        this._draw.run(this.map, this.users.getListOfUsers());
     }
 
     public gameProcess() {
