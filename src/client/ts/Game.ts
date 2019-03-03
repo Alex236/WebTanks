@@ -1,14 +1,15 @@
-import { Users } from "./Calculate/Users";
+import { Users } from "./CollectionsOfModels/Users";
 import { Parameters } from "./Parameters"
 import { EventType } from "./EventHandler/enums/EventType";
 import { Button } from "./EventHandler/enums/Button";
-import { User } from "./Calculate/User";
-import { Bullets } from "./Calculate/Bullets";
-import { BlockType } from "./Calculate/enums/BlockType";
+import { User } from "./Models/User";
+import { Bullets } from "./CollectionsOfModels/Bullets";
+import { BlockType } from "./Models/enums/BlockType";
 import { Draw } from "./View/Draw";
-import { CalculateTanksMove } from "./Calculate/CalculateTanksMove";
-import { CalculateBulletMove } from "./Calculate/CalculateBulletMove";
-import { FieldProcessor } from "./Calculate/FieldProcessor";
+import { CalculateTanksMove } from "./Controllers/CalculateTanksMove";
+import { CalculateBulletMove } from "./Controllers/CalculateBulletMove";
+import { FieldProcessor } from "./Controllers/FieldProcessor";
+import { GenerateBullets } from "./Controllers/GenerateBullets";
 
 
 export class Game {
@@ -19,7 +20,9 @@ export class Game {
     private map: BlockType[][];
     private calculateTanksMove: CalculateTanksMove;
     private calculateBulletMove: CalculateBulletMove;
+    private generateBullets: GenerateBullets;
     private fieldProcessor: FieldProcessor;
+    private cycleCounter: number = 0;
     private draw: Draw = new Draw();
 
     constructor(user: User, map: BlockType[][]) {
@@ -28,16 +31,31 @@ export class Game {
         this.map = map;
         this.calculateTanksMove = new CalculateTanksMove(this.users, this.map);
         this.calculateBulletMove = new CalculateBulletMove(this.bullets, this.map);
+        this.generateBullets = new GenerateBullets(this.users, this.bullets);
         this.fieldProcessor = new FieldProcessor(this.map, this.users, this.bullets);
     }
 
     private calculate() {
-        this.deleteUselessEvents();
-        this.calculateTanksMove.doStep();
-        this.fieldProcessor.setTanksOnMap();
-        this.calculateBulletMove.doStep();
-        this.fieldProcessor.setBulletsOnMap();
-        this.fieldProcessor.clearMap()
+        if (this.cycleCounter == 0) {
+            this.cycleCounter++;
+            this.deleteUselessEvents();
+            this.calculateTanksMove.doStep();
+            this.fieldProcessor.setTanksOnMap();
+            this.generateBullets.generate();
+            this.calculateBulletMove.doStep();
+            this.fieldProcessor.setBulletsOnMap();
+            this.fieldProcessor.clearMap();
+        }
+        else {
+            this.cycleCounter++;
+            this.fieldProcessor.setTanksOnMap();
+            this.calculateBulletMove.doStep();
+            this.fieldProcessor.setBulletsOnMap();
+            this.fieldProcessor.clearMap();
+            if (this.cycleCounter == Parameters.bulletSpeed) {
+                this.cycleCounter = 0;
+            }
+        }
     }
 
     private drawing() {
@@ -45,18 +63,14 @@ export class Game {
     }
 
     public gameProcess() {
-        console.log("method start");
         addEventListener("keydown", (event) => {
             this.defineEvent(event);
         });
-        console.log("event");
         setInterval(() => {
-            console.log("start");
             this.drawing();
-            if (this.allEvents.length != 0) {
+            if (this.allEvents.length != 0 || this.bullets.getListOfBullets().length != 0) {
                 this.calculate();
             }
-            console.log("end");
         }, Parameters.timer);
     }
 
@@ -64,14 +78,19 @@ export class Game {
         switch (event.keyCode) {
             case Button.up:
                 this.addEvent(EventType.pressedUp);
+                break;
             case Button.down:
                 this.addEvent(EventType.pressedDown);
+                break;
             case Button.left:
                 this.addEvent(EventType.pressedLeft);
+                break;
             case Button.right:
                 this.addEvent(EventType.pressedRight);
+                break;
             case Button.space:
                 this.addEvent(EventType.pressedSpace);
+                break;
         }
     }
 
@@ -80,7 +99,7 @@ export class Game {
     }
 
     private deleteCheckedEvents(i: number) {
-        this.allEvents.splice(0,i);
+        this.allEvents.splice(0, i);
     }
 
     private deleteUselessEvents() {

@@ -1,6 +1,6 @@
 import { Grid } from "./GridView";
-import { User } from "../Calculate/User";
-import { Bullet } from "../Calculate/Bullet";
+import { User } from "../Models/User"
+import { Bullet } from "../Models/Bullet";
 
 export class Draw{
     private myGrid: Grid = new Grid();
