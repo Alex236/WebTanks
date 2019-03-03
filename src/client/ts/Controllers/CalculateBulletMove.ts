@@ -1,5 +1,5 @@
 import { Bullet } from "../Models/Bullet"
-import { Bullets } from "../Models/Bullets"
+import { Bullets } from "../CollectionsOfModels/Bullets"
 import { BulletMove } from "../Models/enums/BulletMove";
 import { BlockType } from "../Models/enums/BlockType";
 import { Parameters } from "../Parameters";

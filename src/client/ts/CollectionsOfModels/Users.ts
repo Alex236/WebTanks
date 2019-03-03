@@ -1,4 +1,4 @@
-import { User } from "./User"
+import { User } from "../Models/User"
 
 export class Users {
     private users: User[] = [];

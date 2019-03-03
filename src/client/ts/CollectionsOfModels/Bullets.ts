@@ -1,4 +1,4 @@
-import { Bullet } from './Bullet';
+import { Bullet } from '../Models/Bullet';
 
 export class Bullets {
     private bullets: Bullet[] = [];

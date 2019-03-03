@@ -1,5 +1,5 @@
-import { Users } from "../Models/Users";
-import { Bullets } from "../Models/Bullets";
+import { Users } from "../CollectionsOfModels/Users";
+import { Bullets } from "../CollectionsOfModels/Bullets";
 import { User } from "../Models/User";
 import { TankMove } from "../Models/enums/TankMove";
 import { Bullet } from "../Models/Bullet";

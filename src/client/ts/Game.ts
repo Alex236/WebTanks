@@ -1,16 +1,15 @@
-import { Users } from "./Models/Users";
+import { Users } from "./CollectionsOfModels/Users";
 import { Parameters } from "./Parameters"
 import { EventType } from "./EventHandler/enums/EventType";
 import { Button } from "./EventHandler/enums/Button";
 import { User } from "./Models/User";
-import { Bullets } from "./Models/Bullets";
+import { Bullets } from "./CollectionsOfModels/Bullets";
 import { BlockType } from "./Models/enums/BlockType";
 import { Draw } from "./View/Draw";
 import { CalculateTanksMove } from "./Controllers/CalculateTanksMove";
 import { CalculateBulletMove } from "./Controllers/CalculateBulletMove";
 import { FieldProcessor } from "./Controllers/FieldProcessor";
 import { GenerateBullets } from "./Controllers/GenerateBullets";
-import { PressedUserButtons } from "./Models/PressedUserButtons";
 
 
 export class Game {

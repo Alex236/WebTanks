@@ -2,7 +2,7 @@ import { Button } from '../EventHandler/enums/Button'
 import { Tank } from '../Models/Tank';
 import { BlockType } from '../Models/enums/BlockType';
 import { Parameters } from '../Parameters';
-import { Users } from '../Models/Users';
+import { Users } from '../CollectionsOfModels/Users';
 import { User } from '../Models/User';
 import { TankMove } from '../Models/enums/TankMove';
 

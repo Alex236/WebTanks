@@ -1,4 +1,4 @@
-import { Users } from "../Models/Users";
+import { Users } from "../CollectionsOfModels/Users";
 import { User } from "../Models/User";
 import { Tank } from "../Models/Tank";
 import { TankType } from "../Models/enums/TankType";

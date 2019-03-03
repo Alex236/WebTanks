@@ -1,5 +1,4 @@
 import { Grid } from "./GridView";
-import { Users } from "../Models/Users";
 import { User } from "../Models/User";
 
 export class Draw{
