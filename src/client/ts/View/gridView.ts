@@ -4,6 +4,7 @@ import { Tank } from "../Models/Tank";
 import { TankType } from "../Models/enums/TankType";
 import { TankMove } from "../Models/enums/TankMove";
 import { Bullet } from "../Models/Bullet";
+import { BulletMove } from "../Models/enums/BulletMove";
 
 export class Grid {
   canvas: HTMLCanvasElement
@@ -111,7 +112,7 @@ export class Grid {
       this.drawTank(tank.getTankCoordinates().getX(),tank.getTankCoordinates().getY(), tank.getType(), tank.getMove());
     }
   };
-
+/*
   drawBullet(x: number, y: number) {
     this.ctx.globalCompositeOperation = 'source-over';
     let bullet = document.createElement("img")
@@ -125,4 +126,38 @@ export class Grid {
       this.drawBullet(bullet.getCoordinates().getX(),bullet.getCoordinates().getY());
     }
   };
+  */
+
+ setRightTurnForBullet(turn: BulletMove){
+  let trueBullet = "";
+  switch(turn){
+    case BulletMove.down:
+      trueBullet = "https://res.cloudinary.com/phonecasemaggie/image/upload/a_90/v1551595473/TanksAsserts/Bullet/bullet.ico";
+      break;
+    case BulletMove.up:
+      trueBullet = "https://res.cloudinary.com/phonecasemaggie/image/upload/a_270/v1551595473/TanksAsserts/Bullet/bullet.ico";
+      break;
+    case BulletMove.right:
+      trueBullet = "https://res.cloudinary.com/phonecasemaggie/image/upload/v1551595473/TanksAsserts/Bullet/bullet.ico";
+      break;
+    case BulletMove.left:
+      trueBullet = "https://res.cloudinary.com/phonecasemaggie/image/upload/a_180/v1551595473/TanksAsserts/Bullet/bullet.ico";
+      break;
+  }
+  return trueBullet;
+};
+
+drawBullet(x: number, y: number, turn: BulletMove) {
+  this.ctx.globalCompositeOperation = 'source-over';
+  let bullet = document.createElement("img")
+  bullet.src = this.setRightTurnForBullet(turn);
+  this.ctx.drawImage(bullet, x * this.cellSizeWidth + this.cellSizeWidth/2, y * this.cellSizeHeight + this.cellSizeHeight/2, this.cellSizeWidth, this.cellSizeHeight)
+  };
+
+drawAllBullets(allBullet: Bullet[]){
+  for(let i = 0; i < allBullet.length; i++){
+    let bullet = allBullet[i];
+    this.drawBullet(bullet.getCoordinates().getX(),bullet.getCoordinates().getY(), bullet.getMove());
+  }
+};
 }
