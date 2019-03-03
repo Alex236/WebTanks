@@ -1,16 +1,16 @@
 import { Grid } from "./GridView";
-import { Rounds } from "./Rounds";
-import { Users } from "../Calculate/Users";
 import { User } from "../Calculate/User";
+import { Bullet } from "../Calculate/Bullet";
 
 export class Draw{
+    private myGrid: Grid = new Grid();
 
     public run(map: number[][], allUsers: User[]){
-        let myGrid = new Grid();
-        myGrid.drawGrid(map);
-        myGrid.drawBase(6,12);
+        this.myGrid.drawGrid(map);
+        this.myGrid.drawBase(6,12);
 
-        myGrid.drawAllTanks(allUsers);
+        this.myGrid.drawAllTanks(allUsers);
+        //myGrid.drawAllBullets(allBullets);
     }
 
 }
