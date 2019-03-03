@@ -36,9 +36,7 @@ export class Game {
     }
 
     private calculate() {
-        console.log(this.users.getListOfUsers()[0].getPressedButtons().getSpace());
         this.deleteUselessEvents();
-        console.log(this.users.getListOfUsers()[0].getPressedButtons().getSpace());
         this.calculateTanksMove.doStep();
         this.fieldProcessor.setTanksOnMap();
         this.generateBullets.generate();
