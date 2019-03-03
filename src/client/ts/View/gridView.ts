@@ -3,6 +3,7 @@ import { User } from "../Models/User";
 import { Tank } from "../Models/Tank";
 import { TankType } from "../Models/enums/TankType";
 import { TankMove } from "../Models/enums/TankMove";
+import { Bullet } from "../Models/Bullet";
 
 export class Grid {
   canvas: HTMLCanvasElement
@@ -108,6 +109,20 @@ export class Grid {
     for(let i = 0; i < allUsers.length; i++){
       let tank = allUsers[i].getTank();
       this.drawTank(tank.getTankCoordinates().getX(),tank.getTankCoordinates().getY(), tank.getType(), tank.getMove());
+    }
+  };
+
+  drawBullet(x: number, y: number) {
+    this.ctx.globalCompositeOperation = 'source-over';
+    let bullet = document.createElement("img")
+    bullet.src = "https://res.cloudinary.com/phonecasemaggie/image/upload/v1551596458/TanksAsserts/Bullet/circleBullet.ico" ;
+    this.ctx.drawImage(bullet, x * this.cellSizeWidth + x/2, y * this.cellSizeHeight + y/4, this.cellSizeWidth, this.cellSizeHeight)
+  };
+
+  drawAllBullets(allBullet: Bullet[]){
+    for(let i = 0; i < allBullet.length; i++){
+      let bullet = allBullet[i];
+      this.drawBullet(bullet.getCoordinates().getX(),bullet.getCoordinates().getY());
     }
   };
 }

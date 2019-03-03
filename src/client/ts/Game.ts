@@ -59,7 +59,7 @@ export class Game {
     }
 
     private drawing() {
-        this.draw.run(this.map, this.users.getListOfUsers());
+        this.draw.run(this.map, this.users.getListOfUsers(), this.bullets.getListOfBullets());
     }
 
     public gameProcess() {
