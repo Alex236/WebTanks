@@ -55,7 +55,7 @@ export class Game {
         });
         setInterval(() => {
             this.drawing();
-            if (this.allEvents.length != 0) {
+            if (this.allEvents.length != 0 || this.bullets.getListOfBullets().length != 0) {
                 this.calculate();
             }
         }, Parameters.timer);

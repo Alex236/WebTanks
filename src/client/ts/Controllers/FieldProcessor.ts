@@ -17,7 +17,7 @@ export class FieldProcessor {
     public clearMap() {
         for(let i: number = 0; i < Parameters.fieldHeight; i++) {
             for(let j: number = 0; j < Parameters.fieldWidth; j++) {
-                if(this.field[i][j] == BlockType.tank) {
+                if(this.field[i][j] == BlockType.tank || this.field[i][j] == BlockType.bullet) {
                     this.field[i][j] = BlockType.road;
                 }
             }
@@ -37,7 +37,7 @@ export class FieldProcessor {
     public setBulletsOnMap() {
         for(let bulletsNumber: number = 0; bulletsNumber < this.bullets.getListOfBullets().length; bulletsNumber++) {
             for(let i: number = 0; i < Parameters.bulletSize; i++) {
-                for(let j: number = 0; j < Parameters.tankSize; j++) {
+                for(let j: number = 0; j < Parameters.bulletSize; j++) {
                     this.field[i + this.bullets.getListOfBullets()[bulletsNumber].getCoordinates().getY()][j + this.bullets.getListOfBullets()[bulletsNumber].getCoordinates().getX()] = BlockType.bullet;
                 }
             }

@@ -16,5 +16,9 @@ export class Bullet {
 
     public getMove(): BulletMove {
         return this.bulletMove;
-    } 
+    }
+
+    public setCoordinates(coordinates: Coordinates) {
+        this.coordinates = coordinates;
+    }
 }
