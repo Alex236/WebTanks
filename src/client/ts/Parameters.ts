@@ -7,5 +7,5 @@ export class Parameters {
     static readonly mapHeight: number = 13;
     static readonly tankSize: number = 4;
     static readonly bulletSize: number = 2;
-    static readonly timer: number = 25;
+    static readonly timer: number = 500;
 }
