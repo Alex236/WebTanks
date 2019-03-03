@@ -11,7 +11,12 @@ export class Bullets {
         this.bullets.push(bullet);
     }
 
-    public deleteBullet() {
-
+    public deleteBullet(bullet: Bullet) {
+        for(let i: number = 0; i < this.bullets.length; i++) {
+            if(this.bullets[i].getCoordinates().getX() == bullet.getCoordinates().getX() && this.bullets[i].getCoordinates().getY() == bullet.getCoordinates().getY()) {
+                this.bullets.splice(i, 1);
+                break;
+            }
+        }
     }
 }

@@ -23,6 +23,7 @@ export class Game {
     private calculateBulletMove: CalculateBulletMove;
     private generateBullets: GenerateBullets;
     private fieldProcessor: FieldProcessor;
+    private cycleCounter: number = 0;
     private draw: Draw = new Draw();
 
     constructor(user: User, map: BlockType[][]) {
@@ -36,13 +37,26 @@ export class Game {
     }
 
     private calculate() {
-        this.deleteUselessEvents();
-        this.calculateTanksMove.doStep();
-        this.fieldProcessor.setTanksOnMap();
-        this.generateBullets.generate();
-        this.calculateBulletMove.doStep();
-        this.fieldProcessor.setBulletsOnMap();
-        this.fieldProcessor.clearMap()
+        if (this.cycleCounter == 0) {
+            this.cycleCounter++;
+            this.deleteUselessEvents();
+            this.calculateTanksMove.doStep();
+            this.fieldProcessor.setTanksOnMap();
+            this.generateBullets.generate();
+            this.calculateBulletMove.doStep();
+            this.fieldProcessor.setBulletsOnMap();
+            this.fieldProcessor.clearMap();
+        }
+        else {
+            this.cycleCounter++;
+            this.fieldProcessor.setTanksOnMap();
+            this.calculateBulletMove.doStep();
+            this.fieldProcessor.setBulletsOnMap();
+            this.fieldProcessor.clearMap();
+            if (this.cycleCounter == Parameters.bulletSpeed) {
+                this.cycleCounter = 0;
+            }
+        }
     }
 
     private drawing() {
@@ -86,7 +100,7 @@ export class Game {
     }
 
     private deleteCheckedEvents(i: number) {
-        this.allEvents.splice(0,i);
+        this.allEvents.splice(0, i);
     }
 
     private deleteUselessEvents() {

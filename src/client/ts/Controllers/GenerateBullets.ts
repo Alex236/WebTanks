@@ -26,16 +26,16 @@ export class GenerateBullets {
     private generateBullet(user: User) {
         switch(user.getTank().getMove()) {
             case TankMove.up:
-            this.bullets.addBullet(new Bullet(new Coordinates(user.getTank().getTankCoordinates().getX() + 1, user.getTank().getTankCoordinates().getY() - 2), BulletMove.up));
+            this.bullets.addBullet(new Bullet(new Coordinates(user.getTank().getTankCoordinates().getX() + 1, user.getTank().getTankCoordinates().getY() - 1), BulletMove.up));
             break;
             case TankMove.down:
-            this.bullets.addBullet(new Bullet(new Coordinates(user.getTank().getTankCoordinates().getX() + 1, user.getTank().getTankCoordinates().getY() + 4), BulletMove.down));
+            this.bullets.addBullet(new Bullet(new Coordinates(user.getTank().getTankCoordinates().getX() + 1, user.getTank().getTankCoordinates().getY() + 3), BulletMove.down));
             break;
             case TankMove.left:
-            this.bullets.addBullet(new Bullet(new Coordinates(user.getTank().getTankCoordinates().getX() - 2, user.getTank().getTankCoordinates().getY() + 1), BulletMove.left));
+            this.bullets.addBullet(new Bullet(new Coordinates(user.getTank().getTankCoordinates().getX() - 1, user.getTank().getTankCoordinates().getY() + 1), BulletMove.left));
             break;
             case TankMove.right:
-            this.bullets.addBullet(new Bullet(new Coordinates(user.getTank().getTankCoordinates().getX() + 4, user.getTank().getTankCoordinates().getY() + 1), BulletMove.right));
+            this.bullets.addBullet(new Bullet(new Coordinates(user.getTank().getTankCoordinates().getX() + 3, user.getTank().getTankCoordinates().getY() + 1), BulletMove.right));
             break;
         }
     }
