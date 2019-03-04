@@ -1,6 +1,7 @@
 src/client/js/*
 node_modules/*
 src/client/ts/main.js
+dist/*
 
 # General
 .DS_Store
