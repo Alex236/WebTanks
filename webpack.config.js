@@ -1,5 +1,7 @@
 //const webpack = require('webpack');
 const path = require('path');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+
 
 const config = {
   mode: "development",
@@ -10,6 +12,23 @@ const config = {
         test: /\.(ts|tsx)?$/,
         loader: 'ts-loader',
         exclude: /node_modules/
+      },
+      {
+        test: /\.html$/,
+        use: ['html-loader']
+      },
+      {
+        test: /\.png$/,
+        use:[
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'assets/',
+              publicPath: 'assets/'
+            }
+          }
+        ]
       }
     ]
   },
@@ -19,7 +38,12 @@ const config = {
   },
   resolve: {
     extensions: [ '.ts', '.tsx', ".js", ".json"]
-  }
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: 'src/client/index.html'
+    })
+  ]
 }
 
 module.exports = config;
