@@ -3,6 +3,7 @@ import { TankType } from "../Models/enums/TankType";
 import { TankMove } from "../Models/enums/TankMove";
 import { Bullet } from "../Models/Bullet";
 import { BulletMove } from "../Models/enums/BulletMove";
+import { Units } from "./Units"
 
 export class Grid {
   canvas: HTMLCanvasElement
@@ -11,6 +12,7 @@ export class Grid {
   width: number = window.innerWidth - 200;
   cellSizeWidth: number = this.width / 52;
   cellSizeHeight: number = this.height / 52;
+  rootImg: string = "https://res.cloudinary.com/phonecasemaggie/image/upload/";
 
   constructor() {
     this.canvas = <HTMLCanvasElement>document.getElementById('canvas')
@@ -19,56 +21,56 @@ export class Grid {
     this.ctx = <CanvasRenderingContext2D>this.canvas.getContext("2d");
   };
 
-  drawBase(x: number, y: number) {
-    let img = document.createElement("img")
-    img.src = "https://res.cloudinary.com/phonecasemaggie/image/upload/v1550860699/TanksAsserts/flag_ukraine_36335.png"
-    this.ctx.drawImage(img, (x * 4 * this.cellSizeWidth), (y * 4 * this.cellSizeHeight), this.cellSizeWidth * 4, this.cellSizeHeight * 4)
+  drawUnit(x : number, y : number, type: Units){
+    let img = document.createElement("img");
+    switch(type){
+      case Units.base : 
+        img.src = this.rootImg + "v1550860699/TanksAsserts/" + type + ".png";
+        this.ctx.drawImage(img, (x * 4 * this.cellSizeWidth), (y * 4 * this.cellSizeHeight), this.cellSizeWidth * 4, this.cellSizeHeight * 4);
+        break;
+      case Units.brick :
+        img.src = this.rootImg + "v1550848759/TanksAsserts/" + type + ".png";
+        this.ctx.drawImage(img, x * this.cellSizeWidth, y * this.cellSizeHeight, this.cellSizeWidth + 1, this.cellSizeHeight + 1);
+        break;
+      case Units.hardBrick : 
+        img.src = this.rootImg + "v1550848848/TanksAsserts/" + type + ".png";
+        this.ctx.drawImage(img, x * this.cellSizeWidth, y * this.cellSizeHeight, this.cellSizeWidth + 1, this.cellSizeHeight + 1);
+        break;
+      case Units.green :
+        img.src = this.rootImg + "v1550849482/TanksAsserts/" + type + ".png";
+        this.ctx.drawImage(img, x * this.cellSizeWidth, y * this.cellSizeHeight, this.cellSizeWidth + 1, this.cellSizeHeight + 1);
+        break;
+    }
+  }
+
+  drawRoad() {
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.fillStyle = '#000';
+    this.ctx.fillRect(this.cellSizeWidth, this.cellSizeHeight, 13 * this.cellSizeWidth, 13 * this.cellSizeHeight)
   };
 
-  drawBrick(x: number, y: number) {
-    let img = document.createElement("img")
-    img.src = "https://res.cloudinary.com/phonecasemaggie/image/upload/v1550848759/TanksAsserts/crateWood.png";
-    this.ctx.drawImage(img, x * this.cellSizeWidth, y * this.cellSizeHeight, this.cellSizeWidth + 1, this.cellSizeHeight + 1);
-  };
-
-  drawHardBrick(x: number, y: number) {
-    let img = document.createElement("img")
-    img.src = "https://res.cloudinary.com/phonecasemaggie/image/upload/v1550848848/TanksAsserts/crateMetal.png";
-    this.ctx.drawImage(img, x * this.cellSizeWidth, y * this.cellSizeHeight, this.cellSizeWidth + 1, this.cellSizeHeight + 1);
-  };
-
-  drawGreen(x: number, y: number) {
-    let img = document.createElement("img")
-    img.src = "https://res.cloudinary.com/phonecasemaggie/image/upload/v1550849482/TanksAsserts/favicon-6.ico";
-    this.ctx.drawImage(img, x * this.cellSizeWidth, y * this.cellSizeHeight, this.cellSizeWidth + 1, this.cellSizeHeight + 1);
-  };
-
-  drawRoad(x: number, y: number) {
-    let img = document.createElement("img")
-    img.src = "https://res.cloudinary.com/phonecasemaggie/image/upload/v1550844835/TanksAsserts/Road.png";
-    this.ctx.drawImage(img, x * this.cellSizeWidth, y * this.cellSizeHeight, this.cellSizeWidth + 1, this.cellSizeHeight + 1);
-  };
-
-  drawGrid(map: number[][]) {
-    for (var j = 0; j < 52; j++) {
-      for (var i = 0; i < 52; i++) {
+  drawGrid(map: number[][], tanks: Tank[], bullets: Bullet[]) {
+    this.drawRoad();
+    this.drawUnit(6,12, Units.base);
+    for (var j = 0; j < map.length; j++) {
+      for (var i = 0; i < map.length; i++) {
         switch (map[j][i]) {
-          case 0:
-            this.drawRoad(i, j);
-            break;
+
           case 1:
-            this.drawBrick(i, j);
+            this.drawUnit(i, j, Units.brick);
             break;
           case 2:
-            this.drawHardBrick(i, j);
+            this.drawUnit(i, j, Units.hardBrick);
             break;
           case 3:
-            this.drawRoad(i, j);
-            this.drawGreen(i, j);
+            this.drawUnit(i, j, Units.green);
             break;
+            
         }
       }
     };
+    this.drawAllTanks(tanks);
+    this.drawAllBullets(bullets);
   };
 
   setRightTurn(turn: TankMove, type: TankType){

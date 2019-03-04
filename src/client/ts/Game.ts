@@ -9,6 +9,7 @@ import { FieldProcessor } from "./Controllers/FieldProcessor";
 import { GenerateBullets } from "./Controllers/GenerateBullets";
 import { Bullet } from "./Models/Bullet";
 import { Tank } from "./Models/Tank";
+import { Units } from "./View/Units";
 
 
 export class Game {
@@ -56,10 +57,7 @@ export class Game {
     }
 
     private drawing() {
-        this.grid.drawGrid(this.map);
-        this.grid.drawBase(6,12);
-        this.grid.drawAllTanks(this.tanks);
-        this.grid.drawAllBullets(this.bullets);
+        this.grid.drawGrid(this.map, this.tanks, this.bullets);
     }
 
     public start() {
