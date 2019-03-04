@@ -1,24 +1,17 @@
 import { BulletMove } from "./enums/BulletMove";
-import { Coordinates } from "./Coordinates";
 
 export class Bullet {
-    private coordinates: Coordinates;
+    public x: number;
+    public y: number;
     private bulletMove: BulletMove;
 
-    constructor(coordinates: Coordinates, bulletMove: BulletMove) {
-        this.coordinates = coordinates;
+    constructor(x: number, y: number, bulletMove: BulletMove) {
+        this.x = x;
+        this.y = y;
         this.bulletMove = bulletMove;
-    }
-
-    public getCoordinates(): Coordinates {
-        return this.coordinates;
     }
 
     public getMove(): BulletMove {
         return this.bulletMove;
-    }
-
-    public setCoordinates(coordinates: Coordinates) {
-        this.coordinates = coordinates;
     }
 }

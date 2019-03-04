@@ -1,10 +1,10 @@
-import { User } from "../Models/User";
 import { Bullet } from "../Models/Bullet";
 import { DrawingElements } from "./DrawingElements"
 import { Base } from "./DrawingElements/Base";
 import { Grid } from "./DrawingElements/Grid";
 import { Tanks } from "./DrawingElements/Tanks";
 import { Bullets } from "./DrawingElements/Bullets";
+import { Tank } from "../Models/Tank"
 
 export class Draw{
     private drawingElements: DrawingElements = new DrawingElements();
@@ -13,10 +13,10 @@ export class Draw{
     private tanks: Tanks = new Tanks();
     private bullets: Bullets = new Bullets();
 
-    public run(map: number[][], allUsers: User[], allBullets: Bullet[]){
+    public run(map: number[][], allTanks: Tank[], allBullets: Bullet[]){
         this.grid.draw(map);
         this.base.draw();
-        this.tanks.draw(allUsers);
+        this.tanks.draw(allTanks);
         this.bullets.draw(allBullets);
     }
 

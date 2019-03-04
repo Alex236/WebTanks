@@ -32,7 +32,7 @@ export class Bullets extends DrawingElements{
       draw(allBullet: Bullet[]){
         for(let i = 0; i < allBullet.length; i++){
           let bullet = allBullet[i];
-          this.drawBullet(bullet.getCoordinates().getX(),bullet.getCoordinates().getY(), bullet.getMove());
+          this.drawBullet(bullet.x, bullet.y, bullet.getMove());
         }
       };
 }

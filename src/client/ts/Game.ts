@@ -1,22 +1,20 @@
-import { Users } from "./CollectionsOfModels/Users";
 import { Parameters } from "./Parameters"
 import { EventType } from "./EventHandler/enums/EventType";
 import { Button } from "./EventHandler/enums/Button";
-import { User } from "./Models/User";
-import { Bullets } from "./CollectionsOfModels/Bullets";
 import { BlockType } from "./Models/enums/BlockType";
 import { Draw } from "./View/Draw";
 import { CalculateTanksMove } from "./Controllers/CalculateTanksMove";
 import { CalculateBulletMove } from "./Controllers/CalculateBulletMove";
 import { FieldProcessor } from "./Controllers/FieldProcessor";
 import { GenerateBullets } from "./Controllers/GenerateBullets";
+import { Bullet } from "./Models/Bullet";
+import { Tank } from "./Models/Tank";
 
 
 export class Game {
-    private user: User;
-    private users: Users = new Users();
+    private tanks: Tank[];
     private allEvents: EventType[] = [];
-    private bullets: Bullets = new Bullets();
+    private bullets: Bullet[] = [];
     private map: BlockType[][];
     private calculateTanksMove: CalculateTanksMove;
     private calculateBulletMove: CalculateBulletMove;
@@ -25,14 +23,13 @@ export class Game {
     private cycleCounter: number = 0;
     private draw: Draw = new Draw();
 
-    constructor(user: User, map: BlockType[][]) {
-        this.user = user;
-        this.users.addUser(this.user);
+    constructor(tanks: Tank[], map: BlockType[][]) {
+        this.tanks = tanks;
         this.map = map;
-        this.calculateTanksMove = new CalculateTanksMove(this.users, this.map);
+        this.calculateTanksMove = new CalculateTanksMove(this.tanks, this.map);
         this.calculateBulletMove = new CalculateBulletMove(this.bullets, this.map);
-        this.generateBullets = new GenerateBullets(this.users, this.bullets);
-        this.fieldProcessor = new FieldProcessor(this.map, this.users, this.bullets);
+        this.generateBullets = new GenerateBullets(this.tanks, this.bullets);
+        this.fieldProcessor = new FieldProcessor(this.map, this.tanks, this.bullets);
     }
 
     private calculate() {
@@ -59,16 +56,16 @@ export class Game {
     }
 
     private drawing() {
-        this.draw.run(this.map, this.users.getListOfUsers(), this.bullets.getListOfBullets());
+        this.draw.run(this.map, this.tanks, this.bullets);
     }
 
-    public gameProcess() {
+    public start() {
         addEventListener("keydown", (event) => {
             this.defineEvent(event);
         });
         setInterval(() => {
             this.drawing();
-            if (this.allEvents.length != 0 || this.bullets.getListOfBullets().length != 0) {
+            if (this.allEvents.length != 0 || this.bullets.length != 0) {
                 this.calculate();
             }
         }, Parameters.timer);
@@ -103,7 +100,7 @@ export class Game {
     }
 
     private deleteUselessEvents() {
-        this.user.getPressedButtons().cleanButtons();
+        this.tanks[0].getPressedButtons().cleanButtons();
         let move: boolean = false;
         let shoot: boolean = false;
         let count = this.allEvents.length;
@@ -112,31 +109,31 @@ export class Game {
                 case EventType.pressedUp:
                     if (!move) {
                         move = true;
-                        this.user.getPressedButtons().setArrowUp(true);
+                        this.tanks[0].getPressedButtons().setArrowUp(true);
                     }
                     break;
                 case EventType.pressedDown:
                     if (!move) {
                         move = true;
-                        this.user.getPressedButtons().setArrowDown(true);
+                        this.tanks[0].getPressedButtons().setArrowDown(true);
                     }
                     break;
                 case EventType.pressedLeft:
                     if (!move) {
                         move = true;
-                        this.user.getPressedButtons().setArrowLeft(true);
+                        this.tanks[0].getPressedButtons().setArrowLeft(true);
                     }
                     break;
                 case EventType.pressedRight:
                     if (!move) {
                         move = true;
-                        this.user.getPressedButtons().setArrowRight(true);
+                        this.tanks[0].getPressedButtons().setArrowRight(true);
                     }
                     break;
                 case EventType.pressedSpace:
                     if (!shoot) {
                         shoot = true;
-                        this.user.getPressedButtons().setSpace(true);
+                        this.tanks[0].getPressedButtons().setSpace(true);
                     }
                     break;
                 case EventType.bulletFlight:

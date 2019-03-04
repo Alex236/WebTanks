@@ -2,85 +2,83 @@ import { Button } from '../EventHandler/enums/Button'
 import { Tank } from '../Models/Tank';
 import { BlockType } from '../Models/enums/BlockType';
 import { Parameters } from '../Parameters';
-import { Users } from '../CollectionsOfModels/Users';
-import { User } from '../Models/User';
 import { TankMove } from '../Models/enums/TankMove';
 
 
 export class CalculateTanksMove {
-    private users: Users;
+    private tanks: Tank[];
     private field: BlockType[][];
 
-    constructor(users: Users, field: BlockType[][]) {
-        this.users = users;
+    constructor(tanks: Tank[], field: BlockType[][]) {
+        this.tanks = tanks;
         this.field = field;
     }
 
     public doStep() {
-        for(let i: number = 0; i < this.users.getListOfUsers().length; i++) {
-            this.step(this.users.getListOfUsers()[i]);
+        for(let i: number = 0; i < this.tanks.length; i++) {
+            this.step(this.tanks[i]);
         }        
     }
 
-    private step(user: User) {
-        if(user.getPressedButtons().getArrowUp()) {
-            this.move(Button.up ,user.getTank());
-            user.getTank().setMove(TankMove.up);
+    private step(tank: Tank) {
+        if(tank.getPressedButtons().getArrowUp()) {
+            this.move(Button.up ,tank);
+            tank.setMove(TankMove.up);
         }
-        if(user.getPressedButtons().getArrowDown()) {
-            this.move(Button.down , user.getTank());
-            user.getTank().setMove(TankMove.down);
+        if(tank.getPressedButtons().getArrowDown()) {
+            this.move(Button.down , tank);
+            tank.setMove(TankMove.down);
         }
-        if(user.getPressedButtons().getArrowLeft()) {
-            this.move(Button.left , user.getTank());
-            user.getTank().setMove(TankMove.left);
+        if(tank.getPressedButtons().getArrowLeft()) {
+            this.move(Button.left , tank);
+            tank.setMove(TankMove.left);
         }
-        if(user.getPressedButtons().getArrowRight()) {
-            this.move(Button.right , user.getTank());
-            user.getTank().setMove(TankMove.right);
+        if(tank.getPressedButtons().getArrowRight()) {
+            this.move(Button.right , tank);
+            tank.setMove(TankMove.right);
         }
     }
 
     private move(pressedButton: Button, tank: Tank): boolean {
         switch (pressedButton) {
             case Button.up:
-                if (tank.getTankCoordinates().getY() > 0) {
+                if (tank.y > 0) {
                     for (let i: number = 0; i < Parameters.tankSize; i++) {
-                        if (this.field[tank.getTankCoordinates().getY() - 1][tank.getTankCoordinates().getX() + i] != BlockType.road) {
+                        if (this.field[tank.y - 1][tank.x + i] != BlockType.road) {
                             return false;
                         }
                     }
-                    tank.getTankCoordinates().setY(tank.getTankCoordinates().getY() - 1);
+                    tank.y = tank.y - 1;
                 }
                 break;
             case Button.down:
-                if (tank.getTankCoordinates().getY() < Parameters.fieldHeight - 1) {
+                if (tank.y < Parameters.fieldHeight - 1) {
                     for (let i: number = 0; i < Parameters.tankSize; i++) {
-                        if (this.field[tank.getTankCoordinates().getY() + Parameters.tankSize][tank.getTankCoordinates().getX() + i] != BlockType.road) {//
+                        if (this.field[tank.y + Parameters.tankSize][tank.x + i] != BlockType.road) {//
                             return false;
                         }
                     }
-                    tank.getTankCoordinates().setY(tank.getTankCoordinates().getY() + 1);
+                    tank.y = tank.y + 1;
                 }
                 break;
             case Button.left:
-                if (tank.getTankCoordinates().getX() > 0) {
+                if (tank.x > 0) {
                     for (let i: number = 0; i < Parameters.tankSize; i++) {
-                        if (this.field[tank.getTankCoordinates().getY() + i][tank.getTankCoordinates().getX() - 1] != BlockType.road) {
+                        if (this.field[tank.y + i][tank.x - 1] != BlockType.road) {
                             return false;
                         }
                     }
-                    tank.getTankCoordinates().setX(tank.getTankCoordinates().getX() - 1);
+                    tank.x = tank.x - 1;
                 }
                 break;
             case Button.right:
-                if (tank.getTankCoordinates().getX() < Parameters.fieldWidth - 1) {
+                if (tank.x < Parameters.fieldWidth - 1) {
                     for (let i: number = 0; i < Parameters.tankSize; i++) {
-                        if (this.field[tank.getTankCoordinates().getY() + i][tank.getTankCoordinates().getX() + Parameters.tankSize] != BlockType.road) {//
+                        if (this.field[tank.y + i][tank.x + Parameters.tankSize] != BlockType.road) {//
                             return false;
                         }
                     }
-                    tank.getTankCoordinates().setX(tank.getTankCoordinates().getX() + 1);
+                    tank.x = tank.x + 1;
                 }
                 break;
         }

@@ -1,14 +1,15 @@
 import { TankMove } from '../Models/enums/TankMove';
 import { TankType } from '../Models/enums/TankType';
-import { Coordinates } from './Coordinates';
+import { PressedUserButtons } from './PressedUserButtons';
 
 export class Tank {
-    private coordinates: Coordinates;
+    public x: number = 25;
+    public y: number = 25;
     private tankType: TankType;
     private tankMove: TankMove;
+    private pressedUserButtons: PressedUserButtons = new PressedUserButtons();
 
-    constructor(coordinates: Coordinates, tankType: TankType, tankMove: TankMove) {
-        this.coordinates = coordinates;
+    constructor(tankType: TankType, tankMove: TankMove) {
         this.tankType = tankType;
         this.tankMove = tankMove;
     }
@@ -21,15 +22,15 @@ export class Tank {
         return this.tankType;
     }
 
-    public getTankCoordinates(): Coordinates {
-        return this.coordinates;
-    }
-
-    public setTankCoordinates(coordinates: Coordinates) {
-        this.coordinates = coordinates;
-    }
-
     public setMove(tankMove: TankMove) {
         this.tankMove = tankMove;
+    }
+
+    public getPressedButtons(): PressedUserButtons {
+        return this.pressedUserButtons;
+    }
+
+    public setPressedButtons(pressedButtons: PressedUserButtons) {
+        this.pressedUserButtons = pressedButtons;
     }
 }

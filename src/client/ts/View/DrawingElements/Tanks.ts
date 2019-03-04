@@ -1,7 +1,7 @@
 import { DrawingElements } from "../DrawingElements";
-import { User } from "../../Models/User";
 import { TankType } from "../../Models/enums/TankType";
 import { TankMove } from "../../Models/enums/TankMove";
+import { Tank } from "../../Models/Tank"
 
 export class Tanks extends DrawingElements{
   private img: HTMLImageElement = document.createElement("img");
@@ -38,10 +38,10 @@ export class Tanks extends DrawingElements{
     this.ctx.drawImage(this.img, x * this.cellSizeWidth, y * this.cellSizeHeight, this.cellSizeWidth * 4, this.cellSizeHeight * 4)
   };
 
-  draw(allUsers: User[]){
-    for(let i = 0; i < allUsers.length; i++){
-      let tank = allUsers[i].getTank();
-      this.drawTank(tank.getTankCoordinates().getX(),tank.getTankCoordinates().getY(), tank.getType(), tank.getMove());
+  draw(allTanks: Tank[]){
+    for(let i = 0; i < allTanks.length; i++){
+      let tank = allTanks[i];
+      this.drawTank(tank.x, tank.y, tank.getType(), tank.getMove());
     }
   };
 }
