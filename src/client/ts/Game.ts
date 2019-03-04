@@ -2,7 +2,7 @@ import { Parameters } from "./Parameters"
 import { EventType } from "./EventHandler/enums/EventType";
 import { Button } from "./EventHandler/enums/Button";
 import { BlockType } from "./Models/enums/BlockType";
-import { Draw } from "./View/Draw";
+import { Grid } from "./View/Grid";
 import { CalculateTanksMove } from "./Controllers/CalculateTanksMove";
 import { CalculateBulletMove } from "./Controllers/CalculateBulletMove";
 import { FieldProcessor } from "./Controllers/FieldProcessor";
@@ -21,7 +21,7 @@ export class Game {
     private generateBullets: GenerateBullets;
     private fieldProcessor: FieldProcessor;
     private cycleCounter: number = 0;
-    private draw: Draw = new Draw();
+    private grid: Grid = new Grid();
 
     constructor(tanks: Tank[], map: BlockType[][]) {
         this.tanks = tanks;
@@ -56,7 +56,10 @@ export class Game {
     }
 
     private drawing() {
-        this.draw.run(this.map, this.tanks, this.bullets);
+        this.grid.drawGrid(this.map);
+        this.grid.drawBase(6,12);
+        this.grid.drawAllTanks(this.tanks);
+        this.grid.drawAllBullets(this.bullets);
     }
 
     public start() {
