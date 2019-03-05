@@ -5,14 +5,14 @@ import { Item } from './Item';
 
 export class Tank extends Item {
     private tankType: TankType;
-    public tankMove: Vector;
+    public vector: Vector;
+    public move: boolean = false;
+    public shoot: boolean = false;
 
-    constructor(tankType: TankType, tankMove: Vector) {
+    constructor(tankType: TankType, vector: Vector) {
         super();
         this.tankType = tankType;
-        this.tankMove = tankMove;
-        this.x = 26;
-        this.y = 26;
+        this.vector = vector;
     }
 
     public getType(): TankType {

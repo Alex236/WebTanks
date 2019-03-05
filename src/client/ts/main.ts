@@ -5,5 +5,5 @@ import { TankType } from "./Models/enums/TankType";
 import { Vector } from "./Models/enums/Vector";
 
 
-let game = new Game([new Tank(TankType.user, Vector.up)], (new Map).getField());
+let game = new Game([new Tank(TankType.user, Vector.up), new Tank(TankType.enemy, Vector.up)], new Map);
 game.start();
