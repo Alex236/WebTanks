@@ -1,8 +1,5 @@
 import { Tank } from "../Models/Tank";
-import { TankType } from "../Models/enums/TankType";
-import { TankMove } from "../Models/enums/TankMove";
 import { Bullet } from "../Models/Bullet";
-import { BulletMove } from "../Models/enums/BulletMove";
 import { Units } from "./Units"
 
 export class Grid {
@@ -77,7 +74,7 @@ export class Grid {
 
   drawAllTanks(allTanks: Tank[]){
     for(let tank of allTanks){
-      this.drawUnit(tank.x, tank.y, Units.tank, tank.getMove(), tank.getType());
+      this.drawUnit(tank.x, tank.y, Units.tank, tank.tankMove, tank.getType());
     }
   };
   

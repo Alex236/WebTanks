@@ -1,15 +1,12 @@
 import { Parameters } from "./Parameters"
 import { EventType } from "./EventHandler/enums/EventType";
-import { Button } from "./EventHandler/enums/Button";
+import { KeyCode } from "./EventHandler/enums/KeyCode";
 import { BlockType } from "./Models/enums/BlockType";
 import { Grid } from "./View/Grid";
-import { CalculateTanksMove } from "./Controllers/CalculateTanksMove";
-import { CalculateBulletMove } from "./Controllers/CalculateBulletMove";
-import { FieldProcessor } from "./Controllers/FieldProcessor";
-import { GenerateBullets } from "./Controllers/GenerateBullets";
 import { Bullet } from "./Models/Bullet";
 import { Tank } from "./Models/Tank";
-import { Units } from "./View/Units";
+import { Vector } from "./Models/enums/Vector"
+import { Item } from "./Models/Item";
 
 
 export class Game {
@@ -17,43 +14,18 @@ export class Game {
     private allEvents: EventType[] = [];
     private bullets: Bullet[] = [];
     private map: BlockType[][];
-    private calculateTanksMove: CalculateTanksMove;
-    private calculateBulletMove: CalculateBulletMove;
-    private generateBullets: GenerateBullets;
-    private fieldProcessor: FieldProcessor;
-    private cycleCounter: number = 0;
     private grid: Grid = new Grid();
+    private actions: any[] = [];
 
     constructor(tanks: Tank[], map: BlockType[][]) {
         this.tanks = tanks;
         this.map = map;
-        this.calculateTanksMove = new CalculateTanksMove(this.tanks, this.map);
-        this.calculateBulletMove = new CalculateBulletMove(this.bullets, this.map);
-        this.generateBullets = new GenerateBullets(this.tanks, this.bullets);
-        this.fieldProcessor = new FieldProcessor(this.map, this.tanks, this.bullets);
     }
 
     private calculate() {
-        if (this.cycleCounter == 0) {
-            this.cycleCounter++;
-            this.deleteUselessEvents();
-            this.calculateTanksMove.doStep();
-            this.fieldProcessor.setTanksOnMap();
-            this.generateBullets.generate();
-            this.calculateBulletMove.doStep();
-            this.fieldProcessor.setBulletsOnMap();
-            this.fieldProcessor.clearMap();
-        }
-        else {
-            this.cycleCounter++;
-            this.fieldProcessor.setTanksOnMap();
-            this.calculateBulletMove.doStep();
-            this.fieldProcessor.setBulletsOnMap();
-            this.fieldProcessor.clearMap();
-            if (this.cycleCounter == Parameters.bulletSpeed) {
-                this.cycleCounter = 0;
-            }
-        }
+        this.deleteUselessEvents();
+        this.actions.forEach(action => action());
+        this.actions = [];
     }
 
     private drawing() {
@@ -74,34 +46,25 @@ export class Game {
 
     private defineEvent(event: KeyboardEvent) {
         switch (event.keyCode) {
-            case Button.up:
-                this.addEvent(EventType.pressedUp);
+            case KeyCode.up:
+                this.allEvents.push(EventType.pressedUp);
                 break;
-            case Button.down:
-                this.addEvent(EventType.pressedDown);
+            case KeyCode.down:
+                this.allEvents.push(EventType.pressedDown);
                 break;
-            case Button.left:
-                this.addEvent(EventType.pressedLeft);
+            case KeyCode.left:
+                this.allEvents.push(EventType.pressedLeft);
                 break;
-            case Button.right:
-                this.addEvent(EventType.pressedRight);
+            case KeyCode.right:
+                this.allEvents.push(EventType.pressedRight);
                 break;
-            case Button.space:
-                this.addEvent(EventType.pressedSpace);
+            case KeyCode.space:
+                this.allEvents.push(EventType.pressedSpace);
                 break;
         }
     }
 
-    private addEvent(event: EventType) {
-        this.allEvents.push(event);
-    }
-
-    private deleteCheckedEvents(i: number) {
-        this.allEvents.splice(0, i);
-    }
-
     private deleteUselessEvents() {
-        this.tanks[0].getPressedButtons().cleanButtons();
         let move: boolean = false;
         let shoot: boolean = false;
         let count = this.allEvents.length;
@@ -110,31 +73,30 @@ export class Game {
                 case EventType.pressedUp:
                     if (!move) {
                         move = true;
-                        this.tanks[0].getPressedButtons().setArrowUp(true);
+                        this.actions.push(() => { this.up(this.tanks[0]) });
                     }
                     break;
                 case EventType.pressedDown:
                     if (!move) {
                         move = true;
-                        this.tanks[0].getPressedButtons().setArrowDown(true);
+                        this.actions.push(() => { this.down(this.tanks[0]) });
                     }
                     break;
                 case EventType.pressedLeft:
                     if (!move) {
                         move = true;
-                        this.tanks[0].getPressedButtons().setArrowLeft(true);
+                        this.actions.push(() => { this.left(this.tanks[0]) });
                     }
                     break;
                 case EventType.pressedRight:
                     if (!move) {
                         move = true;
-                        this.tanks[0].getPressedButtons().setArrowRight(true);
+                        this.actions.push(() => { this.right(this.tanks[0]) });
                     }
                     break;
                 case EventType.pressedSpace:
                     if (!shoot) {
                         shoot = true;
-                        this.tanks[0].getPressedButtons().setSpace(true);
                     }
                     break;
                 case EventType.bulletFlight:
@@ -143,6 +105,70 @@ export class Game {
                     break;
             }
         }
-        this.deleteCheckedEvents(count);
+        this.allEvents.splice(0, count);
+    }
+
+    private up(tank: Tank) {
+        if (tank.tankMove != Vector.up) {
+            tank.tankMove = Vector.up;
+        }
+        else {
+            if (tank.y > 0) {
+                for (let i: number = 0; i < Parameters.tankSize; i++) {
+                    if (this.map[tank.y - 1][tank.x + i] != BlockType.road) {
+                        return;
+                    }
+                }
+                tank.y = tank.y - 1;
+            }
+        }
+    }
+
+    private down(tank: Tank) {
+        if (tank.tankMove != Vector.down) {
+            tank.tankMove = Vector.down;
+        }
+        else {
+            if (tank.y < Parameters.fieldHeight - 1) {
+                for (let i: number = 0; i < Parameters.tankSize; i++) {
+                    if (this.map[tank.y + Parameters.tankSize][tank.x + i] != BlockType.road) {
+                        return;
+                    }
+                }
+                tank.y = tank.y + 1;
+            }
+        }
+    }
+
+    private left(tank: Tank) {
+        if (tank.tankMove != Vector.left) {
+            tank.tankMove = Vector.left;
+        }
+        else {
+            if (tank.x > 0) {
+                for (let i: number = 0; i < Parameters.tankSize; i++) {
+                    if (this.map[tank.y + i][tank.x - 1] != BlockType.road) {
+                        return;
+                    }
+                }
+                tank.x = tank.x - 1;
+            }
+        }
+    }
+
+    private right(tank: Tank) {
+        if (tank.tankMove != Vector.right) {
+            tank.tankMove = Vector.right;
+        }
+        else {
+            if (tank.x < Parameters.fieldWidth - 1) {
+                for (let i: number = 0; i < Parameters.tankSize; i++) {
+                    if (this.map[tank.y + i][tank.x + Parameters.tankSize] != BlockType.road) {
+                        return;
+                    }
+                }
+                tank.x = tank.x + 1;
+            }
+        }
     }
 }

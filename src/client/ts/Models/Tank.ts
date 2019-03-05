@@ -1,36 +1,21 @@
-import { TankMove } from '../Models/enums/TankMove';
+import { Vector } from './enums/Vector';
 import { TankType } from '../Models/enums/TankType';
-import { PressedUserButtons } from './PressedUserButtons';
+import { KeyCode } from "../EventHandler/enums/KeyCode";
+import { Item } from './Item';
 
-export class Tank {
-    public x: number = 25;
-    public y: number = 25;
+export class Tank extends Item {
     private tankType: TankType;
-    private tankMove: TankMove;
-    private pressedUserButtons: PressedUserButtons = new PressedUserButtons();
+    public tankMove: Vector;
 
-    constructor(tankType: TankType, tankMove: TankMove) {
+    constructor(tankType: TankType, tankMove: Vector) {
+        super();
         this.tankType = tankType;
         this.tankMove = tankMove;
-    }
-
-    public getMove(): TankMove {
-        return this.tankMove;
+        this.x = 26;
+        this.y = 26;
     }
 
     public getType(): TankType {
         return this.tankType;
-    }
-
-    public setMove(tankMove: TankMove) {
-        this.tankMove = tankMove;
-    }
-
-    public getPressedButtons(): PressedUserButtons {
-        return this.pressedUserButtons;
-    }
-
-    public setPressedButtons(pressedButtons: PressedUserButtons) {
-        this.pressedUserButtons = pressedButtons;
     }
 }
