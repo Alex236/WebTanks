@@ -59,7 +59,7 @@ export class Grid {
     this.ctx.fillRect(this.totalWidth * 0.05, this.totalHeight * 0.05, this.gameSize, this.gameSize)
   };
 
-  drawGrid(map: number[][], tanks: Tank[], bullets: Bullet[]) {
+  draw(map: number[][], tanks: Tank[], bullets: Bullet[]) {
     this.drawBorder();
     this.drawRoad();
     this.drawUnit(6,12, Units.base);

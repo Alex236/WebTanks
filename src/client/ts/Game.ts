@@ -29,7 +29,7 @@ export class Game {
     }
 
     private drawing() {
-        this.grid.drawGrid(this.map, this.tanks, this.bullets);
+        this.grid.draw(this.map, this.tanks, this.bullets);
     }
 
     public start() {
