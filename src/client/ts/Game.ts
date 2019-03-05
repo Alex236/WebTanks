@@ -49,7 +49,7 @@ export class Game {
     }
 
     private drawing() {
-        this.grid.drawGrid(this.map.field, this.tanks, this.bullets);
+        this.grid.draw(this.map.field, this.tanks, this.bullets);
     }
 
     private spawnAllPlayers() {
@@ -57,6 +57,7 @@ export class Game {
             this.tanks[i].x = this.map.getSpawnPointByX(i);
             this.tanks[i].y = this.map.getSpawnPointByY(i);
         }
+
     }
 
     public start() {
