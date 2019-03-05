@@ -6,18 +6,18 @@ import { BulletMove } from "../Models/enums/BulletMove";
 import { Units } from "./Units"
 
 export class Grid {
-  canvas: HTMLCanvasElement
-  ctx: CanvasRenderingContext2D
-  height: number = window.innerHeight
-  width: number = window.innerWidth - 200;
-  cellSizeWidth: number = this.width / 52;
-  cellSizeHeight: number = this.height / 52;
+  canvas: HTMLCanvasElement;
+  ctx: CanvasRenderingContext2D;
+  totalHeight: number = window.innerHeight;
+  totalWidth: number = window.innerWidth;
+  gameSize: number = this.totalHeight <= this.totalWidth ? this.totalHeight : this.totalWidth;
+  cellSize: number = this.gameSize / 52;
   rootImg: string = "https://res.cloudinary.com/phonecasemaggie/image/upload/";
 
   constructor() {
     this.canvas = <HTMLCanvasElement>document.getElementById('canvas')
-    this.canvas.width = this.width
-    this.canvas.height = this.height
+    this.canvas.width = this.totalWidth
+    this.canvas.height = this.totalHeight
     this.ctx = <CanvasRenderingContext2D>this.canvas.getContext("2d");
   };
 
@@ -26,30 +26,37 @@ export class Grid {
     switch(type){
       case Units.base : 
         img.src = this.rootImg + "v1550860699/TanksAsserts/" + type + ".png";
-        this.ctx.drawImage(img, (x * 4 * this.cellSizeWidth), (y * 4 * this.cellSizeHeight), this.cellSizeWidth * 4, this.cellSizeHeight * 4);
+        this.ctx.drawImage(img, (x * 4 * this.cellSize), (y * 4 * this.cellSize), this.cellSize * 4, this.cellSize * 4);
         break;
       case Units.brick :
         img.src = this.rootImg + "v1550848759/TanksAsserts/" + type + ".png";
-        this.ctx.drawImage(img, x * this.cellSizeWidth, y * this.cellSizeHeight, this.cellSizeWidth + 1, this.cellSizeHeight + 1);
+        this.ctx.drawImage(img, x * this.cellSize, y * this.cellSize, this.cellSize + 1, this.cellSize + 1);
         break;
       case Units.hardBrick : 
         img.src = this.rootImg + "v1550848848/TanksAsserts/" + type + ".png";
-        this.ctx.drawImage(img, x * this.cellSizeWidth, y * this.cellSizeHeight, this.cellSizeWidth + 1, this.cellSizeHeight + 1);
+        this.ctx.drawImage(img, x * this.cellSize, y * this.cellSize, this.cellSize + 1, this.cellSize + 1);
         break;
       case Units.green :
         img.src = this.rootImg + "v1550849482/TanksAsserts/" + type + ".png";
-        this.ctx.drawImage(img, x * this.cellSizeWidth, y * this.cellSizeHeight, this.cellSizeWidth + 1, this.cellSizeHeight + 1);
+        this.ctx.drawImage(img, x * this.cellSize, y * this.cellSize, this.cellSize + 1, this.cellSize + 1);
         break;
     }
+  }
+
+  drawBorder() {
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.fillStyle = '#999';
+    this.ctx.fillRect(this.cellSize, this.cellSize, 13 * this.cellSize, 13 * this.cellSize);
   }
 
   drawRoad() {
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.fillStyle = '#000';
-    this.ctx.fillRect(this.cellSizeWidth, this.cellSizeHeight, 13 * this.cellSizeWidth, 13 * this.cellSizeHeight)
+    this.ctx.fillRect(this.cellSize, this.cellSize, 13 * this.cellSize, 13 * this.cellSize)
   };
 
   drawGrid(map: number[][], tanks: Tank[], bullets: Bullet[]) {
+    //this.drawBorder();
     this.drawRoad();
     this.drawUnit(6,12, Units.base);
     for (var j = 0; j < map.length; j++) {
@@ -103,7 +110,7 @@ export class Grid {
         tank.src = this.setRightTurn(turn, type);
         break;
     }
-    this.ctx.drawImage(tank, x * this.cellSizeWidth, y * this.cellSizeHeight, this.cellSizeWidth * 4, this.cellSizeHeight * 4)
+    this.ctx.drawImage(tank, x * this.cellSize, y * this.cellSize, this.cellSize * 4, this.cellSize * 4)
   };
 
   drawAllTanks(allTanks: Tank[]){
@@ -136,7 +143,7 @@ export class Grid {
     this.ctx.globalCompositeOperation = 'source-over';
     let bullet = document.createElement("img")
     bullet.src = this.setRightTurnForBullet(turn);
-    this.ctx.drawImage(bullet, x * this.cellSizeWidth + this.cellSizeWidth/2, y * this.cellSizeHeight + this.cellSizeHeight/2, this.cellSizeWidth, this.cellSizeHeight)
+    this.ctx.drawImage(bullet, x * this.cellSize + this.cellSize/2, y * this.cellSize + this.cellSize/2, this.cellSize, this.cellSize)
   };
 
   drawAllBullets(allBullet: Bullet[]){
