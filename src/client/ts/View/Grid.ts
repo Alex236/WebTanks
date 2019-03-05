@@ -1,6 +1,6 @@
 import { Tank } from "../Models/Tank";
 import { TankType } from "../Models/enums/TankType";
-import { TankMove } from "../Models/enums/TankMove";
+import { Vector } from "../Models/enums/Vector";
 import { Bullet } from "../Models/Bullet";
 import { BulletMove } from "../Models/enums/BulletMove";
 import { Units } from "./Units"
@@ -78,26 +78,26 @@ export class Grid {
     this.drawAllBullets(bullets);
   };
 
-  setRightTurn(turn: TankMove, type: TankType){
+  setRightTurn(turn: Vector, type: TankType){
     let trueTank = "";
     switch(turn){
-      case TankMove.down:
+      case Vector.down:
         trueTank = "https://res.cloudinary.com/phonecasemaggie/image/upload/v1551004169/TanksAsserts/Tank/"+type+"/tankOne.ico";
         break;
-      case TankMove.up:
+      case Vector.up:
         trueTank = "https://res.cloudinary.com/phonecasemaggie/image/upload/a_180/v1551004169/TanksAsserts/Tank/"+type+"/tankOne.ico";
         break;
-      case TankMove.right:
+      case Vector.right:
         trueTank = "https://res.cloudinary.com/phonecasemaggie/image/upload/a_270/v1551004169/TanksAsserts/Tank/"+type+"/tankOne.ico";
         break;
-      case TankMove.left:
+      case Vector.left:
         trueTank = "https://res.cloudinary.com/phonecasemaggie/image/upload/a_90/v1551004169/TanksAsserts/Tank/"+type+"/tankOne.ico";
         break;
     }
     return trueTank;
   };
 
-  drawTank(x: number, y: number, type: TankType, turn: TankMove) {
+  drawTank(x: number, y: number, type: TankType, turn: Vector) {
     this.ctx.globalCompositeOperation = 'source-over';
     let tank = document.createElement("img")
     switch(type){

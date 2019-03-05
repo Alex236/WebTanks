@@ -2,7 +2,7 @@ import { KeyCode } from '../EventHandler/enums/KeyCode'
 import { Tank } from '../Models/Tank';
 import { BlockType } from '../Models/enums/BlockType';
 import { Parameters } from '../Parameters';
-import { TankMove } from '../Models/enums/TankMove';
+import { Vector } from '../Models/enums/Vector';
 
 
 export class CalculateTanksMove {
@@ -23,32 +23,32 @@ export class CalculateTanksMove {
     private step(tank: Tank) {
         switch (tank.pressedUserButtons[0]) {
             case KeyCode.up:
-                if (tank.tankMove != TankMove.up) {
-                    tank.tankMove = TankMove.up;
+                if (tank.tankMove != Vector.up) {
+                    tank.tankMove = Vector.up;
                 }
                 else {
                     this.move(KeyCode.up, tank);
                 }
                 break;
             case KeyCode.down:
-                if (tank.tankMove != TankMove.down) {
-                    tank.tankMove = TankMove.down;
+                if (tank.tankMove != Vector.down) {
+                    tank.tankMove = Vector.down;
                 }
                 else {
                     this.move(KeyCode.down, tank);
                 }
                 break;
             case KeyCode.left:
-                if (tank.tankMove != TankMove.left) {
-                    tank.tankMove = TankMove.left;
+                if (tank.tankMove != Vector.left) {
+                    tank.tankMove = Vector.left;
                 }
                 else {
                     this.move(KeyCode.left, tank);
                 }
                 break;
             case KeyCode.right:
-                if (tank.tankMove != TankMove.right) {
-                    tank.tankMove = TankMove.right;
+                if (tank.tankMove != Vector.right) {
+                    tank.tankMove = Vector.right;
                 }
                 else {
                     this.move(KeyCode.right, tank);
