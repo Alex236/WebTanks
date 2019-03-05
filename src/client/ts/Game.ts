@@ -108,7 +108,7 @@ export class Game {
         this.allEvents.splice(0, count);
     }
 
-    up(tank: Tank) {
+    private up(tank: Tank) {
         if (tank.tankMove != Vector.up) {
             tank.tankMove = Vector.up;
         }
@@ -124,7 +124,7 @@ export class Game {
         }
     }
 
-    down(tank: Tank) {
+    private down(tank: Tank) {
         if (tank.tankMove != Vector.down) {
             tank.tankMove = Vector.down;
         }
@@ -140,7 +140,7 @@ export class Game {
         }
     }
 
-    left(tank: Tank) {
+    private left(tank: Tank) {
         if (tank.tankMove != Vector.left) {
             tank.tankMove = Vector.left;
         }
@@ -156,7 +156,7 @@ export class Game {
         }
     }
 
-    right (tank: Tank) {
+    private right(tank: Tank) {
         if (tank.tankMove != Vector.right) {
             tank.tankMove = Vector.right;
         }
