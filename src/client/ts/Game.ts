@@ -1,15 +1,11 @@
 import { Parameters } from "./Parameters"
 import { EventType } from "./EventHandler/enums/EventType";
-import { Button } from "./EventHandler/enums/Button";
+import { KeyCode } from "./EventHandler/enums/KeyCode";
 import { BlockType } from "./Models/enums/BlockType";
 import { Grid } from "./View/Grid";
 import { CalculateTanksMove } from "./Controllers/CalculateTanksMove";
-import { CalculateBulletMove } from "./Controllers/CalculateBulletMove";
-import { FieldProcessor } from "./Controllers/FieldProcessor";
-import { GenerateBullets } from "./Controllers/GenerateBullets";
 import { Bullet } from "./Models/Bullet";
 import { Tank } from "./Models/Tank";
-import { Units } from "./View/Units";
 
 
 export class Game {
@@ -18,42 +14,19 @@ export class Game {
     private bullets: Bullet[] = [];
     private map: BlockType[][];
     private calculateTanksMove: CalculateTanksMove;
-    private calculateBulletMove: CalculateBulletMove;
-    private generateBullets: GenerateBullets;
-    private fieldProcessor: FieldProcessor;
-    private cycleCounter: number = 0;
     private grid: Grid = new Grid();
 
     constructor(tanks: Tank[], map: BlockType[][]) {
         this.tanks = tanks;
         this.map = map;
         this.calculateTanksMove = new CalculateTanksMove(this.tanks, this.map);
-        this.calculateBulletMove = new CalculateBulletMove(this.bullets, this.map);
-        this.generateBullets = new GenerateBullets(this.tanks, this.bullets);
-        this.fieldProcessor = new FieldProcessor(this.map, this.tanks, this.bullets);
     }
 
     private calculate() {
-        if (this.cycleCounter == 0) {
-            this.cycleCounter++;
-            this.deleteUselessEvents();
-            this.calculateTanksMove.doStep();
-            this.fieldProcessor.setTanksOnMap();
-            this.generateBullets.generate();
-            this.calculateBulletMove.doStep();
-            this.fieldProcessor.setBulletsOnMap();
-            this.fieldProcessor.clearMap();
-        }
-        else {
-            this.cycleCounter++;
-            this.fieldProcessor.setTanksOnMap();
-            this.calculateBulletMove.doStep();
-            this.fieldProcessor.setBulletsOnMap();
-            this.fieldProcessor.clearMap();
-            if (this.cycleCounter == Parameters.bulletSpeed) {
-                this.cycleCounter = 0;
-            }
-        }
+        this.deleteUselessEvents();
+        this.calculateTanksMove.doStep();
+        //this.generateBullets.generate();
+        //this.calculateBulletMove.doStep();
     }
 
     private drawing() {
@@ -74,34 +47,26 @@ export class Game {
 
     private defineEvent(event: KeyboardEvent) {
         switch (event.keyCode) {
-            case Button.up:
-                this.addEvent(EventType.pressedUp);
+            case KeyCode.up:
+                this.allEvents.push(EventType.pressedUp);
                 break;
-            case Button.down:
-                this.addEvent(EventType.pressedDown);
+            case KeyCode.down:
+                this.allEvents.push(EventType.pressedDown);
                 break;
-            case Button.left:
-                this.addEvent(EventType.pressedLeft);
+            case KeyCode.left:
+                this.allEvents.push(EventType.pressedLeft);
                 break;
-            case Button.right:
-                this.addEvent(EventType.pressedRight);
+            case KeyCode.right:
+                this.allEvents.push(EventType.pressedRight);
                 break;
-            case Button.space:
-                this.addEvent(EventType.pressedSpace);
+            case KeyCode.space:
+                this.allEvents.push(EventType.pressedSpace);
                 break;
         }
     }
 
-    private addEvent(event: EventType) {
-        this.allEvents.push(event);
-    }
-
-    private deleteCheckedEvents(i: number) {
-        this.allEvents.splice(0, i);
-    }
-
     private deleteUselessEvents() {
-        this.tanks[0].getPressedButtons().cleanButtons();
+        this.tanks[0].pressedUserButtons = [];
         let move: boolean = false;
         let shoot: boolean = false;
         let count = this.allEvents.length;
@@ -110,31 +75,31 @@ export class Game {
                 case EventType.pressedUp:
                     if (!move) {
                         move = true;
-                        this.tanks[0].getPressedButtons().setArrowUp(true);
+                        this.tanks[0].pressedUserButtons[0] = KeyCode.up;
                     }
                     break;
                 case EventType.pressedDown:
                     if (!move) {
                         move = true;
-                        this.tanks[0].getPressedButtons().setArrowDown(true);
+                        this.tanks[0].pressedUserButtons[0] = KeyCode.down;
                     }
                     break;
                 case EventType.pressedLeft:
                     if (!move) {
                         move = true;
-                        this.tanks[0].getPressedButtons().setArrowLeft(true);
+                        this.tanks[0].pressedUserButtons[0] = KeyCode.left;
                     }
                     break;
                 case EventType.pressedRight:
                     if (!move) {
                         move = true;
-                        this.tanks[0].getPressedButtons().setArrowRight(true);
+                        this.tanks[0].pressedUserButtons[0] = KeyCode.right;
                     }
                     break;
                 case EventType.pressedSpace:
                     if (!shoot) {
                         shoot = true;
-                        this.tanks[0].getPressedButtons().setSpace(true);
+                        this.tanks[0].pressedUserButtons[1] = KeyCode.space;
                     }
                     break;
                 case EventType.bulletFlight:
@@ -143,6 +108,6 @@ export class Game {
                     break;
             }
         }
-        this.deleteCheckedEvents(count);
+        this.allEvents.splice(0, count);
     }
 }

@@ -1,4 +1,4 @@
-export enum Button {
+export enum KeyCode {
     up = 38,
     down = 40,
     left = 37,
