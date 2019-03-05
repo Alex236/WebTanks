@@ -81,7 +81,6 @@ export class Grid {
   drawAllBullets(allBullet: Bullet[]){
     for(let bullet of allBullet){
       this.drawUnit(bullet.x, bullet.y, Units.bullet, bullet.getMove());
-      console.log(bullet.getMove());
     }
   };
 }
