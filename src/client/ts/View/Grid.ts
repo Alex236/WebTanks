@@ -94,13 +94,13 @@ export class Grid {
 
   drawAllTanks(allTanks: Tank[]){
     for(let tank of allTanks){
-      this.drawUnit(tank.x, tank.y, Units.tank, tank.vector, tank.getType());
+      this.drawUnit(tank.x, tank.y, Units.tank, tank.vector, tank.type);
     }
   };
   
   drawAllBullets(allBullet: Bullet[]){
     for(let bullet of allBullet){
-      this.drawUnit(bullet.x, bullet.y, Units.bullet, bullet.getMove());
+      this.drawUnit(bullet.x, bullet.y, Units.bullet, bullet.vector);
     }
   };
 }

@@ -1,21 +1,24 @@
 import { Vector } from './enums/Vector';
 import { TankType } from '../Models/enums/TankType';
-import { KeyCode } from "../EventHandler/enums/KeyCode";
 import { Item } from './Item';
 
 export class Tank extends Item {
-    private tankType: TankType;
+    public readonly type: TankType;
     public vector: Vector;
     public move: boolean = false;
     public shoot: boolean = false;
+    public readonly spawnPointX: number;
+    public readonly spawnPointY: number;
+    public readonly spawnVector: Vector;
 
-    constructor(tankType: TankType, vector: Vector) {
+    constructor(type: TankType, spawnPointX: number, spawnPointY: number, spawnVector: Vector) {
         super();
-        this.tankType = tankType;
-        this.vector = vector;
-    }
-
-    public getType(): TankType {
-        return this.tankType;
+        this.type = type;
+        this.x = spawnPointX;
+        this.y = spawnPointY;
+        this.vector = spawnVector;
+        this.spawnPointX = spawnPointX;
+        this.spawnPointY = spawnPointY;
+        this.spawnVector = spawnVector;
     }
 }

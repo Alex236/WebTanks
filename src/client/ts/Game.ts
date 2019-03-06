@@ -8,42 +8,45 @@ import { Tank } from "./Models/Tank";
 import { Vector } from "./Models/enums/Vector"
 import { Arena } from "./Models/Arena";
 import { Event } from "./EventHandler/Event";
+import { TankType } from "./Models/enums/TankType";
 
 
 export class Game {
-    private tanks: Tank[];
+    private tanks: Tank[] = [];
     private allEvents: Event[] = [];
     private filteredEvents: Event[] = [];
     private bullets: Bullet[] = [];
     private arena: Arena;
     private grid: Grid = new Grid();
 
-    constructor(tanks: Tank[], arena: Arena) {
-        this.tanks = tanks;
+    constructor(players: number, arena: Arena) {
+        this.tanks.push(new Tank(TankType.user, <number>arena.spawnPoint.pop(), <number>arena.spawnPoint.pop(), <Vector>arena.spawnVector.pop()));
+        this.tanks.push(new Tank(TankType.enemy, <number>arena.spawnPoint.pop(), <number>arena.spawnPoint.pop(), <Vector>arena.spawnVector.pop()));
         this.arena = arena;
     }
 
     private calculate() {
         this.deleteUselessEvents();
-        this.filteredEvents.forEach(evnt => this.move(evnt));
+        this.filteredEvents.forEach(event => this.move(event));
         this.filteredEvents.splice(0, this.filteredEvents.length);
     }
 
-    private move(evnt: Event) {
-        switch (evnt.eventType) {
+    private move(event: Event) {
+        switch (event.eventType) {
             case EventType.pressedUp:
-                this.tankUp(evnt.tank);
+                this.tankUp(event.tank);
                 break;
             case EventType.pressedDown:
-                this.tankDown(evnt.tank);
+                this.tankDown(event.tank);
                 break;
             case EventType.pressedLeft:
-                this.tankLeft(evnt.tank);
+                this.tankLeft(event.tank);
                 break;
             case EventType.pressedRight:
-                this.tankRight(evnt.tank);
+                this.tankRight(event.tank);
                 break;
             case EventType.pressedSpace:
+                this.shoot(event.tank)
                 break;
         }
     }
@@ -52,17 +55,7 @@ export class Game {
         this.grid.draw(this.arena.field, this.tanks, this.bullets);
     }
 
-    private spawnAllPlayers() {
-        for (let i: number = 0; i < this.tanks.length; i++) {
-            this.tanks[i].x = this.arena.getSpawnPointByX(i);
-            this.tanks[i].y = this.arena.getSpawnPointByY(i);
-        }
-
-    }
-
     public start() {
-        this.spawnAllPlayers();
-
         let keys: number[] = [];
         document.onkeydown = (e) => {
             var code = e.which;
@@ -169,19 +162,97 @@ export class Game {
         });
     }
 
+    private respawn(tank: Tank) {
+        tank.x = tank.spawnPointX;
+        tank.y = tank.spawnPointY;
+        tank.vector = tank.spawnVector;
+    }
+
     private shoot(tank: Tank) {
         switch (tank.vector) {
             case Vector.up:
-                //this.bullets.push(new Bullet());
+                if (tank.y != 0) {
+                    this.bullets.push(new Bullet(tank.x + 1, tank.y - 1, Vector.up));
+                    if (this.arena.field[tank.y - 1][tank.x + 1] == BlockType.road && this.arena.field[tank.y - 1][tank.x + 2] == BlockType.road) {
+                        this.tanks.forEach(element => {
+                            if (tank.x - 2 <= element.x && element.x <= tank.x + 2 && element.y + 4 == tank.y) {
+                                this.respawn(element);
+                                this.bullets.pop();
+                            }
+                        });
+                    }
+                    else {
+                        for (let i: number = 0; i < Parameters.bulletDestroy; i++) {
+                            if (this.arena.field[tank.y - 1][tank.x + i] == BlockType.brick) {
+                                this.arena.field[tank.y - 1][tank.x + i] = BlockType.road;
+                            }
+                        }
+                        this.bullets.pop();
+                    }
+                }
                 break;
             case Vector.down:
-                //this.bullets.push(new Bullet());
+                if (tank.y != 0) {
+                    this.bullets.push(new Bullet(tank.x + 1, tank.y + 3, Vector.down));
+                    if (this.arena.field[tank.y + 4][tank.x + 1] == BlockType.road && this.arena.field[tank.y + 4][tank.x + 2] == BlockType.road) {
+                        this.tanks.forEach(element => {
+                            if (tank.x - 2 <= element.x && element.x <= tank.x + 2 && element.y - 4 == tank.y) {
+                                this.respawn(element);
+                                this.bullets.pop();
+                            }
+                        });
+                    }
+                    else {
+                        for (let i: number = 0; i < Parameters.bulletDestroy; i++) {
+                            if (this.arena.field[tank.y + 4][tank.x + i] == BlockType.brick) {
+                                this.arena.field[tank.y + 4][tank.x + i] = BlockType.road;
+                            }
+                        }
+                        this.bullets.pop();
+                    }
+                }
                 break;
             case Vector.left:
-                //this.bullets.push(new Bullet());
+                if (tank.x != 0) {
+                    this.bullets.push(new Bullet(tank.x - 1, tank.y + 1, Vector.left));
+                    if (this.arena.field[tank.y + 1][tank.x - 1] == BlockType.road && this.arena.field[tank.y + 2][tank.x - 1] == BlockType.road) {
+                        this.tanks.forEach(element => {
+                            if (tank.y - 2 <= element.y && element.y <= tank.y + 2 && element.x + 4 == tank.x) {
+                                this.respawn(element);
+                                this.bullets.pop();
+                            }
+                        });
+                    }
+                    else {
+                        for (let i: number = 0; i < Parameters.bulletDestroy; i++) {
+                            if (this.arena.field[tank.y + i][tank.x - 1] == BlockType.brick) {
+                                this.arena.field[tank.y + i][tank.x - 1] = BlockType.road;
+                            }
+                        }
+                        this.bullets.pop();
+                    }
+                }
                 break;
             case Vector.right:
-                //this.bullets.push(new Bullet());
+                if (tank.y != 0) {
+                    this.bullets.push(new Bullet(tank.x + 3, tank.y + 1, Vector.right));
+                    if (this.arena.field[tank.y + 1][tank.x + 4] == BlockType.road && this.arena.field[tank.y + 2][tank.x + 4] == BlockType.road) {
+                        this.tanks.forEach(element => {
+                            if (tank.y - 2 <= element.y && element.y <= tank.y + 2 && element.x - 4 == tank.x) {
+                                this.respawn(element);
+                                this.bullets.pop();
+                            }
+                        });
+                    }
+                    else {
+                        for (let i: number = 0; i < Parameters.bulletDestroy; i++) {
+                            if (this.arena.field[tank.y + i][tank.x + 4] == BlockType.brick) {
+                                this.arena.field[tank.y + i][tank.x + 4] = BlockType.road;
+                            }
+                        }
+                        this.bullets.pop();
+                    }
+                }
                 break;
         }
     }
@@ -213,7 +284,6 @@ export class Game {
     }
 
     private tankDown(tank: Tank) {
-        console.log("tankdwn");
         if (tank.vector != Vector.down) {
             tank.vector = Vector.down;
         }

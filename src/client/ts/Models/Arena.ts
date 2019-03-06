@@ -1,4 +1,5 @@
 import { BlockType } from "./enums/BlockType";
+import { Vector } from "./enums/Vector";
 
 export class Arena {
     public field: BlockType[][] = [
@@ -56,13 +57,6 @@ export class Arena {
         [1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1]
     ];
 
-    private spawnPoint: number[] = [22, 25, 27, 25];
-
-    public getSpawnPointByX(point: number): number {
-        return this.spawnPoint[point * 2];
-    }
-
-    public getSpawnPointByY(point: number): number {
-        return this.spawnPoint[point * 2 + 1];
-    }
+    public spawnPoint: number[] = [22, 25, 27, 25];
+    public spawnVector: Vector[] = [Vector.up, Vector.up];
 }

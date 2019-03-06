@@ -5,5 +5,6 @@ export class Parameters {
     static readonly fieldHeight: number = 52;
     static readonly tankSize: number = 4;
     static readonly bulletSize: number = 2;
+    static readonly bulletDestroy: number = 4;
     static readonly timer: number = 50;
 }
