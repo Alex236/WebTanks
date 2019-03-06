@@ -15,12 +15,12 @@ export class Game {
     private allEvents: Event[] = [];
     private filteredEvents: Event[] = [];
     private bullets: Bullet[] = [];
-    private map: Arena;
+    private arena: Arena;
     private grid: Grid = new Grid();
 
-    constructor(tanks: Tank[], map: Arena) {
+    constructor(tanks: Tank[], arena: Arena) {
         this.tanks = tanks;
-        this.map = map;
+        this.arena = arena;
     }
 
     private calculate() {
@@ -49,32 +49,31 @@ export class Game {
     }
 
     private drawing() {
-        this.grid.draw(this.map.field, this.tanks, this.bullets);
+        this.grid.draw(this.arena.field, this.tanks, this.bullets);
     }
 
     private spawnAllPlayers() {
         for (let i: number = 0; i < this.tanks.length; i++) {
-            this.tanks[i].x = this.map.getSpawnPointByX(i);
-            this.tanks[i].y = this.map.getSpawnPointByY(i);
+            this.tanks[i].x = this.arena.getSpawnPointByX(i);
+            this.tanks[i].y = this.arena.getSpawnPointByY(i);
         }
 
     }
 
     public start() {
         this.spawnAllPlayers();
-        
+
         let keys: number[] = [];
         document.onkeydown = (e) => {
             var code = e.which;
-            if (keys.indexOf(code)<0){
+            if (keys.indexOf(code) < 0) {
                 keys.push(code);
             }
             this.defineEvent(keys);
         };
-        
+
         document.onkeyup = (e) => {
-            keys.splice(keys.indexOf(e.which),1);
-            console.log(keys);
+            keys.splice(keys.indexOf(e.which), 1);
         };
 
         setInterval(() => {
@@ -126,7 +125,6 @@ export class Game {
         let count = this.allEvents.length;
         for (let i: number = 0; i < count; i++) {
             let temp: number = i;
-            console.log(this.allEvents[temp]);
             switch (this.allEvents[temp].eventType) {
                 case EventType.pressedUp:
                     if (!this.allEvents[temp].tank.move) {
@@ -195,11 +193,21 @@ export class Game {
         else {
             if (tank.y > 0) {
                 for (let i: number = 0; i < Parameters.tankSize; i++) {
-                    if (this.map.field[tank.y - 1][tank.x + i] != BlockType.road) {
+                    if (this.arena.field[tank.y - 1][tank.x + i] != BlockType.road) {
                         return;
                     }
                 }
-                tank.y = tank.y - 1;
+                let counter: number = 0;
+                this.tanks.forEach((element) => {
+                    if (!(element.x == tank.x && element.y == tank.y)) {
+                        if (element.x + 3 < tank.x || tank.x + 3 < element.x || element.y + 4 < tank.y || tank.y + 3 < element.y) {
+                            counter++;
+                        }
+                    }
+                });
+                if (counter == this.tanks.length - 1) {
+                    tank.y--;
+                }
             }
         }
     }
@@ -212,11 +220,21 @@ export class Game {
         else {
             if (tank.y < Parameters.fieldHeight - Parameters.tankSize) {
                 for (let i: number = 0; i < Parameters.tankSize; i++) {
-                    if (this.map.field[tank.y + Parameters.tankSize][tank.x + i] != BlockType.road) {
+                    if (this.arena.field[tank.y + Parameters.tankSize][tank.x + i] != BlockType.road) {
                         return;
                     }
                 }
-                tank.y = tank.y + 1;
+                let counter: number = 0;
+                this.tanks.forEach((element) => {
+                    if (!(element.x == tank.x && element.y == tank.y)) {
+                        if (element.x + 3 < tank.x || tank.x + 3 < element.x || element.y + 3 < tank.y || tank.y + 4 < element.y) {
+                            counter++;
+                        }
+                    }
+                });
+                if (counter == this.tanks.length - 1) {
+                    tank.y++;
+                }
             }
         }
     }
@@ -228,11 +246,21 @@ export class Game {
         else {
             if (tank.x > 0) {
                 for (let i: number = 0; i < Parameters.tankSize; i++) {
-                    if (this.map.field[tank.y + i][tank.x - 1] != BlockType.road) {
+                    if (this.arena.field[tank.y + i][tank.x - 1] != BlockType.road) {
                         return;
                     }
                 }
-                tank.x = tank.x - 1;
+                let counter: number = 0;
+                this.tanks.forEach((element) => {
+                    if (!(element.x == tank.x && element.y == tank.y)) {
+                        if (element.x + 4 < tank.x || tank.x + 3 < element.x || element.y + 3 < tank.y || tank.y + 3 < element.y) {
+                            counter++;
+                        }
+                    }
+                });
+                if (counter == this.tanks.length - 1) {
+                    tank.x--;
+                }
             }
         }
     }
@@ -244,11 +272,21 @@ export class Game {
         else {
             if (tank.x < Parameters.fieldWidth - Parameters.tankSize) {
                 for (let i: number = 0; i < Parameters.tankSize; i++) {
-                    if (this.map.field[tank.y + i][tank.x + Parameters.tankSize] != BlockType.road) {
+                    if (this.arena.field[tank.y + i][tank.x + Parameters.tankSize] != BlockType.road) {
                         return;
                     }
                 }
-                tank.x = tank.x + 1;
+                let counter: number = 0;
+                this.tanks.forEach((element) => {
+                    if (!(element.x == tank.x && element.y == tank.y)) {
+                        if (element.x + 3 < tank.x || tank.x + 4 < element.x || element.y + 3 < tank.y || tank.y + 3 < element.y) {
+                            counter++;
+                        }
+                    }
+                });
+                if (counter == this.tanks.length - 1) {
+                    tank.x++;
+                }
             }
         }
     }

@@ -56,7 +56,7 @@ export class Arena {
         [1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1]
     ];
 
-    private spawnPoint: number[] = [0, 0, 33, 47];
+    private spawnPoint: number[] = [22, 25, 27, 25];
 
     public getSpawnPointByX(point: number): number {
         return this.spawnPoint[point * 2];
