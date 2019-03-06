@@ -1,6 +1,7 @@
 import { Vector } from './enums/Vector';
 import { TankType } from '../Models/enums/TankType';
 import { Item } from './Item';
+import { Parameters } from '../Parameters';
 
 export class Tank extends Item {
     public readonly type: TankType;
@@ -10,6 +11,7 @@ export class Tank extends Item {
     public readonly spawnPointX: number;
     public readonly spawnPointY: number;
     public readonly spawnVector: Vector;
+    public lifes: number = Parameters.playerLifes;
 
     constructor(type: TankType, spawnPointX: number, spawnPointY: number, spawnVector: Vector) {
         super();

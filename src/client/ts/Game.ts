@@ -297,6 +297,11 @@ export class Game {
     }
 
     private respawn(tank: Tank) {
+        if(tank.lifes == 0) {
+            alert("End Game:)");
+            clearInterval(1);
+        }
+        tank.lifes--;
         tank.x = tank.spawnPointX;
         tank.y = tank.spawnPointY;
         tank.vector = tank.spawnVector;
