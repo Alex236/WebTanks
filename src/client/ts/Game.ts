@@ -15,12 +15,12 @@ export class Game {
     private allEvents: Event[] = [];
     private filteredEvents: Event[] = [];
     private bullets: Bullet[] = [];
-    private map: Arena;
+    private arena: Arena;
     private grid: Grid = new Grid();
 
-    constructor(tanks: Tank[], map: Arena) {
+    constructor(tanks: Tank[], arena: Arena) {
         this.tanks = tanks;
-        this.map = map;
+        this.arena = arena;
     }
 
     private calculate() {
@@ -49,13 +49,13 @@ export class Game {
     }
 
     private drawing() {
-        this.grid.draw(this.map.field, this.tanks, this.bullets);
+        this.grid.draw(this.arena.field, this.tanks, this.bullets);
     }
 
     private spawnAllPlayers() {
         for (let i: number = 0; i < this.tanks.length; i++) {
-            this.tanks[i].x = this.map.getSpawnPointByX(i);
-            this.tanks[i].y = this.map.getSpawnPointByY(i);
+            this.tanks[i].x = this.arena.getSpawnPointByX(i);
+            this.tanks[i].y = this.arena.getSpawnPointByY(i);
         }
 
     }
@@ -193,7 +193,7 @@ export class Game {
         else {
             if (tank.y > 0) {
                 for (let i: number = 0; i < Parameters.tankSize; i++) {
-                    if (this.map.field[tank.y - 1][tank.x + i] != BlockType.road) {
+                    if (this.arena.field[tank.y - 1][tank.x + i] != BlockType.road) {
                         return;
                     }
                 }
@@ -220,7 +220,7 @@ export class Game {
         else {
             if (tank.y < Parameters.fieldHeight - Parameters.tankSize) {
                 for (let i: number = 0; i < Parameters.tankSize; i++) {
-                    if (this.map.field[tank.y + Parameters.tankSize][tank.x + i] != BlockType.road) {
+                    if (this.arena.field[tank.y + Parameters.tankSize][tank.x + i] != BlockType.road) {
                         return;
                     }
                 }
@@ -246,7 +246,7 @@ export class Game {
         else {
             if (tank.x > 0) {
                 for (let i: number = 0; i < Parameters.tankSize; i++) {
-                    if (this.map.field[tank.y + i][tank.x - 1] != BlockType.road) {
+                    if (this.arena.field[tank.y + i][tank.x - 1] != BlockType.road) {
                         return;
                     }
                 }
@@ -272,7 +272,7 @@ export class Game {
         else {
             if (tank.x < Parameters.fieldWidth - Parameters.tankSize) {
                 for (let i: number = 0; i < Parameters.tankSize; i++) {
-                    if (this.map.field[tank.y + i][tank.x + Parameters.tankSize] != BlockType.road) {
+                    if (this.arena.field[tank.y + i][tank.x + Parameters.tankSize] != BlockType.road) {
                         return;
                     }
                 }
