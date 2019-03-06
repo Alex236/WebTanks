@@ -57,6 +57,6 @@ export class Arena {
         [1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1]
     ];
 
-    public spawnPoint: number[] = [2, 25, 46, 13];
+    public spawnPoint: number[] = [4, 25, 46, 13];
     public spawnVector: Vector[] = [Vector.up, Vector.up];
 }

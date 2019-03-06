@@ -16,6 +16,8 @@ export class Grid {
     this.canvas.width = this.totalWidth;
     this.canvas.height = this.totalHeight;
     this.ctx = <CanvasRenderingContext2D>this.canvas.getContext("2d");
+    this.ctx.fillStyle = "green";
+    this.ctx.font = "30pt Arial";
   };
 
   drawUnit(x : number, y : number, unit: number, turn: number = 0, type: number = 0){ 
@@ -79,6 +81,10 @@ export class Grid {
 
   drawAllTanks(allTanks: Tank[]){
     for(let tank of allTanks){
+      //lifes
+      this.ctx.fillStyle = "green";
+      this.ctx.font = "30pt Arial";
+      this.ctx.fillText(String(tank.lifes), (tank.x + 1)  * this.cellSize + this.totalWidth * 0.05, tank.y * this.cellSize + this.totalHeight * 0.05);
       this.drawUnit(tank.x, tank.y, Units.tank, tank.vector, tank.type);
     }
   };
