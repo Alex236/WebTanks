@@ -1,7 +1,7 @@
-import { BlockType } from "../Models/enums/BlockType";
+import { BlockType } from "./enums/BlockType";
 
-export class Map {
-    private loadField: BlockType[][] = [
+export class Area {
+    public field: BlockType[][] = [
         [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -56,17 +56,13 @@ export class Map {
         [1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1]
     ];
 
-    private spawnPoint: number[] = [13, 47, 33, 47];
-
-    public getField(): BlockType[][] {
-        return this.loadField;
-    }
+    private spawnPoint: number[] = [0, 0, 33, 47];
 
     public getSpawnPointByX(point: number): number {
-        return point * 2;
+        return this.spawnPoint[point * 2];
     }
 
     public getSpawnPointByY(point: number): number {
-        return point * 2 + 1;
+        return this.spawnPoint[point * 2 + 1];
     }
 }

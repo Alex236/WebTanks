@@ -94,7 +94,7 @@ export class Grid {
 
   drawAllTanks(allTanks: Tank[]){
     for(let tank of allTanks){
-      this.drawUnit(tank.x, tank.y, Units.tank, tank.tankMove, tank.getType());
+      this.drawUnit(tank.x, tank.y, Units.tank, tank.vector, tank.getType());
     }
   };
   
