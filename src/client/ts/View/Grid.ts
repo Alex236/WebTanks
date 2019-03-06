@@ -37,8 +37,8 @@ export class Grid {
         this.ctx.drawImage(this.img, 0, startPoint + 64*turn, 64, 64, x * this.cellSize + this.totalWidth * 0.05, y * this.cellSize + this.totalHeight * 0.05, this.cellSize * 4, this.cellSize * 4);    
         break;
       case Units.bullet :
-        let a = this.setTurnBullet(turn);
-        this.ctx.drawImage(this.img, 0, 0, a[0], a[1], (x * this.cellSize + this.cellSize/2) + this.totalWidth * 0.05, (y * this.cellSize + this.cellSize/2) + this.totalHeight * 0.05, this.cellSize, this.cellSize);
+        let a = turn <= 1 ? 1264 : 1296;
+        this.ctx.drawImage(this.img, 32*(turn%2), a, 32, 32,  (x * this.cellSize + this.cellSize/2) + this.totalWidth * 0.05, (y * this.cellSize + this.cellSize/2) + this.totalHeight * 0.05, this.cellSize, this.cellSize);
         break;
     } 
   }
@@ -52,21 +52,6 @@ export class Grid {
       break;
     }
     return startPoint;
-  }
-
-  setTurnBullet(turn?: number): number[]{
-    let a = [0,0]
-    switch(turn){
-      case 0: 
-        a = [0, 1264]
-      case 1:
-        a = [32, 1264]
-        case 2:
-        a = [0, 1296]
-      case 3:
-        a = [32,1296] 
-    }
-    return a;
   }
 
   drawBorder() {
