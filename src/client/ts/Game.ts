@@ -6,7 +6,7 @@ import { Grid } from "./View/Grid";
 import { Bullet } from "./Models/Bullet";
 import { Tank } from "./Models/Tank";
 import { Vector } from "./Models/enums/Vector"
-import { Area } from "./Models/Area";
+import { Arena } from "./Models/Arena";
 import { Event } from "./EventHandler/Event";
 
 
@@ -15,10 +15,10 @@ export class Game {
     private allEvents: Event[] = [];
     private filteredEvents: Event[] = [];
     private bullets: Bullet[] = [];
-    private map: Area;
+    private map: Arena;
     private grid: Grid = new Grid();
 
-    constructor(tanks: Tank[], map: Area) {
+    constructor(tanks: Tank[], map: Arena) {
         this.tanks = tanks;
         this.map = map;
     }
