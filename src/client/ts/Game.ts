@@ -6,7 +6,7 @@ import { Grid } from "./View/Grid";
 import { Bullet } from "./Models/Bullet";
 import { Tank } from "./Models/Tank";
 import { Vector } from "./Models/enums/Vector"
-import { Map } from "./Models/Map";
+import { Area } from "./Models/Area";
 import { Event } from "./EventHandler/Event";
 
 
@@ -15,10 +15,10 @@ export class Game {
     private allEvents: Event[] = [];
     private filteredEvents: Event[] = [];
     private bullets: Bullet[] = [];
-    private map: Map;
+    private map: Area;
     private grid: Grid = new Grid();
 
-    constructor(tanks: Tank[], map: Map) {
+    constructor(tanks: Tank[], map: Area) {
         this.tanks = tanks;
         this.map = map;
     }
@@ -62,51 +62,64 @@ export class Game {
 
     public start() {
         this.spawnAllPlayers();
-        addEventListener("keydown", (event) => {
-            this.defineEvent(event);
-        });
+        
+        let keys: number[] = [];
+        document.onkeydown = (e) => {
+            var code = e.which;
+            if (keys.indexOf(code)<0){
+                keys.push(code);
+            }
+            this.defineEvent(keys);
+        };
+        
+        document.onkeyup = (e) => {
+            keys.splice(keys.indexOf(e.which),1);
+            console.log(keys);
+        };
+
         setInterval(() => {
             this.drawing();
-            //console.log(this.allEvents.length);
             if (this.allEvents.length != 0 || this.bullets.length != 0) {
                 this.calculate();
             }
         }, Parameters.timer);
     }
 
-    private defineEvent(event: KeyboardEvent) {
-        switch (event.keyCode) {
-            case KeyCode.up:
-                this.allEvents.push(new Event(this.tanks[0], EventType.pressedUp));
-                break;
-            case KeyCode.down:
-                this.allEvents.push(new Event(this.tanks[0], EventType.pressedDown));
-                break;
-            case KeyCode.left:
-                this.allEvents.push(new Event(this.tanks[0], EventType.pressedLeft));
-                break;
-            case KeyCode.right:
-                this.allEvents.push(new Event(this.tanks[0], EventType.pressedRight));
-                break;
-            case KeyCode.enter:
-                this.allEvents.push(new Event(this.tanks[0], EventType.pressedSpace));
-                break;
-            case KeyCode.w:
-                this.allEvents.push(new Event(this.tanks[1], EventType.pressedUp));
-                break;
-            case KeyCode.s:
-                this.allEvents.push(new Event(this.tanks[1], EventType.pressedDown));
-                break;
-            case KeyCode.a:
-                this.allEvents.push(new Event(this.tanks[1], EventType.pressedLeft));
-                break;
-            case KeyCode.d:
-                this.allEvents.push(new Event(this.tanks[1], EventType.pressedRight));
-                break;
-            case KeyCode.space:
-                this.allEvents.push(new Event(this.tanks[1], EventType.pressedSpace));
-                break;
-        }
+    private defineEvent(keys: number[]) {
+        keys.forEach(key => {
+            switch (key) {
+                case KeyCode.up:
+                    this.allEvents.push(new Event(this.tanks[0], EventType.pressedUp));
+                    break;
+                case KeyCode.down:
+                    this.allEvents.push(new Event(this.tanks[0], EventType.pressedDown));
+                    break;
+                case KeyCode.left:
+                    this.allEvents.push(new Event(this.tanks[0], EventType.pressedLeft));
+                    break;
+                case KeyCode.right:
+                    this.allEvents.push(new Event(this.tanks[0], EventType.pressedRight));
+                    break;
+                case KeyCode.enter:
+                    this.allEvents.push(new Event(this.tanks[0], EventType.pressedSpace));
+                    break;
+                case KeyCode.w:
+                    this.allEvents.push(new Event(this.tanks[1], EventType.pressedUp));
+                    break;
+                case KeyCode.s:
+                    this.allEvents.push(new Event(this.tanks[1], EventType.pressedDown));
+                    break;
+                case KeyCode.a:
+                    this.allEvents.push(new Event(this.tanks[1], EventType.pressedLeft));
+                    break;
+                case KeyCode.d:
+                    this.allEvents.push(new Event(this.tanks[1], EventType.pressedRight));
+                    break;
+                case KeyCode.space:
+                    this.allEvents.push(new Event(this.tanks[1], EventType.pressedSpace));
+                    break;
+            }
+        });
     }
 
     private deleteUselessEvents() {
