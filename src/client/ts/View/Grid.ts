@@ -1,6 +1,7 @@
 import { Tank } from "../Models/Tank";
 import { Bullet } from "../Models/Bullet";
 import { Units } from "./Units"
+import { TankType } from "../Models/enums/TankType";
 
 export class Grid {
   canvas: HTMLCanvasElement;
@@ -16,8 +17,8 @@ export class Grid {
     this.canvas.width = this.totalWidth;
     this.canvas.height = this.totalHeight;
     this.ctx = <CanvasRenderingContext2D>this.canvas.getContext("2d");
-    this.ctx.fillStyle = "green";
-    this.ctx.font = "30pt Arial";
+    //this.ctx.fillStyle = "green";
+    //this.ctx.font = "30pt Arial";
   };
 
   drawUnit(x : number, y : number, unit: number, turn: number = 0, type: number = 0){ 
@@ -82,7 +83,14 @@ export class Grid {
   drawAllTanks(allTanks: Tank[]){
     for(let tank of allTanks){
       //lifes
-      this.ctx.fillStyle = "green";
+      switch(tank.type){
+        case (TankType.enemy): 
+          this.ctx.fillStyle = "rgb(100,0,0)";
+          break;
+          case (TankType.user) : 
+            this.ctx.fillStyle = "rgb(0,100,0)";
+          break;
+      }
       this.ctx.font = "30pt Arial";
       this.ctx.fillText(String(tank.lifes), (tank.x + 1)  * this.cellSize + this.totalWidth * 0.05, tank.y * this.cellSize + this.totalHeight * 0.05);
       this.drawUnit(tank.x, tank.y, Units.tank, tank.vector, tank.type);

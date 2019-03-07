@@ -304,7 +304,7 @@ export class Game {
         if(tank.lifes == 0) {
             this.sound.src = require("../assets/game_over.mp3");
             this.sound.play();
-            alert("End Game:)");
+            alert("Game Over!",);
             this.restartGame();
         }
         else {
