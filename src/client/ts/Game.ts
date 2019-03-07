@@ -62,13 +62,19 @@ export class Game {
                 return;
             }
             if(this.arena.field[bullet.y - i][bullet.x] == BlockType.road && this.arena.field[bullet.y - i][bullet.x + 1] == BlockType.road) {
+                let breakPoint: boolean = false;
                 this.tanks.forEach(element => {
                     if (bullet.x - 3 <= element.x && element.x <= bullet.x + 1 && element.y + i == bullet.y) {
                         this.respawn(element);
                         this.bullets.splice(bulletNumber, 1);
+                        breakPoint = true;
                         return;
                     }
                 });
+                if(breakPoint)
+                {
+                    return;
+                }
             }
             else {
                 for(let j: number = 0; j < Parameters.bulletDestroy; j++) {
@@ -118,13 +124,18 @@ export class Game {
                 return;
             }
             if(this.arena.field[bullet.y][bullet.x - i] == BlockType.road && this.arena.field[bullet.y + 1][bullet.x - i] == BlockType.road) {
+                let breakPoint: boolean = false;
                 this.tanks.forEach(element => {
                     if (bullet.y - 3 <= element.y && element.y <= bullet.y + 1 && element.x + i == bullet.x) {
                         this.respawn(element);
                         this.bullets.splice(bulletNumber, 1);
+                        breakPoint = true;
                         return;
                     }
                 });
+                if(breakPoint) {
+                    return;
+                }
             }
             else {
                 for(let j: number = 0; j < Parameters.bulletDestroy; j++) {
