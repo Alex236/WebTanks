@@ -308,9 +308,9 @@ export class Game {
             clearInterval(1);
         }
         tank.lifes--;
-        tank.x = tank.spawnPointX;
-        tank.y = tank.spawnPointY;
-        tank.vector = tank.spawnVector;
+        //tank.x = tank.spawnPointX;
+        //tank.y = tank.spawnPointY;
+        //tank.vector = tank.spawnVector;
     }
 
     private shoot(tank: Tank) {
