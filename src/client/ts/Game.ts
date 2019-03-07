@@ -313,7 +313,7 @@ export class Game {
         this.sound.src = require("../assets/killSomeone.mp3");
         this.sound.play();
         if(tank.lifes == 0) {
-            this.sound.src = require("../assets/endGame.mp3");
+            this.sound.src = require("../assets/game_over.mp3");
             this.sound.play();
             alert("End Game:)");
             this.restartGame();
