@@ -10,7 +10,6 @@ import { Arena } from "./Models/Arena";
 import { Event } from "./EventHandler/Event";
 import { TankType } from "./Models/enums/TankType";
 
-
 export class Game {
     private tanks: Tank[] = [];
     private allEvents: Event[] = [];
@@ -18,8 +17,11 @@ export class Game {
     private bullets: Bullet[] = [];
     private arena: Arena;
     private grid: Grid = new Grid();
+    private sound = new Audio();
 
     constructor(players: number, arena: Arena) {
+        this.sound.src = require("../assets/startGame.mp3");
+        this.sound.play();
         this.tanks.push(new Tank(TankType.user, <number>arena.spawnPoint.pop(), <number>arena.spawnPoint.pop(), <Vector>arena.spawnVector.pop()));
         this.tanks.push(new Tank(TankType.enemy, <number>arena.spawnPoint.pop(), <number>arena.spawnPoint.pop(), <Vector>arena.spawnVector.pop()));
         this.arena = arena;
@@ -297,7 +299,11 @@ export class Game {
     }
 
     private respawn(tank: Tank) {
+        this.sound.src = require("../assets/killSomeone.mp3");
+        this.sound.play();
         if(tank.lifes == 0) {
+            this.sound.src = require("../assets/endGame.mp3");
+            this.sound.play();
             alert("End Game:)");
             clearInterval(1);
         }
