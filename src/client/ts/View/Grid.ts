@@ -84,10 +84,10 @@ export class Grid {
     for(let tank of allTanks){
       //lifes
       switch(tank.type){
-        case (TankType.enemy): 
+        case (TankType.Enemy): 
           this.ctx.fillStyle = "rgb(100,0,0)";
           break;
-          case (TankType.user) : 
+          case (TankType.User) : 
             this.ctx.fillStyle = "rgb(0,100,0)";
           break;
       }

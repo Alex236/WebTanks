@@ -1,9 +1,9 @@
 export enum EventType {
-    pressedUp,
-    pressedDown,
-    pressedLeft,
-    pressedRight,
-    pressedSpace,
-    bulletFlight,
-    eventFromOtherUser
+    PressedUp,
+    PressedDown,
+    PressedLeft,
+    PressedRight,
+    PressedSpace,
+    BulletFlight,
+    EventFromOtherUser
 }

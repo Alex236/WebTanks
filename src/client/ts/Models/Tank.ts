@@ -1,7 +1,7 @@
-import { Vector } from './vector';
+import { Vector } from './Vector';
+import { Item } from './Item';
+import { Parameters } from '../parameters';
 import { TankType } from './tank-type';
-import { Item } from './item';
-import { Parameters } from '../Parameters';
 
 export class Tank extends Item {
     public readonly type: TankType;

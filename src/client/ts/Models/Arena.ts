@@ -58,5 +58,5 @@ export class Arena {
     ];
 
     public spawnPoint: number[] = [4, 25, 46, 13];
-    public spawnVector: Vector[] = [Vector.up, Vector.up];
+    public spawnVector: Vector[] = [Vector.Up, Vector.Up];
 }
