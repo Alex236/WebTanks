@@ -9,7 +9,6 @@ import { Vector } from "./Models/Vector"
 import { Arena } from "./Models/Arena";
 import { Event } from "./EventHandler/Event";
 import { TankType } from "./Models/TankType";
-import { major } from "semver";
 
 export class Game {
     private tanks: Tank[] = [];
@@ -336,91 +335,107 @@ export class Game {
         });
     }
 
+    private shootUp(tank: Tank) {
+        if (tank.y > 0) {
+            this.bullets.push(new Bullet(tank.x + 1, tank.y - 1, Vector.up));
+            if (this.arena.field[tank.y - 1][tank.x + 1] == BlockType.road && this.arena.field[tank.y - 1][tank.x + 2] == BlockType.road) {
+                this.tanks.forEach(element => {
+                    if (tank.x - 2 <= element.x && element.x <= tank.x + 2 && element.y + 4 == tank.y) {
+                        this.respawn(element);
+                        this.bullets.pop();
+                    }
+                });
+            }
+            else {
+                for (let i: number = 0; i < Parameters.bulletDestroy; i++) {
+                    if (this.arena.field[tank.y - 1][tank.x + i] == BlockType.brick) {
+                        this.arena.field[tank.y - 1][tank.x + i] = BlockType.road;
+                    }
+                }
+                this.bullets.pop();
+            }
+        }
+    }
+
+    private shootDown(tank: Tank) {
+        if (tank.y < Parameters.fieldHeight - Parameters.tankSize) {
+            this.bullets.push(new Bullet(tank.x + 1, tank.y + 3, Vector.down));
+            if (this.arena.field[tank.y + 4][tank.x + 1] == BlockType.road && this.arena.field[tank.y + 4][tank.x + 2] == BlockType.road) {
+                this.tanks.forEach(element => {
+                    if (tank.x - 2 <= element.x && element.x <= tank.x + 2 && element.y - 4 == tank.y) {
+                        this.respawn(element);
+                        this.bullets.pop();
+                    }
+                });
+            }
+            else {
+                for (let i: number = 0; i < Parameters.bulletDestroy; i++) {
+                    if (this.arena.field[tank.y + 4][tank.x + i] == BlockType.brick) {
+                        this.arena.field[tank.y + 4][tank.x + i] = BlockType.road;
+                    }
+                }
+                this.bullets.pop();
+            }
+        }
+    }
+
+    private shootLeft(tank: Tank) {
+        if (tank.x > 0) {
+            this.bullets.push(new Bullet(tank.x - 1, tank.y + 1, Vector.left));
+            if (this.arena.field[tank.y + 1][tank.x - 1] == BlockType.road && this.arena.field[tank.y + 2][tank.x - 1] == BlockType.road) {
+                this.tanks.forEach(element => {
+                    if (tank.y - 2 <= element.y && element.y <= tank.y + 2 && element.x + 4 == tank.x) {
+                        this.respawn(element);
+                        this.bullets.pop();
+                    }
+                });
+            }
+            else {
+                for (let i: number = 0; i < Parameters.bulletDestroy; i++) {
+                    if (this.arena.field[tank.y + i][tank.x - 1] == BlockType.brick) {
+                        this.arena.field[tank.y + i][tank.x - 1] = BlockType.road;
+                    }
+                }
+                this.bullets.pop();
+            }
+        }
+    }
+
+    private shootRight(tank: Tank) {
+        if (tank.y < Parameters.fieldWidth - Parameters.tankSize) {
+            this.bullets.push(new Bullet(tank.x + 3, tank.y + 1, Vector.right));
+            if (this.arena.field[tank.y + 1][tank.x + 4] == BlockType.road && this.arena.field[tank.y + 2][tank.x + 4] == BlockType.road) {
+                this.tanks.forEach(element => {
+                    if (tank.y - 2 <= element.y && element.y <= tank.y + 2 && element.x - 4 == tank.x) {
+                        this.respawn(element);
+                        this.bullets.pop();
+                    }
+                });
+            }
+            else {
+                for (let i: number = 0; i < Parameters.bulletDestroy; i++) {
+                    if (this.arena.field[tank.y + i][tank.x + 4] == BlockType.brick) {
+                        this.arena.field[tank.y + i][tank.x + 4] = BlockType.road;
+                    }
+                }
+                this.bullets.pop();
+            }
+        }
+    }
+
     private shoot(tank: Tank) {
         switch (tank.vector) {
             case Vector.up:
-                if (tank.y > 0) {
-                    this.bullets.push(new Bullet(tank.x + 1, tank.y - 1, Vector.up));
-                    if (this.arena.field[tank.y - 1][tank.x + 1] == BlockType.road && this.arena.field[tank.y - 1][tank.x + 2] == BlockType.road) {
-                        this.tanks.forEach(element => {
-                            if (tank.x - 2 <= element.x && element.x <= tank.x + 2 && element.y + 4 == tank.y) {
-                                this.respawn(element);
-                                this.bullets.pop();
-                            }
-                        });
-                    }
-                    else {
-                        for (let i: number = 0; i < Parameters.bulletDestroy; i++) {
-                            if (this.arena.field[tank.y - 1][tank.x + i] == BlockType.brick) {
-                                this.arena.field[tank.y - 1][tank.x + i] = BlockType.road;
-                            }
-                        }
-                        this.bullets.pop();
-                    }
-                }
+                this.shootUp(tank);
                 break;
             case Vector.down:
-                if (tank.y < Parameters.fieldHeight - Parameters.tankSize) {
-                    this.bullets.push(new Bullet(tank.x + 1, tank.y + 3, Vector.down));
-                    if (this.arena.field[tank.y + 4][tank.x + 1] == BlockType.road && this.arena.field[tank.y + 4][tank.x + 2] == BlockType.road) {
-                        this.tanks.forEach(element => {
-                            if (tank.x - 2 <= element.x && element.x <= tank.x + 2 && element.y - 4 == tank.y) {
-                                this.respawn(element);
-                                this.bullets.pop();
-                            }
-                        });
-                    }
-                    else {
-                        for (let i: number = 0; i < Parameters.bulletDestroy; i++) {
-                            if (this.arena.field[tank.y + 4][tank.x + i] == BlockType.brick) {
-                                this.arena.field[tank.y + 4][tank.x + i] = BlockType.road;
-                            }
-                        }
-                        this.bullets.pop();
-                    }
-                }
+                this.shootDown(tank);
                 break;
             case Vector.left:
-                if (tank.x > 0) {
-                    this.bullets.push(new Bullet(tank.x - 1, tank.y + 1, Vector.left));
-                    if (this.arena.field[tank.y + 1][tank.x - 1] == BlockType.road && this.arena.field[tank.y + 2][tank.x - 1] == BlockType.road) {
-                        this.tanks.forEach(element => {
-                            if (tank.y - 2 <= element.y && element.y <= tank.y + 2 && element.x + 4 == tank.x) {
-                                this.respawn(element);
-                                this.bullets.pop();
-                            }
-                        });
-                    }
-                    else {
-                        for (let i: number = 0; i < Parameters.bulletDestroy; i++) {
-                            if (this.arena.field[tank.y + i][tank.x - 1] == BlockType.brick) {
-                                this.arena.field[tank.y + i][tank.x - 1] = BlockType.road;
-                            }
-                        }
-                        this.bullets.pop();
-                    }
-                }
+                this.shootLeft(tank);
                 break;
             case Vector.right:
-                if (tank.y < Parameters.fieldWidth - Parameters.tankSize) {
-                    this.bullets.push(new Bullet(tank.x + 3, tank.y + 1, Vector.right));
-                    if (this.arena.field[tank.y + 1][tank.x + 4] == BlockType.road && this.arena.field[tank.y + 2][tank.x + 4] == BlockType.road) {
-                        this.tanks.forEach(element => {
-                            if (tank.y - 2 <= element.y && element.y <= tank.y + 2 && element.x - 4 == tank.x) {
-                                this.respawn(element);
-                                this.bullets.pop();
-                            }
-                        });
-                    }
-                    else {
-                        for (let i: number = 0; i < Parameters.bulletDestroy; i++) {
-                            if (this.arena.field[tank.y + i][tank.x + 4] == BlockType.brick) {
-                                this.arena.field[tank.y + i][tank.x + 4] = BlockType.road;
-                            }
-                        }
-                        this.bullets.pop();
-                    }
-                }
+                this.shootRight(tank);
                 break;
         }
     }
@@ -447,22 +462,6 @@ export class Game {
                 if(Math.max(...this.arena.field[tank.y + Parameters.tankSize].slice(tank.x, tank.x + Parameters.tankSize)) == 0) {
                     tank.y++;
                 }
-            //     for (let i: number = 0; i < Parameters.tankSize; i++) {
-            //         if (this.arena.field[tank.y + Parameters.tankSize][tank.x + i] != BlockType.road) {
-            //             return;
-            //         }
-            //     }
-            //     let counter: number = 0;
-            //     this.tanks.forEach((element) => {
-            //         if (!(element.x == tank.x && element.y == tank.y)) {
-            //             if (element.x + 3 < tank.x || tank.x + 3 < element.x || element.y + 3 < tank.y || tank.y + 4 < element.y) {
-            //                 counter++;
-            //             }
-            //         }
-            //     });
-            //     if (counter == this.tanks.length - 1) {
-            //         tank.y++;
-            //     }
             }
         }
     }
