@@ -1,5 +1,5 @@
-import { Vector } from './Vector';
-import { Item } from './Item';
+import { Vector } from './vector';
+import { Item } from './item';
 import { Parameters } from '../parameters';
 import { TankType } from './tank-type';
 
