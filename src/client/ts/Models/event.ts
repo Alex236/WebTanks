@@ -1,5 +1,5 @@
-import { Tank } from "../Models/Tank";
-import { EventType } from "./EventType";
+import { Tank } from "./tank";
+import { EventType } from "./event-type";
 
 export class Event {
     public readonly tank: Tank;

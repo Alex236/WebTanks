@@ -1,5 +1,5 @@
-import { Vector } from "./Vector";
-import { Item } from "./Item";
+import { Vector } from "./vector";
+import { Item } from "./item";
 
 export class Bullet extends Item {
     public readonly vector: Vector;

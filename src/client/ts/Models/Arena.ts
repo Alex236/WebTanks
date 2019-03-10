@@ -1,5 +1,5 @@
-import { BlockType } from "./BlockType";
-import { Vector } from "./Vector";
+import { BlockType } from "./block-type";
+import { Vector } from "./vector";
 
 export class Arena {
     public field: BlockType[][] = [

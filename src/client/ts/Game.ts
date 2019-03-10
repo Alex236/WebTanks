@@ -1,14 +1,14 @@
 import { Parameters } from "./Parameters"
-import { EventType } from "./EventHandler/EventType";
-import { KeyCode } from "./EventHandler/KeyCode";
-import { BlockType } from "./Models/BlockType";
+import { EventType } from "./Models/event-type";
+import { KeyCode } from "./Models/key-code";
+import { BlockType } from "./Models/block-type";
 import { Grid } from "./View/Grid";
-import { Bullet } from "./Models/Bullet";
-import { Tank } from "./Models/Tank";
-import { Vector } from "./Models/Vector"
-import { Arena } from "./Models/Arena";
-import { Event } from "./EventHandler/Event";
-import { TankType } from "./Models/TankType";
+import { Bullet } from "./Models/bullet";
+import { Tank } from "./Models/tank";
+import { Vector } from "./Models/vector"
+import { Arena } from "./Models/arena";
+import { Event } from "./Models/event";
+import { TankType } from "./Models/tank-type";
 
 export class Game {
     private tanks: Tank[] = [];

@@ -1,6 +1,6 @@
-import { Vector } from './Vector';
-import { TankType } from './TankType';
-import { Item } from './Item';
+import { Vector } from './vector';
+import { TankType } from './tank-type';
+import { Item } from './item';
 import { Parameters } from '../Parameters';
 
 export class Tank extends Item {
