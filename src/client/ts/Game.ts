@@ -9,6 +9,7 @@ import { Vector } from "./Models/Vector"
 import { Arena } from "./Models/Arena";
 import { Event } from "./EventHandler/Event";
 import { TankType } from "./Models/TankType";
+import { major } from "semver";
 
 export class Game {
     private tanks: Tank[] = [];
@@ -430,20 +431,7 @@ export class Game {
         }
         else {
             if (tank.y > 0) {
-                for (let i: number = 0; i < Parameters.tankSize; i++) {
-                    if (this.arena.field[tank.y - 1][tank.x + i] != BlockType.road) {
-                        return;
-                    }
-                }
-                let counter: number = 0;
-                this.tanks.forEach((element) => {
-                    if (!(element.x == tank.x && element.y == tank.y)) {
-                        if (element.x + 3 < tank.x || tank.x + 3 < element.x || element.y + 4 < tank.y || tank.y + 3 < element.y) {
-                            counter++;
-                        }
-                    }
-                });
-                if (counter == this.tanks.length - 1) {
+                if(Math.max(...this.arena.field[tank.y - 1].slice(tank.x, tank.x + Parameters.tankSize)) == 0) {
                     tank.y--;
                 }
             }
@@ -456,22 +444,25 @@ export class Game {
         }
         else {
             if (tank.y < Parameters.fieldHeight - Parameters.tankSize) {
-                for (let i: number = 0; i < Parameters.tankSize; i++) {
-                    if (this.arena.field[tank.y + Parameters.tankSize][tank.x + i] != BlockType.road) {
-                        return;
-                    }
-                }
-                let counter: number = 0;
-                this.tanks.forEach((element) => {
-                    if (!(element.x == tank.x && element.y == tank.y)) {
-                        if (element.x + 3 < tank.x || tank.x + 3 < element.x || element.y + 3 < tank.y || tank.y + 4 < element.y) {
-                            counter++;
-                        }
-                    }
-                });
-                if (counter == this.tanks.length - 1) {
+                if(Math.max(...this.arena.field[tank.y + Parameters.tankSize].slice(tank.x, tank.x + Parameters.tankSize)) == 0) {
                     tank.y++;
                 }
+            //     for (let i: number = 0; i < Parameters.tankSize; i++) {
+            //         if (this.arena.field[tank.y + Parameters.tankSize][tank.x + i] != BlockType.road) {
+            //             return;
+            //         }
+            //     }
+            //     let counter: number = 0;
+            //     this.tanks.forEach((element) => {
+            //         if (!(element.x == tank.x && element.y == tank.y)) {
+            //             if (element.x + 3 < tank.x || tank.x + 3 < element.x || element.y + 3 < tank.y || tank.y + 4 < element.y) {
+            //                 counter++;
+            //             }
+            //         }
+            //     });
+            //     if (counter == this.tanks.length - 1) {
+            //         tank.y++;
+            //     }
             }
         }
     }
