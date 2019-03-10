@@ -1,14 +1,14 @@
 import { Parameters } from "./Parameters"
-import { EventType } from "./EventHandler/enums/EventType";
-import { KeyCode } from "./EventHandler/enums/KeyCode";
-import { BlockType } from "./Models/enums/BlockType";
+import { EventType } from "./EventHandler/EventType";
+import { KeyCode } from "./EventHandler/KeyCode";
+import { BlockType } from "./Models/BlockType";
 import { Grid } from "./View/Grid";
 import { Bullet } from "./Models/Bullet";
 import { Tank } from "./Models/Tank";
-import { Vector } from "./Models/enums/Vector"
+import { Vector } from "./Models/Vector"
 import { Arena } from "./Models/Arena";
 import { Event } from "./EventHandler/Event";
-import { TankType } from "./Models/enums/TankType";
+import { TankType } from "./Models/TankType";
 
 export class Game {
     private tanks: Tank[] = [];

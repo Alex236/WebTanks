@@ -1,4 +1,4 @@
-import { Vector } from "./enums/Vector";
+import { Vector } from "./Vector";
 import { Item } from "./Item";
 
 export class Bullet extends Item {

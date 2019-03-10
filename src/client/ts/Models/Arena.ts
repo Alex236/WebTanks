@@ -1,5 +1,5 @@
-import { BlockType } from "./enums/BlockType";
-import { Vector } from "./enums/Vector";
+import { BlockType } from "./BlockType";
+import { Vector } from "./Vector";
 
 export class Arena {
     public field: BlockType[][] = [

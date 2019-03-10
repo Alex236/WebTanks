@@ -1,5 +1,5 @@
 import { Tank } from "../Models/Tank";
-import { EventType } from "./enums/EventType";
+import { EventType } from "./EventType";
 
 export class Event {
     public readonly tank: Tank;

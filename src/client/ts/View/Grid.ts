@@ -1,7 +1,7 @@
 import { Tank } from "../Models/Tank";
 import { Bullet } from "../Models/Bullet";
 import { Units } from "./Units"
-import { TankType } from "../Models/enums/TankType";
+import { TankType } from "../Models/TankType";
 
 export class Grid {
   canvas: HTMLCanvasElement;

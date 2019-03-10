@@ -1,5 +1,5 @@
-import { Vector } from './enums/Vector';
-import { TankType } from '../Models/enums/TankType';
+import { Vector } from './Vector';
+import { TankType } from './TankType';
 import { Item } from './Item';
 import { Parameters } from '../Parameters';
 
