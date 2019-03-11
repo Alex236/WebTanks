@@ -2,7 +2,7 @@ import { Parameters } from "./parameters"
 import { EventType } from "./models/event-type";
 import { KeyCode } from "./models/key-code";
 import { BlockType } from "./models/block-type";
-import { Grid } from "./View/Grid";
+import { Grid } from "./view/grid";
 import { Bullet } from "./models/bullet";
 import { Tank } from "./models/tank";
 import { Vector } from "./models/vector"
