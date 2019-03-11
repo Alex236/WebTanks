@@ -6,8 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>WebTanks</title> 
 </head>
-<body style="width:100%; height:100%; margin:0;">
-    <img id="img" src="assets/sprites.png" style="width:0; height:0;">
-    <canvas id="canvas" style="position: fixed;"></canvas>
+<body style="width:100%; height:100%; margin:0; background-color:darkgrey;">
+    <img id="img" src="assets/sprites.png" style="display: none;">
+    <div id="arena" style="display: inline-block; text-align: center; margin: 2%; padding: 0; position: fixed; width: 80%; height: 96%;">
+        <canvas id="canvas" style="display: inline-block; margin: 0 auto;"></canvas>
+    </div>
+    <div id="bar-menu" style="font-size:30px; width: 16%; height: 96%; display: inline-block; float:right; margin: 2% auto;">
+        <p>How many bots you need kill:</p>
+        <p>.</p>
+        <p>.</p>
+        <p>.</p>
+        <p>.</p>
+        <p>your lifes</p>
+        <p>.</p>
+        <p>and lifes your friends</p>
+        <p>.</p>
+        <p>.</p>
+    </div>
+    
 </body>
 </html> 

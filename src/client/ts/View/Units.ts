@@ -1,10 +1,10 @@
 export enum Units{
-    brick = 1,
-    hardBrick = 2,
-    green = 3,
-    water = 4,
-    ice = 5,
-    base = 6,
-    tank = 7,
-    bullet = 8
+    Brick = 1,
+    HardBrick = 2,
+    Green = 3,
+    Water = 4,
+    Ice = 5,
+    Base = 6,
+    Tank = 7,
+    Bullet = 8
 }
