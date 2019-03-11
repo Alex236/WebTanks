@@ -10,7 +10,7 @@ export class Grid {
   private totalWidth: number = document.getElementById('arena')!.offsetWidth;
   private gameSize: number = this.totalHeight <= this.totalWidth ? this.totalHeight : this.totalWidth;
   private cellSize: number = this.gameSize / 52;
-  private img: HTMLImageElement | any = document.getElementById("img") ;
+  private img: HTMLImageElement | any = document.getElementById("img");
 
   constructor() {
     this.canvas = <HTMLCanvasElement>document.getElementById('canvas');
@@ -80,17 +80,8 @@ export class Grid {
 
   drawAllTanks(allTanks: Tank[]):void {
     for(let tank of allTanks){
-      //lifes
-      switch(tank.type){
-        case (TankType.Enemy): 
-          this.ctx.fillStyle = "rgb(100,0,0)";
-          break;
-          case (TankType.User) : 
-            this.ctx.fillStyle = "rgb(0,100,0)";
-          break;
-      }
-
       this.ctx.font = "30pt Arial";
+      this.ctx.fillStyle = tank.type == TankType.Enemy ? "rgb(100,0,0)" : "rgb(0,100,0)";
       this.ctx.fillText(String(tank.lifes), (tank.x + 1)  * this.cellSize, tank.y * this.cellSize);
       this.drawUnit(tank.x, tank.y, Units.Tank, tank.vector, tank.type);
     }
