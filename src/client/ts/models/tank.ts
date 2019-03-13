@@ -1,7 +1,7 @@
 import { Vector } from './vector';
 import { Item } from './item';
 import { Parameters } from '../parameters';
-import { TankType } from './tank-type';
+import { TankType } from '../tanks/tank-type';
 
 export class Tank extends Item {
     public readonly type: TankType;
@@ -11,7 +11,6 @@ export class Tank extends Item {
     public readonly spawnPointX: number;
     public readonly spawnPointY: number;
     public readonly spawnVector: Vector;
-    public lifes: number = Parameters.playerLifes;
 
     constructor(type: TankType, spawnPointX: number, spawnPointY: number, spawnVector: Vector) {
         super();

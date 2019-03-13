@@ -1,4 +1,4 @@
-import { Tank } from "./tank";
+import { Tank } from "../tanks/tank";
 import { EventType } from "./event-type";
 
 export class Event {

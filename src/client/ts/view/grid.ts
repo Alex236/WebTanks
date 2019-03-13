@@ -1,7 +1,7 @@
-import { Tank } from "../models/tank";
+import { Tank } from "../tanks/tank";
 import { Bullet } from "../models/bullet";
 import { Units } from "./units"
-import { TankType } from "../models/tank-type";
+import { TankType } from "../tanks/tank-type";
 
 export class Grid {
   private canvas: HTMLCanvasElement;
@@ -81,9 +81,9 @@ export class Grid {
   drawAllTanks(allTanks: Tank[]):void {
     for(let tank of allTanks){
       this.ctx.font = "30pt Arial";
-      this.ctx.fillStyle = tank.type == TankType.Enemy ? "rgb(100,0,0)" : "rgb(0,100,0)";
-      this.ctx.fillText(String(tank.lifes), (tank.x + 1)  * this.cellSize, tank.y * this.cellSize);
-      this.drawUnit(tank.x, tank.y, Units.Tank, tank.vector, tank.type);
+      this.ctx.fillStyle = tank.type == TankType.Heavy ? "rgb(100,0,0)" : "rgb(0,100,0)";
+      this.ctx.fillText(String(tank.health), (tank.currentX + 1)  * this.cellSize, tank.currentY * this.cellSize);
+      this.drawUnit(tank.currentX, tank.currentY, Units.Tank, tank.vector, tank.type);
     }
   };
   

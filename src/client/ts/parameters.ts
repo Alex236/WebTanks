@@ -6,6 +6,5 @@ export class Parameters {
     static readonly tankSize: number = 4;
     static readonly bulletSize: number = 2;
     static readonly bulletDestroy: number = 4;
-    static readonly timer: number = 50;
-    static readonly playerLifes: number = 5;
+    static readonly timer: number = 100;
 }
