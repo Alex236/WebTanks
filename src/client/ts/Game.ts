@@ -10,6 +10,7 @@ import { Arena } from "./models/arena";
 import { Event } from "./models/event";
 import { TankType } from "./models/tank-type";
 import { Sound } from "./view/sound";
+import { Block } from "./blocks/block";
 
 export class Game {
     private tanks: Tank[] = [];
@@ -17,6 +18,7 @@ export class Game {
     private filteredEvents: Event[] = [];
     private bullets: Bullet[] = [];
     private arena: Arena;
+    private block: Block[] = [];
     private grid: Grid = new Grid();
     private sound: Sound = new Sound();
 
