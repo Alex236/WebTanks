@@ -25,25 +25,25 @@ export class Grid {
         this.ctx.drawImage(this.img, 0, 0, 64, 64, x * 4 * this.cellSize, y * 4 * this.cellSize, this.cellSize * 4, this.cellSize * 4);
         break;
       case Units.Brick :
-        this.ctx.drawImage(this.img, 0, 1024, 57, 57, x * this.cellSize, y * this.cellSize, this.cellSize + 1, this.cellSize + 1);
-        break;
-      case Units.HardBrick : 
-        this.ctx.drawImage(this.img, 0, 1080, 57, 57, x * this.cellSize, y * this.cellSize, this.cellSize + 1, this.cellSize + 1);
-        break;
-      case Units.Green :
         this.ctx.drawImage(this.img, 0, 64, 64, 64, x * this.cellSize, y * this.cellSize, this.cellSize + 1, this.cellSize + 1);
         break;
-      case Units.Water :
+      case Units.HardBrick : 
         this.ctx.drawImage(this.img, 0, 128, 64, 64, x * this.cellSize, y * this.cellSize, this.cellSize + 1, this.cellSize + 1);
         break;
-      case Units.Ice :
+      case Units.Green :
         this.ctx.drawImage(this.img, 0, 192, 64, 64, x * this.cellSize, y * this.cellSize, this.cellSize + 1, this.cellSize + 1);
         break;
-      case Units.Tank :
-        this.ctx.drawImage(this.img, 0, 512+ 64*turn, 64, 64, x * this.cellSize, y * this.cellSize, this.cellSize * 4, this.cellSize * 4);    
+      case Units.Water :
+        this.ctx.drawImage(this.img, 0, 256, 64, 64, x * this.cellSize, y * this.cellSize, this.cellSize + 1, this.cellSize + 1);
+        break;
+      case Units.Ice :
+        this.ctx.drawImage(this.img, 0, 320, 64, 64, x * this.cellSize, y * this.cellSize, this.cellSize + 1, this.cellSize + 1);
         break;
       case Units.Bullet :
-        this.ctx.drawImage(this.img, 0, 256 + 64*turn, 64, 64,  x * this.cellSize + this.cellSize/2, y * this.cellSize + this.cellSize/2, this.cellSize, this.cellSize);
+        this.ctx.drawImage(this.img, 0, 384 + 64*turn, 64, 64,  x * this.cellSize + this.cellSize/2, y * this.cellSize + this.cellSize/2, this.cellSize, this.cellSize);
+        break;
+      case Units.Tank :
+        this.ctx.drawImage(this.img, 0, 640+ 64*turn, 64, 64, x * this.cellSize, y * this.cellSize, this.cellSize * 4, this.cellSize * 4);    
         break;
     } 
   }

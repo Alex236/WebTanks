@@ -21,6 +21,7 @@ export class Game {
     private blocks: Block[] = [];
     private grid: Grid = new Grid();
     private sound: Sound = new Sound();
+    private sprites: Map<Block, HTMLImageElement> = new Map();
 
     constructor(players: number, arena: Arena) {
         this.arena = arena;
@@ -54,6 +55,9 @@ export class Game {
     //             break;
     //     }
     // }
+
+    private cutSprites(){
+    }
 
     private drawing() {
         this.grid.draw(this.arena.field, this.tanks, this.bullets);
