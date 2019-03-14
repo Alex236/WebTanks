@@ -1,5 +1,3 @@
-import { EventType } from "../models/event-type";
-
 export class Sound{
     private audio:HTMLAudioElement = new Audio();
 
