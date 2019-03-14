@@ -9,7 +9,7 @@ import { Vector } from "./models/vector"
 import { Arena } from "./models/arena";
 import { Event } from "./models/event";
 import { Sound } from "./view/sound";
-//import { Block } from "./blocks/block";
+import { Block } from "./blocks/block";
 import { Heavy } from "./tanks/types/heavy";
 
 export class Game {
@@ -18,7 +18,7 @@ export class Game {
     private filteredEvents: (() => void)[] = [];
     private bullets: Bullet[] = [];
     private arena: Arena;
-    //private block: Block[] = [];
+    private blocks: Block[] = [];
     private grid: Grid = new Grid();
     private sound: Sound = new Sound();
 
