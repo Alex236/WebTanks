@@ -1,4 +1,4 @@
-export enum Route {
+export enum Directoin {
     Up,
     Down,
     Left,

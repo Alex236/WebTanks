@@ -1,7 +1,7 @@
 import { Block } from "./block";
 import { UnitType } from "./unit-type";
 import { SpawnPoint } from "./spawn-point";
-import { Route } from "./route";
+import { Directoin } from "./direction";
 
 export class Arena {
     public blocks: Block[] = [
@@ -9,6 +9,6 @@ export class Arena {
     ];
 
     public spawnPoints: SpawnPoint[] = [
-        new SpawnPoint(10, 10, Route.Up)
+        new SpawnPoint(10, 10, Directoin.Up)
     ];
 }
