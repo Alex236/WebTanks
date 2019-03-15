@@ -38,7 +38,7 @@ export class Game {
     }
 
     private drawing() {
-        //this.grid.draw(this.arena.field, this.tanks, this.bullets);
+        this.grid.draw(this.blocks, this.tanks, this.bullets);
     }
 
     public start() {
@@ -56,7 +56,7 @@ export class Game {
         };
 
         setInterval(() => {
-            console.log("cycle");
+            //console.log("cycle");
             this.drawing();
             if (this.allEvents.length != 0 || this.bullets.length != 0) {
                 this.calculate();

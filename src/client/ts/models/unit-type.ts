@@ -1,4 +1,5 @@
 export enum UnitType {
+    Base,
     LowTank,
     MediumTank,
     HeavyTank,
