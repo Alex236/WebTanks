@@ -20,6 +20,7 @@ export class Game {
     private blocks: Block[] = [];
     private grid: Grid = new Grid();
     private sound: Sound = new Sound();
+    private sprites: Map<Block, HTMLImageElement> = new Map();
 
     constructor(players: number, arena: Arena) {
         this.arena = arena;
@@ -34,6 +35,32 @@ export class Game {
         this.filteredEvents.splice(0, this.filteredEvents.length);
     }
 
+<<<<<<< HEAD
+=======
+    // private move(event: Event) {
+    //     switch (event.eventType) {
+    //         case EventType.PressedUp:
+    //             this.tankUp(event.tank);
+    //             break;
+    //         case EventType.PressedDown:
+    //             this.tankDown(event.tank);
+    //             break;
+    //         case EventType.PressedLeft:
+    //             this.tankLeft(event.tank);
+    //             break;
+    //         case EventType.PressedRight:
+    //             this.tankRight(event.tank);
+    //             break;
+    //         case EventType.PressedSpace:
+    //             //this.shoot(event.tank);
+    //             break;
+    //     }
+    // }
+
+    private cutSprites(){
+    }
+
+>>>>>>> 412ad2a668ffeaf80f9db73f0b586dbc1d2cf355
     private drawing() {
         this.grid.draw(this.arena.field, this.tanks, this.bullets);
     }

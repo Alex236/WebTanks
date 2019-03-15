@@ -19,45 +19,33 @@ export class Grid {
     this.ctx = <CanvasRenderingContext2D>this.canvas.getContext("2d");
   };
 
-  drawUnit(x : number, y : number, unit: number, turn: number = 0, type: number = 0):void { 
+  drawUnit(x : number, y : number, unit: number, turn: number = 0):void { 
     switch(unit){
       case Units.Base : 
         this.ctx.drawImage(this.img, 0, 0, 64, 64, x * 4 * this.cellSize, y * 4 * this.cellSize, this.cellSize * 4, this.cellSize * 4);
         break;
       case Units.Brick :
-        this.ctx.drawImage(this.img, 0, 1208, 57, 57, x * this.cellSize, y * this.cellSize, this.cellSize + 1, this.cellSize + 1);
+        this.ctx.drawImage(this.img, 0, 64, 64, 64, x * this.cellSize, y * this.cellSize, this.cellSize + 1, this.cellSize + 1);
         break;
       case Units.HardBrick : 
-        this.ctx.drawImage(this.img, 0, 1152, 57, 57, x * this.cellSize, y * this.cellSize, this.cellSize + 1, this.cellSize + 1);
+        this.ctx.drawImage(this.img, 0, 128, 64, 64, x * this.cellSize, y * this.cellSize, this.cellSize + 1, this.cellSize + 1);
         break;
       case Units.Green :
-        this.ctx.drawImage(this.img, 0, 64, 57, 57, x * this.cellSize, y * this.cellSize, this.cellSize + 1, this.cellSize + 1);
+        this.ctx.drawImage(this.img, 0, 192, 64, 64, x * this.cellSize, y * this.cellSize, this.cellSize + 1, this.cellSize + 1);
         break;
-      case Units.Tank :
-        let startPoint = this.setTrueType(type);
-        this.ctx.drawImage(this.img, 0, startPoint + 64*turn, 64, 64, x * this.cellSize, y * this.cellSize, this.cellSize * 4, this.cellSize * 4);    
+      case Units.Water :
+        this.ctx.drawImage(this.img, 0, 256, 64, 64, x * this.cellSize, y * this.cellSize, this.cellSize + 1, this.cellSize + 1);
+        break;
+      case Units.Ice :
+        this.ctx.drawImage(this.img, 0, 320, 64, 64, x * this.cellSize, y * this.cellSize, this.cellSize + 1, this.cellSize + 1);
         break;
       case Units.Bullet :
-        let a = turn <= 1 ? 1264 : 1296;
-        this.ctx.drawImage(this.img, 32*(turn%2), a, 32, 32,  x * this.cellSize + this.cellSize/2, y * this.cellSize + this.cellSize/2, this.cellSize, this.cellSize);
+        this.ctx.drawImage(this.img, 0, 384 + 64*turn, 64, 64,  x * this.cellSize + this.cellSize/2, y * this.cellSize + this.cellSize/2, this.cellSize, this.cellSize);
+        break;
+      case Units.Tank :
+        this.ctx.drawImage(this.img, 0, 640+ 64*turn, 64, 64, x * this.cellSize, y * this.cellSize, this.cellSize * 4, this.cellSize * 4);    
         break;
     } 
-  }
-
-  setTrueType(type?: number):number {
-    let startPoint = 0;
-    switch(type){
-      case 0: startPoint = 640;
-      break;
-      case 1: startPoint = 896;
-      break;
-    }
-    return startPoint;
-  }
-
-  drawBorder():void {
-    this.ctx.fillStyle = '#ccc'
-    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
   }
 
   drawRoad():void {
@@ -66,7 +54,6 @@ export class Grid {
   };
 
   draw(map: number[][], tanks: Tank[], bullets: Bullet[]):void {
-    this.drawBorder();
     this.drawRoad();
     this.drawUnit(6,12, Units.Base);
     for (var j = 0; j < map.length; j++) {
@@ -83,7 +70,7 @@ export class Grid {
       this.ctx.font = "30pt Arial";
       this.ctx.fillStyle = tank.type == TankType.Heavy ? "rgb(100,0,0)" : "rgb(0,100,0)";
       this.ctx.fillText(String(tank.health), (tank.currentX + 1)  * this.cellSize, tank.currentY * this.cellSize);
-      this.drawUnit(tank.currentX, tank.currentY, Units.Tank, tank.vector, tank.type);
+      this.drawUnit(tank.currentX, tank.currentY, Units.Tank, tank.vector);
     }
   };
   
