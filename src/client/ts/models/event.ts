@@ -1,4 +1,3 @@
-
 import { EventType } from "./event-type";
 import { Tank } from "./tank";
 
