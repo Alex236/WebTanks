@@ -1,7 +1,7 @@
-import { Tank } from "../tanks/tank";
+import { Tank } from "../models/tank";
 import { Bullet } from "../models/bullet";
 import { Units } from "./units"
-import { TankType } from "../tanks/tank-type";
+import { UnitType } from "../models/unit-type";
 
 export class Grid {
   private canvas: HTMLCanvasElement;
@@ -68,7 +68,7 @@ export class Grid {
   drawAllTanks(allTanks: Tank[]):void {
     for(let tank of allTanks){
       this.ctx.font = "30pt Arial";
-      this.ctx.fillStyle = tank.type == TankType.Heavy ? "rgb(100,0,0)" : "rgb(0,100,0)";
+      this.ctx.fillStyle = tank.type == UnitType.LowTank ? "rgb(100,0,0)" : "rgb(0,100,0)";
       this.ctx.fillText(String(tank.health), (tank.currentX + 1)  * this.cellSize, tank.currentY * this.cellSize);
       this.drawUnit(tank.currentX, tank.currentY, Units.Tank, tank.vector);
     }
@@ -76,7 +76,7 @@ export class Grid {
   
   drawAllBullets(allBullet: Bullet[]):void {
     for(let bullet of allBullet){
-      this.drawUnit(bullet.x, bullet.y, Units.Bullet, bullet.vector);
+      this.drawUnit(bullet.currentX, bullet.currentY, Units.Bullet, bullet.vector);
     }
   };
 }

@@ -67,7 +67,6 @@
         "mockTypeScriptVersion": false
       }
     ],
-    "noUnusedLocals": true,
-    "noUnusedParameters": true
+    
   }
 }
