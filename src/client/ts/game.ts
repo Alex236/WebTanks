@@ -3,14 +3,13 @@ import { EventType } from "./models/event-type";
 import { KeyCode } from "./models/key-code";
 import { BlockType } from "./models/block-type";
 import { Grid } from "./view/grid";
-import { Bullet } from "./models/bullet";
-import { Tank } from "./tanks/tank";
 import { Vector } from "./models/vector"
 import { Arena } from "./models/arena";
 import { Event } from "./models/event";
 import { Sound } from "./view/sound";
-import { Block } from "./blocks/block";
-import { Heavy } from "./tanks/types/heavy";
+import { Tank } from "./models/tank";
+import { Bullet } from "./models/bullet";
+
 
 export class Game {
     private tanks: Tank[] = [];
@@ -18,7 +17,7 @@ export class Game {
     private filteredEvents: (() => void)[] = [];
     private bullets: Bullet[] = [];
     private arena: Arena;
-    private block: Block[] = [];
+    private blocks: Block[] = [];
     private grid: Grid = new Grid();
     private sound: Sound = new Sound();
 
@@ -34,26 +33,6 @@ export class Game {
         this.filteredEvents.forEach(event => { event(); console.log("invoke event") });
         this.filteredEvents.splice(0, this.filteredEvents.length);
     }
-
-    // private move(event: Event) {
-    //     switch (event.eventType) {
-    //         case EventType.PressedUp:
-    //             this.tankUp(event.tank);
-    //             break;
-    //         case EventType.PressedDown:
-    //             this.tankDown(event.tank);
-    //             break;
-    //         case EventType.PressedLeft:
-    //             this.tankLeft(event.tank);
-    //             break;
-    //         case EventType.PressedRight:
-    //             this.tankRight(event.tank);
-    //             break;
-    //         case EventType.PressedSpace:
-    //             //this.shoot(event.tank);
-    //             break;
-    //     }
-    // }
 
     private drawing() {
         this.grid.draw(this.arena.field, this.tanks, this.bullets);

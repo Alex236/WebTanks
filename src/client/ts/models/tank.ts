@@ -1,25 +1,20 @@
-import { Vector } from './vector';
-import { Item } from './item';
-import { Parameters } from '../parameters';
-import { TankType } from '../tanks/tank-type';
+import { Vector } from "./vector";
+import { Route } from "./route";
+import { UnitType } from "./unit-type";
 
-export class Tank extends Item {
-    public readonly type: TankType;
-    public vector: Vector;
-    public move: boolean = false;
-    public shoot: boolean = false;
-    public readonly spawnPointX: number;
-    public readonly spawnPointY: number;
-    public readonly spawnVector: Vector;
+export class Tank extends Vector {
+    public health: number;
+    public bulletType: UnitType;
+    public avaliableShoots: number;
+    public spawnPointX: number;
+    public spawnPointY: number;
 
-    constructor(type: TankType, spawnPointX: number, spawnPointY: number, spawnVector: Vector) {
-        super();
-        this.type = type;
-        this.x = spawnPointX;
-        this.y = spawnPointY;
-        this.vector = spawnVector;
-        this.spawnPointX = spawnPointX;
-        this.spawnPointY = spawnPointY;
-        this.spawnVector = spawnVector;
+    constructor (x: number, y: number, type: UnitType, canvasLevel: number, speed: number, vector: Route, health: number, bulletType: UnitType, avaliableShoots: number) {
+        super(x, y, type, canvasLevel, speed, vector);
+        this.health = health;
+        this.bulletType = bulletType;
+        this.avaliableShoots = avaliableShoots;
+        this.spawnPointX = x;
+        this.spawnPointY = y;
     }
 }
