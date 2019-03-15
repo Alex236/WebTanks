@@ -7,8 +7,8 @@ export class Vector extends Item {
     public speed: number;
     public vector: Directoin;
 
-    constructor (x: number, y: number, type: UnitType, zorder: ZOrder, speed: number, vector: Directoin) {
-        super(x, y, type, zorder);
+    constructor (x: number, y: number, type: UnitType, zorder: ZOrder, size: number, speed: number, vector: Directoin) {
+        super(x, y, type, zorder, size);
         this.speed = speed;
         this.vector = vector;
     }

@@ -10,6 +10,7 @@ import { Bullet } from "./models/bullet";
 import { Block } from "./models/block";
 import { UnitType } from "./models/unit-type";
 import { SpawnPoint } from "./models/spawn-point";
+import { Item } from "./models/item";
 
 
 export class Game {
@@ -32,7 +33,7 @@ export class Game {
     }
 
     private calculate() {
-        //this.deleteUselessEvents();
+        this.deleteUselessEvents();
         this.filteredEvents.forEach(event => event());
         this.filteredEvents.splice(0, this.filteredEvents.length);
     }
@@ -103,54 +104,89 @@ export class Game {
         });
     }
 
-    // private deleteUselessEvents() {
-    //     let count = this.allEvents.length;
-    //     let move = new Map();
-    //     for (let i: number = 0; i < count; i++) {
-    //         let temp: number = i;
-    //         switch (this.allEvents[temp].eventType) {
-    //             case EventType.PressedUp:
-    //                 if (move.get(this.allEvents[i].tank) == undefined) {
-    //                     move.set(this.allEvents[i].tank, true);
-    //                     let tempTank: Tank = this.allEvents[i].tank;
-    //                     this.filteredEvents.push(() => this.tankUp(tempTank));
-    //                 }
-    //                 break;
-    //             case EventType.PressedDown:
-    //                 if (move.get(this.allEvents[i].tank) == undefined) {
-    //                     move.set(this.allEvents[i].tank, true);
-    //                     let tempTank: Tank = this.allEvents[i].tank;
-    //                     this.filteredEvents.push(() => this.tankDown(tempTank));
-    //                 }
-    //                 break;
-    //             case EventType.PressedLeft:
-    //                 if (move.get(this.allEvents[i].tank) == undefined) {
-    //                     move.set(this.allEvents[i].tank, true);
-    //                     let tempTank: Tank = this.allEvents[i].tank;
-    //                     this.filteredEvents.push(() => this.tankLeft(tempTank));
-    //                 }
-    //                 break;
-    //             case EventType.PressedRight:
-    //                 if (move.get(this.allEvents[i].tank) == undefined) {
-    //                     move.set(this.allEvents[i].tank, true);
-    //                     let tempTank: Tank = this.allEvents[i].tank;
-    //                     this.filteredEvents.push(() => this.tankRight(tempTank));
-    //                 }
-    //                 break;
-    //             case EventType.PressedSpace:
-    //                 // if (!this.allEvents[temp].tank.shoot) {
-    //                 //     this.allEvents[temp].tank.shoot = true;
-    //                 //     this.filteredEvents.push(this.allEvents[temp]);
-    //                 // }
-    //                 break;
-    //             case EventType.BulletFlight:
-    //                 break;
-    //             case EventType.EventFromOtherUser:
-    //                 break;
-    //         }
-    //     }
-    //     this.allEvents.splice(0, count);
-    // }
+    private deleteUselessEvents() {
+        let count = this.allEvents.length;
+        let move = new Map();
+        for (let i: number = 0; i < count; i++) {
+            let temp: number = i;
+            switch (this.allEvents[temp].eventType) {
+                case EventType.PressedUp:
+                    if (move.get(this.allEvents[i].tank) == undefined) {
+                        move.set(this.allEvents[i].tank, true);
+                        let tempTank: Tank = this.allEvents[i].tank;
+                        this.filteredEvents.push(() => this.tankUp(tempTank));
+                    }
+                    break;
+                case EventType.PressedDown:
+                    if (move.get(this.allEvents[i].tank) == undefined) {
+                        move.set(this.allEvents[i].tank, true);
+                        let tempTank: Tank = this.allEvents[i].tank;
+                        this.filteredEvents.push(() => this.tankDown(tempTank));
+                    }
+                    break;
+                case EventType.PressedLeft:
+                    if (move.get(this.allEvents[i].tank) == undefined) {
+                        move.set(this.allEvents[i].tank, true);
+                        let tempTank: Tank = this.allEvents[i].tank;
+                        this.filteredEvents.push(() => this.tankLeft(tempTank));
+                    }
+                    break;
+                case EventType.PressedRight:
+                    if (move.get(this.allEvents[i].tank) == undefined) {
+                        move.set(this.allEvents[i].tank, true);
+                        let tempTank: Tank = this.allEvents[i].tank;
+                        this.filteredEvents.push(() => this.tankRight(tempTank));
+                    }
+                    break;
+                case EventType.PressedSpace:
+                    // if (!this.allEvents[temp].tank.shoot) {
+                    //     this.allEvents[temp].tank.shoot = true;
+                    //     this.filteredEvents.push(this.allEvents[temp]);
+                    // }
+                    break;
+                case EventType.BulletFlight:
+                    break;
+                case EventType.EventFromOtherUser:
+                    break;
+            }
+        }
+        this.allEvents.splice(0, count);
+    }
+
+    private tankUp(tank: Tank) {
+        let step: number = tank.speed;
+        let avaliableStep: number = tank.speed;
+        let items: Item[] = [];
+        items.concat(this.blocks, this.bullets, this.tanks).forEach(item => {
+            avaliableStep = this.moveUp(item, tank);
+            if (step > avaliableStep) {
+                step = avaliableStep;
+            }
+        });
+        tank.y -= avaliableStep;
+    }
+
+    private moveUp(item: Item, tank: Tank): number {
+        let avaliableStep = tank.size;
+        if (tank.y > item.y + item.size && item.x + item.size > tank.x && tank.x + tank.size < item.x) {
+            let distance = tank.y - (item.y + item.size);
+            avaliableStep = avaliableStep <= distance ? avaliableStep : distance;
+        }
+        return avaliableStep;
+    }
+
+
+    private tankDown(tank: Tank) {
+
+    }
+
+    private tankLeft(tank: Tank) {
+
+    }
+
+    private tankRight(tank: Tank) {
+
+    }
 
     // private respawn(tank: Tank) {
     //     if (tank.lifes == 0) {
@@ -176,83 +212,7 @@ export class Game {
     // }
 
 
-    // private tankUp(tank: Tank) {
-    //     if (tank.vector != Vector.Up) {
-    //         tank.vector = Vector.Up;
-    //     }
-    //     else {
-    //         if (tank.currentY > 0) {
-    //             if (Math.max(...this.arena.field[tank.currentY - 1].slice(tank.currentX, tank.currentX + Parameters.tankSize)) == 0) {
-    //                 tank.currentY--;
-    //             }
-    //         }
-    //     }
-    // }
 
-    // private tankDown(tank: Tank) {
-    //     if (tank.vector != Vector.Down) {
-    //         tank.vector = Vector.Down;
-    //     }
-    //     else {
-    //         if (tank.currentY < Parameters.fieldHeight - Parameters.tankSize) {
-    //             if (Math.max(...this.arena.field[tank.currentY + Parameters.tankSize].slice(tank.currentX, tank.currentX + Parameters.tankSize)) == 0) {
-    //                 tank.currentY++;
-    //             }
-    //         }
-    //     }
-    // }
-
-    // private tankLeft(tank: Tank) {
-    //     if (tank.vector != Vector.Left) {
-    //         tank.vector = Vector.Left;
-    //     }
-    //     else {
-    //         if (tank.currentX > 0) {
-    //             for (let i: number = 0; i < Parameters.tankSize; i++) {
-    //                 if (this.arena.field[tank.currentY + i][tank.currentX - 1] != BlockType.Road) {
-    //                     return;
-    //                 }
-    //             }
-    //             let counter: number = 0;
-    //             this.tanks.forEach((element) => {
-    //                 if (!(element.currentX == tank.currentX && element.currentY == tank.currentY)) {
-    //                     if (element.currentX + 4 < tank.currentX || tank.currentX + 3 < element.currentX || element.currentY + 3 < tank.currentY || tank.currentY + 3 < element.currentY) {
-    //                         counter++;
-    //                     }
-    //                 }
-    //             });
-    //             if (counter == this.tanks.length - 1) {
-    //                 tank.currentX--;
-    //             }
-    //         }
-    //     }
-    // }
-
-    // private tankRight(tank: Tank) {
-    //     if (tank.vector != Vector.Right) {
-    //         tank.vector = Vector.Right;
-    //     }
-    //     else {
-    //         if (tank.currentX < Parameters.fieldWidth - Parameters.tankSize) {
-    //             for (let i: number = 0; i < Parameters.tankSize; i++) {
-    //                 if (this.arena.field[tank.currentY + i][tank.currentX + Parameters.tankSize] != BlockType.Road) {
-    //                     return;
-    //                 }
-    //             }
-    //             let counter: number = 0;
-    //             this.tanks.forEach((element) => {
-    //                 if (!(element.currentX == tank.currentX && element.currentY == tank.currentY)) {
-    //                     if (element.currentX + 3 < tank.currentX || tank.currentX + 4 < element.currentX || element.currentY + 3 < tank.currentY || tank.currentY + 3 < element.currentY) {
-    //                         counter++;
-    //                     }
-    //                 }
-    //             });
-    //             if (counter == this.tanks.length - 1) {
-    //                 tank.currentX++;
-    //             }
-    //         }
-    //     }
-    // }
 
     // private shootUp(tank: Tank) {
     //     if (tank.y > 0) {
