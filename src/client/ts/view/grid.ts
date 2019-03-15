@@ -32,7 +32,7 @@ export class Grid {
   };
 
   drawBlock(block: Block){
-    this.ctx.drawImage(this.getImage(block.type), block.currentX, block.currentY,64,64);
+    this.ctx.drawImage(this.getImage(block.type), block.x * this.cellSize, block.y * this.cellSize, block.size * this.cellSize, block.size * this.cellSize);
   }
 
   draw(blocks: Block[], tanks: Tank[], bullets: Bullet[]):void {
