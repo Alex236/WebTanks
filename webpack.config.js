@@ -18,7 +18,7 @@ const config = {
         use: ['html-loader']
       },
       {
-        test: /\.(png|mp3)$/,
+        test: /\.(svg|mp3)$/,
         use:[
           {
             loader: 'file-loader',

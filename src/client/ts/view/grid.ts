@@ -11,8 +11,6 @@ export class Grid {
   private totalWidth: number = document.getElementById('arena')!.offsetWidth;
   private gameSize: number = this.totalHeight <= this.totalWidth ? this.totalHeight : this.totalWidth;
   private cellSize: number = this.gameSize / 52;
-  private img: HTMLImageElement | any = document.getElementById("img");
-  private im = new Image();
 
   constructor() {
     this.canvas = <HTMLCanvasElement>document.getElementById('canvas');
@@ -21,10 +19,11 @@ export class Grid {
     this.ctx = <CanvasRenderingContext2D>this.canvas.getContext("2d");
   };
 
-  getImage(type: UnitType): HTMLImageElement{
-    this.im.src = require("../../assets/" + type + ".png");
-    return this.im;
-  } 
+  //getImage(type: UnitType): HTMLImageElement{
+
+
+  //  return sprites
+  //} 
 
   drawRoad():void {
     this.ctx.fillStyle = '#000'
@@ -32,12 +31,11 @@ export class Grid {
   };
 
   drawBlock(block: Block){
-    this.ctx.drawImage(this.getImage(block.type), block.x * this.cellSize, block.y * this.cellSize, block.size * this.cellSize, block.size * this.cellSize);
+  //  this.ctx.drawImage(this.getImage(block.type), block.x * this.cellSize, block.y * this.cellSize, block.size * this.cellSize, block.size * this.cellSize);
   }
 
-  draw(blocks: Block[], tanks: Tank[], bullets: Bullet[]):void {
+  draw(blocks: Block[]):void {
     this.drawRoad();
     blocks.forEach(block => this.drawBlock(block))
   };
-
 }

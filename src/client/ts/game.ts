@@ -12,7 +12,6 @@ import { UnitType } from "./models/unit-type";
 import { SpawnPoint } from "./models/spawn-point";
 import { Item } from "./models/item";
 
-
 export class Game {
     private tanks: Tank[] = [];
     private allEvents: Event[] = [];
@@ -22,7 +21,6 @@ export class Game {
     private blocks: Block[] = [];
     private grid: Grid = new Grid();
     private sound: Sound = new Sound();
-    private sprites: Map<Block, HTMLImageElement> = new Map();
 
     constructor(players: number, arena: Arena) {
         this.arena = arena;
@@ -39,7 +37,7 @@ export class Game {
     }
 
     private drawing() {
-        this.grid.draw(this.blocks, this.tanks, this.bullets);
+        this.grid.draw(this.blocks);
     }
 
     public start() {
