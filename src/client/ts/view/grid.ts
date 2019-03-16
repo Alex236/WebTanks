@@ -3,6 +3,7 @@ import { Bullet } from "../models/bullet";
 import { UnitType } from "../models/unit-type";
 import { Parameters } from "../parameters";
 import { Block } from "../models/block";
+import { Sprite } from "./sprite";
 
 export class Grid {
   private canvas: HTMLCanvasElement;
@@ -11,19 +12,23 @@ export class Grid {
   private totalWidth: number = document.getElementById('arena')!.offsetWidth;
   private gameSize: number = this.totalHeight <= this.totalWidth ? this.totalHeight : this.totalWidth;
   private cellSize: number = this.gameSize / 52;
+  private sprite: Sprite;
 
   constructor() {
     this.canvas = <HTMLCanvasElement>document.getElementById('canvas');
     this.canvas.width = this.gameSize;
     this.canvas.height = this.gameSize;
     this.ctx = <CanvasRenderingContext2D>this.canvas.getContext("2d");
+    let img = new Image();
+    img.src = require("../assets/sprites.svg");
+    this.sprite = new Sprite(img);
   };
 
-  //getImage(type: UnitType): HTMLImageElement{
+  // getImage(type: UnitType): HTMLImageElement{
+ 
 
-
-  //  return sprites
-  //} 
+  //   return sprites
+  // } 
 
   drawRoad():void {
     this.ctx.fillStyle = '#000'
