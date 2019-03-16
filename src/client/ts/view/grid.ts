@@ -12,7 +12,7 @@ export class Grid {
   private totalWidth: number = document.getElementById('arena')!.offsetWidth;
   private gameSize: number = this.totalHeight <= this.totalWidth ? this.totalHeight : this.totalWidth;
   private cellSize: number = this.gameSize / 52;
-  private sprite: Sprite;
+  private sprite: Map<string, HTMLImageElement>;
 
   constructor() {
     this.canvas = <HTMLCanvasElement>document.getElementById('canvas');
@@ -20,15 +20,13 @@ export class Grid {
     this.canvas.height = this.gameSize;
     this.ctx = <CanvasRenderingContext2D>this.canvas.getContext("2d");
     let img = new Image();
-    img.src = require("../assets/sprites.svg");
-    this.sprite = new Sprite(img);
+    img.src = require("../../assets/sprites.svg");
+    this.sprite = new Sprite(img).all;
   };
 
-  // getImage(type: UnitType): HTMLImageElement{
- 
-
-  //   return sprites
-  // } 
+   getImage(type: UnitType): HTMLImageElement | any{
+     return this.sprite.get(type.toString());
+   } 
 
   drawRoad():void {
     this.ctx.fillStyle = '#000'
@@ -36,7 +34,7 @@ export class Grid {
   };
 
   drawBlock(block: Block){
-  //  this.ctx.drawImage(this.getImage(block.type), block.x * this.cellSize, block.y * this.cellSize, block.size * this.cellSize, block.size * this.cellSize);
+    this.ctx.drawImage(this.getImage(block.type), block.x * this.cellSize, block.y * this.cellSize, block.size * this.cellSize, block.size * this.cellSize);
   }
 
   draw(blocks: Block[]):void {
