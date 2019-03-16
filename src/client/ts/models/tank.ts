@@ -11,8 +11,8 @@ export class Tank extends Vector {
     public spawnPointX: number;
     public spawnPointY: number;
 
-    constructor (x: number, y: number, type: UnitType, zorder: ZOrder, speed: number, vector: Directoin, health: number, bulletType: UnitType, avaliableShoots: number) {
-        super(x, y, type, zorder, Parameters.tankSize, speed, vector);
+    constructor (x: number, y: number, type: UnitType, zorder: ZOrder, sweep: boolean, drive: boolean, demolish: boolean, speed: number, vector: Directoin, health: number, bulletType: UnitType, avaliableShoots: number) {
+        super(x, y, type, zorder, Parameters.tankSize, sweep, drive, demolish, speed, vector);
         this.health = health;
         this.bulletType = bulletType;
         this.avaliableShoots = avaliableShoots;

@@ -7,12 +7,18 @@ export class Item {
     public type: UnitType;
     public zorder: ZOrder;
     public size: number;
+    public sweep: boolean;
+    public drive: boolean;
+    public demolish: boolean;
 
-    constructor(x: number, y: number, type: UnitType, zorder: ZOrder, size: number) {
+    constructor(x: number, y: number, type: UnitType, zorder: ZOrder, size: number, sweep: boolean, drive: boolean, demolish: boolean) {
         this.x = x;
         this.y = y;
         this.type = type;
         this.zorder = zorder;
         this.size = size;
+        this.sweep = sweep;
+        this.drive = drive;
+        this.demolish = demolish;
     }
 }

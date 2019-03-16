@@ -27,9 +27,9 @@ export class Game {
         this.arena = arena;
         this.blocks = arena.blocks.slice();
         let spawn = <SpawnPoint>arena.spawnPoints.pop();
-        this.tanks.push(new Tank(spawn.currentX, spawn.currentY, UnitType.LowTank, 1, 0.6, spawn.vector, 100, UnitType.FastBullet, 1));
+        this.tanks.push(new Tank(spawn.currentX, spawn.currentY, UnitType.LowTank, 1, false, false, true, 0.6, spawn.vector, 100, UnitType.FastBullet, 1));
         spawn = <SpawnPoint>arena.spawnPoints.pop();
-        this.tanks.push(new Tank(spawn.currentX, spawn.currentY, UnitType.LowTank, 1, 0.6, spawn.vector, 100, UnitType.FastBullet, 1));
+        this.tanks.push(new Tank(spawn.currentX, spawn.currentY, UnitType.LowTank, 1, false, false, true, 0.6, spawn.vector, 100, UnitType.FastBullet, 1));
         this.sound.run("startGame");
     }
 
@@ -58,7 +58,6 @@ export class Game {
         };
 
         setInterval(() => {
-            //console.log("cycle");
             this.drawing();
             if (this.allEvents.length != 0 || this.bullets.length != 0) {
                 this.calculate();
@@ -166,40 +165,44 @@ export class Game {
         }
         switch (tank.vector) {
             case Directoin.Up:
-                if (tank.y - Math.trunc(tank.y) <= 0.5 && Directoin.Down !== necessaryDirection) {
+                if (parseFloat(tank.y.toFixed(2)) - Math.trunc(tank.y) <= 0.5 && Directoin.Down !== necessaryDirection) {
                     tank.y = Math.trunc(tank.y);
                 }
-                else if (tank.y - Math.trunc(tank.y) > 0.5 && Directoin.Down !== necessaryDirection) {
+                else if (parseFloat(tank.y.toFixed(2)) - Math.trunc(tank.y) > 0.5 && Directoin.Down !== necessaryDirection) {
                     tank.y = Math.trunc(tank.y) + 1;
                 }
                 break;
             case Directoin.Down:
-                if (tank.y - Math.trunc(tank.y) >= 0.5 && Directoin.Up !== necessaryDirection) {
+                if (parseFloat(tank.y.toFixed(2)) - Math.trunc(tank.y) >= 0.5 && Directoin.Up !== necessaryDirection) {
                     tank.y = Math.trunc(tank.y) + 1;
                 }
-                else if (tank.y - Math.trunc(tank.y) < 0.5 && Directoin.Up !== necessaryDirection) {
+                else if (parseFloat(tank.y.toFixed(2)) - Math.trunc(tank.y) < 0.5 && Directoin.Up !== necessaryDirection) {
                     tank.y = Math.trunc(tank.y);
                 }
                 break;
             case Directoin.Left:
-                if (tank.x - Math.trunc(tank.x) <= 0.5 && Directoin.Right !== necessaryDirection) {
+                if (parseFloat(tank.x.toFixed(2)) - Math.trunc(tank.x) <= 0.5 && Directoin.Right !== necessaryDirection) {
                     tank.x = Math.trunc(tank.x);
                 }
-                else if (tank.x - Math.trunc(tank.x) > 0.5 && Directoin.Right !== necessaryDirection) {
+                else if (parseFloat(tank.x.toFixed(2)) - Math.trunc(tank.x) > 0.5 && Directoin.Right !== necessaryDirection) {
                     tank.x = Math.trunc(tank.x) + 1;
                 }
                 break;
             case Directoin.Right:
-                if (tank.x - Math.trunc(tank.x) >= 0.5 && Directoin.Left !== necessaryDirection) {
+                if (parseFloat(tank.x.toFixed(2)) - Math.trunc(tank.x) >= 0.5 && Directoin.Left !== necessaryDirection) {
                     tank.x = Math.trunc(tank.x) + 1;
                 }
-                else if (tank.x - Math.trunc(tank.x) < 0.5 && Directoin.Left !== necessaryDirection) {
+                else if (parseFloat(tank.x.toFixed(2)) - Math.trunc(tank.x) < 0.5 && Directoin.Left !== necessaryDirection) {
                     tank.x = Math.trunc(tank.x);
                 }
                 break;
         }
         tank.vector = necessaryDirection;
         return true;
+    }
+
+    private getAvaliableStep(step: number, avaliableStep: number) {
+        return step > avaliableStep ? avaliableStep : step;
     }
 
     private tankUp(tank: Tank) {
@@ -211,12 +214,8 @@ export class Game {
             return;
         }
         let step: number = tank.speed;
-        let avaliableStep: number = tank.speed;
         this.getItems().forEach(item => {
-            avaliableStep = this.moveUp(item, tank);
-            if (step > avaliableStep) {
-                step = avaliableStep;
-            }
+            step = item.drive ? step : this.getAvaliableStep(step, this.moveUp(item, tank));
         });
         tank.y -= step;
     }
@@ -243,12 +242,8 @@ export class Game {
             return;
         }
         let step: number = tank.speed;
-        let avaliableStep: number = tank.speed;
         this.getItems().forEach(item => {
-            avaliableStep = this.moveDown(item, tank);
-            if (step > avaliableStep) {
-                step = avaliableStep;
-            }
+            step = item.drive ? step : this.getAvaliableStep(step, this.moveDown(item, tank));
         });
         tank.y += step;
     }
@@ -274,12 +269,8 @@ export class Game {
             return;
         }
         let step: number = tank.speed;
-        let avaliableStep: number = tank.speed;
         this.getItems().forEach(item => {
-            avaliableStep = this.moveLeft(item, tank);
-            if (step > avaliableStep) {
-                step = avaliableStep;
-            }
+            step = item.drive ? step : this.getAvaliableStep(step, this.moveLeft(item, tank));
         });
         tank.x -= step;
     }
@@ -305,12 +296,8 @@ export class Game {
             return;
         }
         let step: number = tank.speed;
-        let avaliableStep: number = tank.speed;
         this.getItems().forEach(item => {
-            avaliableStep = this.moveRight(item, tank);
-            if (step > avaliableStep) {
-                step = avaliableStep;
-            }
+            step = item.drive ? step : this.getAvaliableStep(step, this.moveRight(item, tank));
         });
         tank.x += step;
     }
