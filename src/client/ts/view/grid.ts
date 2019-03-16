@@ -1,7 +1,6 @@
 import { Tank } from "../models/tank";
 import { Bullet } from "../models/bullet";
 import { UnitType } from "../models/unit-type";
-import { Parameters } from "../parameters";
 import { Block } from "../models/block";
 import { Sprite } from "./sprite";
 
