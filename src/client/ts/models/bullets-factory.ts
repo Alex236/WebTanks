@@ -32,7 +32,7 @@ export class BulletsFactory {
             speed = 4;
             damage = 50;
             break;
-            case UnitType.SlowBullet: 
+            case UnitType.SlowBullet:
             speed = 2;
             damage = 100;
             break;

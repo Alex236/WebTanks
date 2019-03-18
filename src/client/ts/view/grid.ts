@@ -1,5 +1,3 @@
-import { Tank } from "../models/tank";
-import { Bullet } from "../models/bullet";
 import { UnitType } from "../models/unit-type";
 import { Block } from "../models/block";
 import { Sprite } from "./sprite";
@@ -23,9 +21,9 @@ export class Grid {
     this.sprite = new Sprite(img).all;
   };
 
-   getImage(type: UnitType): HTMLImageElement | any{
-     return this.sprite.get(type.toString());
-   } 
+  getImage(type: UnitType): HTMLImageElement | any{
+    return this.sprite.get(type.toString());
+  };
 
   drawRoad():void {
     this.ctx.fillStyle = '#000'

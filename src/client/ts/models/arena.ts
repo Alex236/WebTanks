@@ -6,7 +6,7 @@ import { Directoin } from "./direction";
 export class Arena {
     public blocks: Block[] = [
         new Block(5, 5, UnitType.Brick, 0, false, false, true),
-        
+
         new Block(5, 5, UnitType.Brick, 0, false, false, true),
         new Block(15, 15, UnitType.Brick, 0, false, false, true),
         new Block(15, 16, UnitType.Brick, 0, false, false, true),
@@ -56,15 +56,14 @@ export class Arena {
         new Block(22, 16, UnitType.Brick, 0, false, false, true),
         new Block(22, 17, UnitType.Brick, 0, false, false, true),
         new Block(22, 18, UnitType.Brick, 0, false, false, true),
-        
+
         new Block(40, 40, UnitType.Grass, 1, false, false, true),
         new Block(40, 41, UnitType.Grass, 1, false, false, true),
         new Block(41, 40, UnitType.Grass, 1, false, false, true),
         new Block(41, 41, UnitType.Grass, 1, false, false, true),
 
         new Block(5, 7, UnitType.HardBrick, 0, false, false, true),
-        new Block(5, 6, UnitType.HardBrick, 0, false, false, true),
-        
+        new Block(5, 6, UnitType.HardBrick, 0, false, false, true)
     ];
 
     public spawnPoints: SpawnPoint[] = [
