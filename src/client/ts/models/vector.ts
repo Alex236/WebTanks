@@ -5,11 +5,11 @@ import { ZOrder } from "./z-order";
 
 export class Vector extends Item {
     public speed: number;
-    public vector: Directoin;
+    public direction: Directoin;
 
-    constructor (x: number, y: number, type: UnitType, zorder: ZOrder, size: number,  sweep: boolean, drive: boolean, demolish: boolean, speed: number, vector: Directoin) {
+    constructor (x: number, y: number, type: UnitType, zorder: ZOrder, size: number,  sweep: boolean, drive: boolean, demolish: boolean, speed: number, direction: Directoin) {
         super(x, y, type, zorder, size, sweep, drive, demolish);
         this.speed = speed;
-        this.vector = vector;
+        this.direction = direction;
     }
 }

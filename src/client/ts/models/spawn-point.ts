@@ -1,13 +1,13 @@
 import { Directoin } from "./direction";
 
 export class SpawnPoint {
-    public currentX: number;
-    public currentY: number;
-    public vector: Directoin;
+    public x: number;
+    public y: number;
+    public direction: Directoin;
 
-    constructor(x: number, y: number, vector: Directoin) {
-        this.currentX = x;
-        this.currentY = y;
-        this.vector = vector;
+    constructor(x: number, y: number, direction: Directoin) {
+        this.x = x;
+        this.y = y;
+        this.direction = direction;
     }
 }

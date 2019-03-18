@@ -18,21 +18,22 @@ export class Game {
     private tanks: Tank[] = [];
     private allEvents: Event[] = [];
     private filteredEvents: (() => void)[] = [];
-    private bullets: Bullet[] = [];
     private arena: Arena;
     private blocks: Block[] = [];
     private grid: Grid = new Grid();
     private sound: Sound = new Sound();
     private bulletsFactory: BulletsFactory;
+    private bullets: Map<Tank, Bullet[]> = new Map();
 
     constructor(players: number, arena: Arena) {
-        this.bulletsFactory = new BulletsFactory(this.bullets);
+        this.bulletsFactory = new BulletsFactory();
         this.arena = arena;
-        this.blocks = arena.blocks.slice();
-        let spawn = <SpawnPoint>arena.spawnPoints.pop();
-        this.tanks.push(new Tank(spawn.currentX, spawn.currentY, UnitType.LowTank, 1, false, false, true, 0.6, spawn.vector, 100, UnitType.FastBullet, 1));
-        spawn = <SpawnPoint>arena.spawnPoints.pop();
-        this.tanks.push(new Tank(spawn.currentX, spawn.currentY, UnitType.LowTank, 1, false, false, true, 0.6, spawn.vector, 100, UnitType.FastBullet, 1));
+        this.blocks = arena.blocks;
+        this.tanks.push(new Tank(<SpawnPoint>arena.spawnPoints.pop(), UnitType.LowTank, 1, false, false, true, 0.4, 100, UnitType.FastBullet, 1));
+        this.tanks.push(new Tank(<SpawnPoint>arena.spawnPoints.pop(), UnitType.LowTank, 1, false, false, true, 0.4, 100, UnitType.FastBullet, 1));
+        this.tanks.forEach(tank => {
+            this.bullets.set(tank, <Bullet[]>[]);
+        });
         this.sound.run("startGame");
     }
 
@@ -43,7 +44,7 @@ export class Game {
     }
 
     private drawing() {
-        this.grid.draw(this.blocks, this.tanks);
+        this.grid.draw(this.blocks);
     }
 
     public start() {
@@ -62,9 +63,9 @@ export class Game {
 
         setInterval(() => {
             this.drawing();
-            if (this.allEvents.length != 0 || this.bullets.length != 0) {
-                this.calculate();
-            }
+            // if (this.allEvents.length != 0 || this.bullets.length != 0) {
+            //     this.calculate();
+            // }
         }, Parameters.timer);
     }
 
@@ -140,8 +141,8 @@ export class Game {
                     }
                     break;
                 case EventType.PressedSpace:
-                    if (this.canShoot(this.allEvents[i].tank)) {
-                        this.bulletsFactory.createBullet(this.allEvents[i].tank);
+                    if ((<Bullet[]>this.bullets.get(this.allEvents[i].tank)).length < this.allEvents[i].tank.avaliableShoots) {
+                        (<Bullet[]>this.bullets.get(this.allEvents[i].tank)).push(this.bulletsFactory.createBullet(this.allEvents[i].tank));
                     }
                     break;
                 case EventType.BulletFlight:
@@ -153,59 +154,38 @@ export class Game {
         this.allEvents.splice(0, count);
     }
 
-    private canShoot(tank: Tank): boolean {
-        let counter: number = 0;
-        this.bullets.forEach(bullet => bullet.owner === tank ? counter++ : {})
-        return counter < tank.avaliableShoots;
-    }
-
     private getItems(): Item[] {
-        let items: Item[] = [];
-        this.blocks.forEach(item => items.push(item));
-        this.tanks.forEach(item => items.push(item));
-        this.bullets.forEach(item => items.push(item));
-        return items;
+        let temp = <Bullet[][]>Array.from(this.bullets.values());
+        return (<Item[]>[]).concat(this.blocks, this.tanks, (<Item[]>[]).concat(...<Bullet[][]>Array.from(this.bullets.values())));
     }
 
     private turn(tank: Tank, necessaryDirection: Directoin): boolean {
-        if (tank.vector == necessaryDirection) {
+        if (tank.direction == necessaryDirection) {
             return false;
         }
-        switch (tank.vector) {
+        switch (tank.direction) {
             case Directoin.Up:
-                if (parseFloat(tank.y.toFixed(2)) - Math.trunc(tank.y) <= 0.5 && Directoin.Down !== necessaryDirection) {
-                    tank.y = Math.trunc(tank.y);
-                }
-                else if (parseFloat(tank.y.toFixed(2)) - Math.trunc(tank.y) > 0.5 && Directoin.Down !== necessaryDirection) {
-                    tank.y = Math.trunc(tank.y) + 1;
+                if (Directoin.Down !== necessaryDirection) {
+                    tank.y = Math.round(tank.y);
                 }
                 break;
             case Directoin.Down:
-                if (parseFloat(tank.y.toFixed(2)) - Math.trunc(tank.y) >= 0.5 && Directoin.Up !== necessaryDirection) {
-                    tank.y = Math.trunc(tank.y) + 1;
-                }
-                else if (parseFloat(tank.y.toFixed(2)) - Math.trunc(tank.y) < 0.5 && Directoin.Up !== necessaryDirection) {
-                    tank.y = Math.trunc(tank.y);
+                if (Directoin.Up !== necessaryDirection) {
+                    tank.y = Math.round(tank.y);
                 }
                 break;
             case Directoin.Left:
-                if (parseFloat(tank.x.toFixed(2)) - Math.trunc(tank.x) <= 0.5 && Directoin.Right !== necessaryDirection) {
-                    tank.x = Math.trunc(tank.x);
-                }
-                else if (parseFloat(tank.x.toFixed(2)) - Math.trunc(tank.x) > 0.5 && Directoin.Right !== necessaryDirection) {
-                    tank.x = Math.trunc(tank.x) + 1;
+                if (Directoin.Right !== necessaryDirection) {
+                    tank.x = Math.round(tank.x);
                 }
                 break;
             case Directoin.Right:
-                if (parseFloat(tank.x.toFixed(2)) - Math.trunc(tank.x) >= 0.5 && Directoin.Left !== necessaryDirection) {
-                    tank.x = Math.trunc(tank.x) + 1;
-                }
-                else if (parseFloat(tank.x.toFixed(2)) - Math.trunc(tank.x) < 0.5 && Directoin.Left !== necessaryDirection) {
-                    tank.x = Math.trunc(tank.x);
+                if (Directoin.Left !== necessaryDirection) {
+                    tank.x = Math.round(tank.x);
                 }
                 break;
         }
-        tank.vector = necessaryDirection;
+        tank.direction = necessaryDirection;
         return true;
     }
 

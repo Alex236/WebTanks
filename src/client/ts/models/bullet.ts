@@ -9,8 +9,8 @@ export class Bullet extends Vector {
     public damage: number;
     public owner: Tank;
 
-    constructor (x: number, y: number, type: UnitType, zorder: ZOrder, sweep: boolean, drive: boolean, demolish: boolean, speed: number, vector: Directoin, damage: number, owner: Tank) {
-        super(x, y, type, zorder, Parameters.bulletSize, sweep, drive, demolish, speed, vector);
+    constructor (x: number, y: number, type: UnitType, zorder: ZOrder, sweep: boolean, drive: boolean, demolish: boolean, speed: number, direction: Directoin, damage: number, owner: Tank) {
+        super(x, y, type, zorder, Parameters.bulletSize, sweep, drive, demolish, speed, direction);
         this.damage = damage;
         this.owner = owner;
     }
