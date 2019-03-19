@@ -31,7 +31,7 @@ export class Grid {
   };
 
   drawBlock(block: Block){
-    this.ctx.drawImage(this.getImage(block.type), block.x * this.cellSize, block.y * this.cellSize, block.size * this.cellSize, block.size * this.cellSize);
+    this.ctx.drawImage(this.getImage(block.unitType), block.x * this.cellSize, block.y * this.cellSize, block.size * this.cellSize, block.size * this.cellSize);
   }
 
   draw(blocks: Block[]):void {

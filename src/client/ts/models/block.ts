@@ -1,10 +1,10 @@
 import { Item } from "./item";
 import { UnitType } from "./unit-type";
-import { ZOrder } from "./z-order";
 import { Parameters } from "../parameters";
+import { ItemType } from "./item-type";
 
 export class Block extends Item {
-    constructor(x: number, y: number, type: UnitType, zorder: ZOrder, sweep: boolean, drive: boolean, demolish: boolean) {
-        super(x, y, type, zorder, Parameters.blockSize, sweep, drive, demolish);
+    constructor(x: number, y: number, unitType: UnitType, itemType: ItemType, sweep: boolean, drive: boolean, demolish: boolean) {
+        super(x, y, unitType, itemType, Parameters.blockSize, sweep, drive, demolish);
     }
 }

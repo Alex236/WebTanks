@@ -8,8 +8,6 @@ import { Sound } from "./view/sound";
 import { Tank } from "./models/tank";
 import { Bullet } from "./models/bullet";
 import { Block } from "./models/block";
-import { UnitType } from "./models/unit-type";
-import { SpawnPoint } from "./models/spawn-point";
 import { Item } from "./models/item";
 import { Directoin } from "./models/direction";
 import { BulletsFactory } from "./models/bullets-factory";
@@ -18,19 +16,15 @@ export class Game {
     private tanks: Tank[] = [];
     private allEvents: Event[] = [];
     private filteredEvents: (() => void)[] = [];
-    private arena: Arena;
     private blocks: Block[] = [];
     private grid: Grid = new Grid();
     private sound: Sound = new Sound();
-    private bulletsFactory: BulletsFactory;
+    private bulletsFactory: BulletsFactory = new BulletsFactory();
     private bullets: Map<Tank, Bullet[]> = new Map();
 
-    constructor(players: number, arena: Arena) {
-        this.bulletsFactory = new BulletsFactory();
-        this.arena = arena;
+    constructor(tanks: Tank[], arena: Arena) {
         this.blocks = arena.blocks;
-        this.tanks.push(new Tank(<SpawnPoint>arena.spawnPoints.pop(), UnitType.LowTank, 1, false, false, true, 0.4, 100, UnitType.FastBullet, 1));
-        this.tanks.push(new Tank(<SpawnPoint>arena.spawnPoints.pop(), UnitType.LowTank, 1, false, false, true, 0.4, 100, UnitType.FastBullet, 1));
+        this.tanks = tanks;
         this.tanks.forEach(tank => {
             this.bullets.set(tank, <Bullet[]>[]);
         });
@@ -44,7 +38,7 @@ export class Game {
     }
 
     private drawing() {
-        this.grid.draw(this.blocks);
+        this.grid.draw(this.getItems());
     }
 
     public start() {
@@ -63,9 +57,9 @@ export class Game {
 
         setInterval(() => {
             this.drawing();
-            // if (this.allEvents.length != 0 || this.bullets.length != 0) {
-            //     this.calculate();
-            // }
+            if (this.allEvents.length != 0) {
+                this.calculate();
+            }
         }, Parameters.timer);
     }
 
