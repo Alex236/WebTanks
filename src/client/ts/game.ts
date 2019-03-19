@@ -11,6 +11,7 @@ import { Block } from "./models/block";
 import { Item } from "./models/item";
 import { Directoin } from "./models/direction";
 import { BulletsFactory } from "./models/bullets-factory";
+import { ItemType } from "./models/item-type";
 
 export class Game {
     private tanks: Tank[] = [];
@@ -35,6 +36,9 @@ export class Game {
         this.deleteUselessEvents();
         this.filteredEvents.forEach(event => event());
         this.filteredEvents.splice(0, this.filteredEvents.length);
+        if ((<Item[]>[]).concat(...<Bullet[][]>Array.from(this.bullets.values())).length !== 0) {
+            this.moveBullet();
+        }
     }
 
     private drawing() {
@@ -57,7 +61,7 @@ export class Game {
 
         setInterval(() => {
             this.drawing();
-            if (this.allEvents.length != 0) {
+            if (this.allEvents.length !== 0 || (<Item[]>[]).concat(...<Bullet[][]>Array.from(this.bullets.values())).length !== 0) {
                 this.calculate();
             }
         }, Parameters.timer);
@@ -296,147 +300,118 @@ export class Game {
         return avaliableStep;
     }
 
-    // private moveBullet() {
-    //     for(let i: number = 0; i < this.bullets.length; i++) {
-    //         switch(this.bullets[i].vector) {
-    //             case Vector.Up:
-    //                 this.bulletUp(this.bullets[i], i);
-    //                 break;
-    //             case Vector.Down:
-    //                 this.bulletDown(this.bullets[i], i);
-    //                 break;
-    //             case Vector.Left:
-    //                 this.bulletLeft(this.bullets[i], i);
-    //                 break;
-    //             case Vector.Right:
-    //                 this.bulletRight(this.bullets[i], i);
-    //                 break;
-    //         }
-    //     }
-    // }
+    private moveBullet() {
+        this.tanks.forEach(tank => {
+            if (this.bullets.get(tank).length !== 0) {
+                this.bullets.get(tank).forEach((bullet, i) => {
+                    switch (bullet.direction) {
+                        case Directoin.Up:
+                            this.bulletUp(bullet, tank, i);
+                            break;
+                        case Directoin.Down:
+                            this.bulletDown(bullet, tank, i);
+                            break;
+                        case Directoin.Left:
+                            this.bulletLeft(bullet, tank, i);
+                            break;
+                        case Directoin.Right:
+                            this.bulletRight(bullet, tank, i);
+                            break;
+                    }
+                });
+            }
+        });
+    }
 
-    // private bulletUp(bullet: Bullet, bulletNumber: number) {
-    //     for(let i: number = 1; i <= Parameters.bulletSpeed; i++) {
-    //         if(bullet.y - i < 0) {
-    //             this.bullets.splice(bulletNumber, 1);
-    //             return;
-    //         }
-    //         if(this.arena.field[bullet.y - i][bullet.x] == BlockType.Road && this.arena.field[bullet.y - i][bullet.x + 1] == BlockType.Road) {
-    //             let breakPoint: boolean = false;
-    //             this.tanks.forEach(element => {
-    //                 if (bullet.x - 3 <= element.x && element.x <= bullet.x + 1 && element.y + i == bullet.y) {
-    //                     this.respawn(element);
-    //                     this.bullets.splice(bulletNumber, 1);
-    //                     breakPoint = true;
-    //                     return;
-    //                 }
-    //             });
-    //             if(breakPoint)
-    //             {
-    //                 return;
-    //             }
-    //         }
-    //         else {
-    //             for(let j: number = 0; j < Parameters.bulletDestroy; j++) {
-    //                 if(this.arena.field[bullet.y - i][bullet.x - 1 + j] == BlockType.Brick) {
-    //                     this.arena.field[bullet.y - i][bullet.x - 1 + j] = BlockType.Road;
-    //                 }
-    //             }
-    //             this.bullets.splice(bulletNumber, 1);
-    //             return;
-    //         }        
-    //     }
-    //     bullet.y -= Parameters.bulletSpeed;
-    // }
+    private compareItemsByItemType(a: Item, b: Item): number {
+        return a.itemType > b.itemType ? 1 : (a.itemType === b.itemType ? 0 : -1);
+    }
 
-    // private bulletDown(bullet: Bullet, bulletNumber: number) {
-    //     for(let i: number = 1; i <= Parameters.bulletSpeed; i++) {
-    //         if(bullet.y + i >= Parameters.fieldHeight - 1) {
-    //             this.bullets.splice(bulletNumber, 1);
-    //             return;
-    //         }
-    //         if(this.arena.field[bullet.y + i + 1][bullet.x] == BlockType.Road && this.arena.field[bullet.y + i + 1][bullet.x + 1] == BlockType.Road) {
-    //             this.tanks.forEach(element => {
-    //                 if (bullet.x - 3 <= element.x && element.x <= bullet.x + 1 && element.y - i - 1 == bullet.y) {//y
-    //                     this.respawn(element);
-    //                     this.bullets.splice(bulletNumber, 1);
-    //                     return;
-    //                 }
-    //             });
-    //         }
-    //         else {
-    //             for(let j: number = 0; j < Parameters.bulletDestroy; j++) {
-    //                 if(this.arena.field[bullet.y + i + 1][bullet.x - 1 + j] == BlockType.Brick) {
-    //                     this.arena.field[bullet.y + i + 1][bullet.x - 1 + j] = BlockType.Road;
-    //                 }
-    //             }
-    //             this.bullets.splice(bulletNumber, 1);
-    //             return;
-    //         }        
-    //     }
-    //     bullet.y += Parameters.bulletSpeed;
-    // }
+    private damageTank(bullet: Bullet, tank: Tank) {
+        tank.health -= bullet.damage;
+    }
 
-    // private bulletLeft(bullet: Bullet, bulletNumber: number) {
-    //     for(let i: number = 1; i <= Parameters.bulletSpeed; i++) {
-    //         if(bullet.x - i < 0) {
-    //             this.bullets.splice(bulletNumber, 1);
-    //             return;
-    //         }
-    //         if(this.arena.field[bullet.y][bullet.x - i] == BlockType.Road && this.arena.field[bullet.y + 1][bullet.x - i] == BlockType.Road) {
-    //             let breakPoint: boolean = false;
-    //             this.tanks.forEach(element => {
-    //                 if (bullet.y - 3 <= element.y && element.y <= bullet.y + 1 && element.x + i == bullet.x) {
-    //                     this.respawn(element);
-    //                     this.bullets.splice(bulletNumber, 1);
-    //                     breakPoint = true;
-    //                     return;
-    //                 }
-    //             });
-    //             if(breakPoint) {
-    //                 return;
-    //             }
-    //         }
-    //         else {
-    //             for(let j: number = 0; j < Parameters.bulletDestroy; j++) {
-    //                 if(this.arena.field[bullet.y - 1 + j][bullet.x - i] == BlockType.Brick) {
-    //                     this.arena.field[bullet.y - 1 + j][bullet.x - i] = BlockType.Road;
-    //                 }
-    //             }
-    //             this.bullets.splice(bulletNumber, 1);
-    //             return;
-    //         }        
-    //     }
-    //     bullet.x -= Parameters.bulletSpeed;
-    // }
+    private destroy(bullet: Bullet, tank: Tank, item: Item, bulletNumber: number): boolean {
+        if (item.x + item.size > bullet.x && bullet.x + bullet.size > item.x && item.y + item.size > bullet.y && bullet.y + bullet.size > item.y) {
+            switch (item.itemType) {
+                case ItemType.Tank:
+                    (<Bullet[]>this.bullets.get(tank)).splice(bulletNumber, 1);
+                    this.damageTank(bullet, tank);
+                    return true;
+                case ItemType.Bullet:
+                case ItemType.Block:
+            }
+        }
+        return false;
+    }
 
-    // private bulletRight(bullet: Bullet, bulletNumber: number) {
-    //     for(let i: number = 1; i <= Parameters.bulletSpeed; i++) {
-    //         if(bullet.x + i >= Parameters.fieldHeight - 1) {
-    //             this.bullets.splice(bulletNumber, 1);
-    //             return;
-    //         }
-    //         if(this.arena.field[bullet.y][bullet.x + i + 1] == BlockType.Road && this.arena.field[bullet.y + 1][bullet.x + i + 1] == BlockType.Road) {
-    //             this.tanks.forEach(element => {
-    //                 if (bullet.y - 3 <= element.y && element.y <= bullet.y + 1 && element.x - i - 1 == bullet.x) {//y
-    //                     this.respawn(element);
-    //                     this.bullets.splice(bulletNumber, 1);
-    //                     return;
-    //                 }
-    //             });
-    //         }
-    //         else {
-    //             for(let j: number = 0; j < Parameters.bulletDestroy; j++) {
-    //                 if(this.arena.field[bullet.y - 1 + j][bullet.x + i + 1] == BlockType.Brick) {
-    //                     this.arena.field[bullet.y - 1 + j][bullet.x + i + 1] = BlockType.Road;
-    //                 }
-    //             }
-    //             this.bullets.splice(bulletNumber, 1);
-    //             return;
-    //         }        
-    //     }
-    //     bullet.x += Parameters.bulletSpeed;
-    // }
+    private bulletUp(bullet: Bullet, tank: Tank, bulletNumber: number) {
+        this.getItems().sort(this.compareItemsByItemType).forEach(item => {
+            if (!((item.x === bullet.x && item.y === bullet.y) || (item.x === tank.x && item.y === tank.y))) {
+                for (let i: number = 0; i < bullet.speed; i++) {
+                    bullet.y--;
+                    if (bullet.y < 0) {
+                        (<Bullet[]>this.bullets.get(tank)).splice(bulletNumber, 1);
+                        return;
+                    }
+                    if (this.destroy(bullet, tank, item, bulletNumber)) {
+                        return;
+                    }
+                }
+            }
+        });
+    }
+
+    private bulletDown(bullet: Bullet, tank: Tank, bulletNumber: number) {
+        this.getItems().sort(this.compareItemsByItemType).forEach(item => {
+            if (!((item.x === bullet.x && item.y === bullet.y) || (item.x === tank.x && item.y === tank.y))) {
+                for (let i: number = 0; i < bullet.speed; i++) {
+                    bullet.y++;
+                    if (bullet.y > Parameters.fieldHeight - bullet.size) {
+                        (<Bullet[]>this.bullets.get(tank)).splice(bulletNumber, 1);
+                        return;
+                    }
+                    if (this.destroy(bullet, tank, item, bulletNumber)) {
+                        return;
+                    }
+                }
+            }
+        });
+    }
+
+    private bulletLeft(bullet: Bullet, tank: Tank, bulletNumber: number) {
+        this.getItems().sort(this.compareItemsByItemType).forEach(item => {
+            if (!((item.x === bullet.x && item.y === bullet.y) || (item.x === tank.x && item.y === tank.y))) {
+                for (let i: number = 0; i < bullet.speed; i++) {
+                    bullet.x--;
+                    if (bullet.x < 0) {
+                        (<Bullet[]>this.bullets.get(tank)).splice(bulletNumber, 1);
+                        return;
+                    }
+                    if (this.destroy(bullet, tank, item, bulletNumber)) {
+                        return;
+                    }
+                }
+            }
+        });
+    }
+
+    private bulletRight(bullet: Bullet, tank: Tank, bulletNumber: number) {
+        this.getItems().sort(this.compareItemsByItemType).forEach(item => {
+            if (!((item.x === bullet.x && item.y === bullet.y) || (item.x === tank.x && item.y === tank.y))) {
+                for (let i: number = 0; i < bullet.speed; i++) {
+                    bullet.x++;
+                    if (bullet.x > Parameters.fieldWidth - bullet.size) {
+                        (<Bullet[]>this.bullets.get(tank)).splice(bulletNumber, 1);
+                        return;
+                    }
+                    if (this.destroy(bullet, tank, item, bulletNumber)) {
+                        return;
+                    }
+                }
+            }
+        });
+    }
 
     // private respawn(tank: Tank) {
     //     if (tank.lifes == 0) {

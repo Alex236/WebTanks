@@ -38,6 +38,6 @@ export class BulletsFactory {
             damage = 100;
             break;
         }
-        return new Bullet(x, y, tank.bulletType, ItemType.Bullet, false, false, true, speed, tank.direction, damage, tank);
+        return new Bullet(x, y, tank.bulletType, ItemType.Bullet, false, false, true, speed, tank.direction, damage);
     }
 }
