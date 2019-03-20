@@ -6,7 +6,7 @@ import { ItemType } from "./item-type";
 
 export class Arena {
     public blocks: Block[] = [
-        new Block(5, 5, UnitType.Brick, ItemType.Block, false, false, true),
+        // new Block(5, 5, UnitType.Brick, ItemType.Block, false, false, true),
 
         // new Block(5, 5, UnitType.Brick, ItemType.Block, false, false, true),
         // new Block(15, 15, UnitType.Brick, ItemType.Block, false, false, true),
@@ -68,7 +68,7 @@ export class Arena {
     ];
 
     public spawnPoints: SpawnPoint[] = [
-        new SpawnPoint(20, 30, Directoin.Up),
-        new SpawnPoint(20, 20, Directoin.Up)
+        new SpawnPoint(20, 40, Directoin.Up),
+        new SpawnPoint(20, 10, Directoin.Up)
     ];
 }
