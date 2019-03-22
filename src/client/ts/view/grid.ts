@@ -1,6 +1,7 @@
 import { UnitType } from "../models/unit-type";
 import { Block } from "../models/block";
 import { Sprite } from "./sprite";
+import { ItemBase } from '../models/item-base';
 
 export class Grid {
   private canvas: HTMLCanvasElement;
@@ -34,8 +35,8 @@ export class Grid {
     this.ctx.drawImage(this.getImage(block.unitType), block.x * this.cellSize, block.y * this.cellSize, block.size * this.cellSize, block.size * this.cellSize);
   }
 
-  draw(blocks: Block[]):void {
+  draw(blocks: ItemBase[]):void {
     this.drawRoad();
-    blocks.forEach(block => this.drawBlock(block))
+    blocks.forEach(block => this.drawBlock(<Block>block))
   };
 }

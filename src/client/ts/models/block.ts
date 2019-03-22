@@ -1,10 +1,17 @@
-import { Item } from "./item";
+import { ItemBase } from "./item-base";
 import { UnitType } from "./unit-type";
-import { Parameters } from "../parameters";
-import { ItemType } from "./item-type";
 
-export class Block extends Item {
-    constructor(x: number, y: number, unitType: UnitType, itemType: ItemType, sweep: boolean, drive: boolean, demolish: boolean) {
-        super(x, y, unitType, itemType, Parameters.blockSize, sweep, drive, demolish);
+export class Block extends ItemBase {
+    public sweep: boolean;
+    public drive: boolean;
+    public demolish: boolean;
+    public unitType: UnitType;
+
+    constructor(x: number, y: number, size: number, unitType: UnitType, sweep: boolean, drive: boolean, demolish: boolean) {
+        super(x, y, size, unitType);
+        this.sweep = sweep;
+        this.drive = drive;
+        this.demolish = demolish;
+        this.unitType = unitType;
     }
 }

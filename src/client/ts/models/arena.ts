@@ -6,7 +6,22 @@ import { ItemType } from "./item-type";
 
 export class Arena {
     public blocks: Block[] = [
-        // new Block(5, 5, UnitType.Brick, ItemType.Block, false, false, true),
+        // new Block(5, 6, UnitType.Brick, ItemType.Block, false, false, true),
+        // new Block(5, 7, UnitType.Brick, ItemType.Block, false, false, true),
+        // new Block(5, 8, UnitType.Brick, ItemType.Block, false, false, true),
+        // new Block(5, 9, UnitType.Brick, ItemType.Block, false, false, true),
+        // new Block(6, 6, UnitType.Brick, ItemType.Block, false, false, true),
+        // new Block(6, 7, UnitType.Brick, ItemType.Block, false, false, true),
+        // new Block(6, 8, UnitType.Brick, ItemType.Block, false, false, true),
+        // new Block(6, 9, UnitType.Brick, ItemType.Block, false, false, true),
+        // new Block(7, 6, UnitType.Brick, ItemType.Block, false, false, true),
+        // new Block(7, 7, UnitType.Brick, ItemType.Block, false, false, true),
+        // new Block(7, 8, UnitType.Brick, ItemType.Block, false, false, true),
+        // new Block(7, 9, UnitType.Brick, ItemType.Block, false, false, true),
+        // new Block(8, 6, UnitType.Brick, ItemType.Block, false, false, true),
+        // new Block(8, 7, UnitType.Brick, ItemType.Block, false, false, true),
+        // new Block(8, 8, UnitType.Brick, ItemType.Block, false, false, true),
+        // new Block(8, 9, UnitType.Brick, ItemType.Block, false, false, true),
 
         // new Block(5, 5, UnitType.Brick, ItemType.Block, false, false, true),
         // new Block(15, 15, UnitType.Brick, ItemType.Block, false, false, true),
@@ -26,7 +41,7 @@ export class Arena {
         // new Block(18, 20, UnitType.Brick, ItemType.Block, false, false, true),
         // new Block(18, 21, UnitType.Brick, ItemType.Block, false, false, true),
 
-        // new Block(25, 30, UnitType.Brick, ItemType.Block, false, false, true),
+        new Block(25, 30, 1, UnitType.Brick, false, false, true),
         // new Block(25, 31, UnitType.Brick, ItemType.Block, false, false, true),
         // new Block(25, 32, UnitType.Brick, ItemType.Block, false, false, true),
         // new Block(25, 33, UnitType.Brick, ItemType.Block, false, false, true),

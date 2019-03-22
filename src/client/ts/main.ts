@@ -1,7 +1,7 @@
 import { Game } from "./game";
 import { Arena } from "./models/arena";
-import { TankFactory } from "./models/tank-factory";
+import { TankFactory } from "./tank-factory";
 
 
-let game = new Game((new TankFactory).createTanks(2, new Arena), new Arena);
+let game = new Game([(new TankFactory).createTanks(), (new TankFactory).createTanks()], new Arena);
 game.start();

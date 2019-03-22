@@ -1,8 +1,8 @@
-import { Tank } from "./tank";
-import { Bullet } from "./bullet";
-import { UnitType } from "./unit-type";
-import { Directoin } from "./direction";
-import { ItemType } from "./item-type";
+import { Tank } from "./models/tank";
+import { Bullet } from "./models/bullet";
+import { UnitType } from "./models/unit-type";
+import { Directoin } from "./models/direction";
+import { ItemType } from "./models/item-type";
 
 export class BulletsFactory {
     public createBullet(tank: Tank): Bullet {
@@ -38,6 +38,6 @@ export class BulletsFactory {
             damage = 100;
             break;
         }
-        return new Bullet(x, y, tank.bulletType, ItemType.Bullet, false, false, true, speed, tank.direction, damage, tank);
+        return new Bullet(x, y, 2, tank.unitType, tank.direction, speed, damage, tank);
     }
 }

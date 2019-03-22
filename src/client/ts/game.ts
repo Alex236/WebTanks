@@ -8,9 +8,9 @@ import { Sound } from "./view/sound";
 import { Tank } from "./models/tank";
 import { Bullet } from "./models/bullet";
 import { Block } from "./models/block";
-import { Item } from "./models/item";
+import { ItemBase } from "./models/item-base";
 import { Directoin } from "./models/direction";
-import { BulletsFactory } from "./models/bullets-factory";
+import { BulletsFactory } from "./bullets-factory";
 import { ItemType } from "./models/item-type";
 
 export class Game {
@@ -22,10 +22,17 @@ export class Game {
     private sound: Sound = new Sound();
     private bulletsFactory: BulletsFactory = new BulletsFactory();
     private bullets: Bullet[] = [];
+    private blockMap: Block[][] = new Array();
 
     constructor(tanks: Tank[], arena: Arena) {
         this.blocks = arena.blocks;
         this.tanks = tanks;
+        for(let i: number = 0; i < Parameters.fieldHeight; i++) {
+            this.blockMap[i] = new Array();
+        }
+        for(let i: number = 0; i < this.blocks.length; i++) {
+            this.blockMap[this.blocks[i].y][this.blocks[i].x] = this.blocks[i];
+        }
         this.sound.run("startGame");
     }
 
@@ -33,9 +40,9 @@ export class Game {
         this.deleteUselessEvents();
         this.filteredEvents.forEach(event => event());
         this.filteredEvents.splice(0, this.filteredEvents.length);
-        if (this.bullets.length !== 0) {
-            this.moveBullet();
-        }
+        // if (this.bullets.length !== 0) {
+        //     this.moveBullet();
+        // }
     }
 
     private drawing() {
@@ -151,8 +158,8 @@ export class Game {
         this.allEvents.splice(0, count);
     }
 
-    private getItems(): Item[] {
-        return (<Item[]>[]).concat(this.blocks, this.tanks, this.bullets);
+    private getItems(): ItemBase[] {
+        return (<ItemBase[]>[]).concat(this.blocks, this.tanks, this.bullets);
     }
 
     private turn(tank: Tank, necessaryDirection: Directoin): boolean {
@@ -189,6 +196,14 @@ export class Game {
         return step > avaliableStep ? avaliableStep : step;
     }
 
+    private checkBlocks(blocks: Block[]): boolean {
+        let move: boolean = true;
+        blocks.forEach(block => {
+            block == null ? {} : block.drive ? {} : move = false;
+        });
+        return move;
+    }
+
     private tankUp(tank: Tank) {
         if (this.turn(tank, Directoin.Up)) {
             return;
@@ -198,17 +213,33 @@ export class Game {
             return;
         }
         let step: number = tank.speed;
-        this.getItems().forEach(item => {
-            step = item.drive ? step : this.getAvaliableStep(step, this.moveUp(item, tank));
+        this.tanks.forEach(item => {
+            step = this.getAvaliableStep(step, this.moveUp(item, tank)); 
         });
+        if(step === 0) {
+            return;
+        }
+        this.bullets.forEach(item => {
+            step = this.getAvaliableStep(step, this.moveUp(item, tank));
+        });
+        if(step === 0) {
+            return;
+        }
+        if(tank.speed > tank.y - Math.trunc(tank.y)) {
+            console.log("work");
+
+            if(!this.checkBlocks(this.blockMap[Math.trunc(tank.y) - 1].slice(tank.x, tank.x + tank.size))) {
+                step = this.getAvaliableStep(step, tank.y - Math.trunc(tank.y));
+            }
+        }
         tank.y -= step;
     }
 
-    private moveUp(item: Item, tank: Tank): number {
+    private moveUp(item: ItemBase, tank: Tank): number {
         let avaliableStep = tank.speed;
         if (item.x === tank.x && item.y === tank.y) {
             return avaliableStep;
-        }
+        }        
         if (tank.y >= item.y + item.size && tank.x < item.x + item.size && tank.x + tank.size > item.x) {
             let distance = tank.y - (item.y + item.size);
             avaliableStep = avaliableStep <= distance ? avaliableStep : distance;
@@ -226,13 +257,29 @@ export class Game {
             return;
         }
         let step: number = tank.speed;
-        this.getItems().forEach(item => {
-            step = item.drive ? step : this.getAvaliableStep(step, this.moveDown(item, tank));
+        this.tanks.forEach(item => {
+            step = this.getAvaliableStep(step, this.moveDown(item, tank)); 
         });
+        if(step === 0) {
+            return;
+        }
+        this.bullets.forEach(item => {
+            step = this.getAvaliableStep(step, this.moveDown(item, tank));
+        });
+        if(step === 0) {
+            return;
+        }
+        if(tank.speed > Math.ceil(tank.y) - tank.y) {
+            console.log("work");
+
+            if(!this.checkBlocks(this.blockMap[Math.ceil(tank.y) + tank.size].slice(tank.x, tank.x + tank.size))) {
+                step = this.getAvaliableStep(step, Math.ceil(tank.y) - tank.y);
+            }
+        }
         tank.y += step;
     }
 
-    private moveDown(item: Item, tank: Tank): number {
+    private moveDown(item: ItemBase, tank: Tank): number {
         let avaliableStep = tank.speed;
         if (item.x === tank.x && item.y === tank.y) {
             return avaliableStep;
@@ -253,13 +300,33 @@ export class Game {
             return;
         }
         let step: number = tank.speed;
-        this.getItems().forEach(item => {
-            step = item.drive ? step : this.getAvaliableStep(step, this.moveLeft(item, tank));
+        this.tanks.forEach(item => {
+            step = this.getAvaliableStep(step, this.moveLeft(item, tank)); 
         });
+        if(step === 0) {
+            return;
+        }
+        this.bullets.forEach(item => {
+            step = this.getAvaliableStep(step, this.moveLeft(item, tank));
+        });
+        if(step === 0) {
+            return;
+        }
+        if(tank.speed > tank.x - Math.trunc(tank.x)) {
+            console.log("work");
+
+            let temp: Block[] = [];
+            for(let i: number = 0; i < tank.size; i++) {
+                temp[i] = this.blockMap[tank.y + i][Math.trunc(tank.x) - 1];
+            }
+            if(!this.checkBlocks(temp)) {
+                step = this.getAvaliableStep(step, tank.x - Math.trunc(tank.x));
+            }
+        }
         tank.x -= step;
     }
 
-    private moveLeft(item: Item, tank: Tank): number {
+    private moveLeft(item: ItemBase, tank: Tank): number {
         let avaliableStep = tank.speed;
         if (item.x === tank.x && item.y === tank.y) {
             return avaliableStep;
@@ -280,13 +347,32 @@ export class Game {
             return;
         }
         let step: number = tank.speed;
-        this.getItems().forEach(item => {
-            step = item.drive ? step : this.getAvaliableStep(step, this.moveRight(item, tank));
+        this.tanks.forEach(item => {
+            step = this.getAvaliableStep(step, this.moveRight(item, tank)); 
         });
+        if(step === 0) {
+            return;
+        }
+        this.bullets.forEach(item => {
+            step = this.getAvaliableStep(step, this.moveRight(item, tank));
+        });
+        if(step === 0) {
+            return;
+        }
+        if(tank.speed > Math.ceil(tank.x) - tank.x) {
+            console.log("work");
+            let temp: Block[] = [];
+            for(let i: number = 0; i < tank.size; i++) {
+                temp[i] = this.blockMap[tank.y + i][Math.ceil(tank.x) + tank.size];
+            }
+            if(!this.checkBlocks(temp)) {
+                step = this.getAvaliableStep(step, Math.ceil(tank.x) - tank.x);
+            }
+        }
         tank.x += step;
     }
 
-    private moveRight(item: Item, tank: Tank): number {
+    private moveRight(item: ItemBase, tank: Tank): number {
         let avaliableStep = tank.speed;
         if (item.x === tank.x && item.y === tank.y) {
             return avaliableStep;
@@ -298,40 +384,36 @@ export class Game {
         return avaliableStep;
     }
 
-    private moveBullet() {
-        this.bullets.forEach((bullet) => {
-            this.getItems().sort(this.compareItemsByItemType).forEach(item => {
-                if (!((item.x === bullet.x && item.y === bullet.y) || (item.x === bullet.owner.x && item.y === bullet.owner.y))) {
-                    switch (bullet.direction) {
-                        case Directoin.Up:
-                            if(this.bulletUp(bullet, item)) {
-                                return;
-                            }
-                            break;
-                        case Directoin.Down:
-                            if(this.bulletDown(bullet, item)) {
-                                return;
-                            }
-                            break;
-                        case Directoin.Left:
-                            if(this.bulletLeft(bullet, item)) {
-                                return;
-                            }
-                            break;
-                        case Directoin.Right:
-                            if(this.bulletRight(bullet, item)) {
-                                return;
-                            }
-                            break;
-                    }
-                }
-            });
-        });
-    }
-
-    private compareItemsByItemType(a: Item, b: Item): number {
-        return a.itemType > b.itemType ? 1 : (a.itemType === b.itemType ? 0 : -1);
-    }
+    // private moveBullet() {
+    //     this.bullets.forEach((bullet) => {
+    //         this.getItems().sort(this.compareItemsByItemType).forEach(item => {
+    //             if (!((item.x === bullet.x && item.y === bullet.y) || (item.x === bullet.owner.x && item.y === bullet.owner.y))) {
+    //                 switch (bullet.direction) {
+    //                     case Directoin.Up:
+    //                         if (this.bulletUp(bullet, item)) {
+    //                             return;
+    //                         }
+    //                         break;
+    //                     case Directoin.Down:
+    //                         if (this.bulletDown(bullet, item)) {
+    //                             return;
+    //                         }
+    //                         break;
+    //                     case Directoin.Left:
+    //                         if (this.bulletLeft(bullet, item)) {
+    //                             return;
+    //                         }
+    //                         break;
+    //                     case Directoin.Right:
+    //                         if (this.bulletRight(bullet, item)) {
+    //                             return;
+    //                         }
+    //                         break;
+    //                 }
+    //             }
+    //         });
+    //     });
+    // }
 
     private damageTank(bullet: Bullet, tank: Tank) {
         tank.health -= bullet.damage;
@@ -341,80 +423,101 @@ export class Game {
         this.bullets.splice(this.bullets.indexOf(bullet), 1);
     }
 
-    private destroy(bullet: Bullet, item: Item): boolean {
-            switch (item.itemType) {
-                case ItemType.Tank:
-                if (item.x + item.size > bullet.x && bullet.x + bullet.size > item.x && item.y + item.size > bullet.y && bullet.y + bullet.size > item.y) {
-                    this.damageTank(bullet, <Tank>item);
-                    this.bullets.splice(this.bullets.indexOf(bullet), 1);
-                    return true;
-                }
-                case ItemType.Bullet:
-                if (item.x + item.size >= bullet.x && bullet.x + bullet.size >= item.x && item.y + item.size >= bullet.y && bullet.y + bullet.size >= item.y) {
-                    this.destroyBullet(<Bullet>item);
-                    this.bullets.splice(this.bullets.indexOf(bullet), 1);
-                    return true;
-                }
-                case ItemType.Block:
-            }
-        return false;
-    }
-
-    private bulletUp(bullet: Bullet, item: Item): boolean {
-        for (let i: number = 0; i < bullet.speed; i++) {
-            bullet.y--;
-            if (bullet.y < 0) {
-                this.bullets.splice(this.bullets.indexOf(bullet), 1);
-                return true;
-            }
-            if (this.destroy(bullet, item)) {
-                return true;
+    private destroyWall(bullet: Bullet) {
+        for (let i: number = 0; i < 4; i++) {
+            switch (bullet.direction) {
+                case Directoin.Up:
+                    this.blocks.forEach(block => {
+                        if (bullet.x + i - 1 === block.x && bullet.y === block.y) {
+                            this.blocks.splice(this.blocks.indexOf(block), 1);
+                        }
+                    });
+                case Directoin.Down:
+                case Directoin.Left:
+                case Directoin.Right:
             }
         }
-        return false;
     }
 
-    private bulletDown(bullet: Bullet, item: Item): boolean {
-        for (let i: number = 0; i < bullet.speed; i++) {
-            bullet.y++;
-            if (bullet.y > Parameters.fieldHeight - bullet.size) {
-                this.bullets.splice(this.bullets.indexOf(bullet), 1);
-                return true;
-            }
-            if (this.destroy(bullet, item)) {
-                return true;
-            }
-        }
-        return false;
-    }
+    // private destroy(bullet: Bullet, item: ItemBase): boolean {
+    //     switch (item.itemType) {
+    //         case ItemType.Tank:
+    //             if (item.x + item.size > bullet.x && bullet.x + bullet.size > item.x && item.y + item.size > bullet.y && bullet.y + bullet.size > item.y) {
+    //                 this.damageTank(bullet, <Tank>item);
+    //                 this.bullets.splice(this.bullets.indexOf(bullet), 1);
+    //                 return true;
+    //             }
+    //         case ItemType.Bullet:
+    //             if (item.x + item.size >= bullet.x && bullet.x + bullet.size >= item.x && item.y + item.size >= bullet.y && bullet.y + bullet.size >= item.y) {
+    //                 this.destroyBullet(<Bullet>item);
+    //                 this.bullets.splice(this.bullets.indexOf(bullet), 1);
+    //                 return true;
+    //             }
+    //         case ItemType.Block:
+    //             if (item.x + item.size > bullet.x && bullet.x + bullet.size > item.x && item.y + item.size > bullet.y && bullet.y + bullet.size > item.y) {
+    //                 this.destroyWall(bullet);
+    //                 this.bullets.splice(this.bullets.indexOf(bullet), 1);
+    //                 return true;
+    //             }
+    //     }
+    //     return false;
+    // }
 
-    private bulletLeft(bullet: Bullet, item: Item): boolean {
-        for (let i: number = 0; i < bullet.speed; i++) {
-            bullet.x--;
-            if (bullet.x < 0) {
-                this.bullets.splice(this.bullets.indexOf(bullet), 1);
-                return true;
-            }
-            if (this.destroy(bullet, item)) {
-                return true;
-            }
-        }
-        return false;
-    }
+    // private bulletUp(bullet: Bullet, item: ItemBase): boolean {
+    //     for (let i: number = 0; i < bullet.speed; i++) {
+    //         bullet.y--;
+    //         if (bullet.y < 0) {
+    //             this.bullets.splice(this.bullets.indexOf(bullet), 1);
+    //             return true;
+    //         }
+    //         if (this.destroy(bullet, item)) {
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
 
-    private bulletRight(bullet: Bullet, item: Item): boolean {
-        for (let i: number = 0; i < bullet.speed; i++) {
-            bullet.x++;
-            if (bullet.x > Parameters.fieldWidth - bullet.size) {
-                this.bullets.splice(this.bullets.indexOf(bullet), 1);
-                return true;
-            }
-            if (this.destroy(bullet, item)) {
-                return true;
-            }
-        }
-        return false;
-    }
+    // private bulletDown(bullet: Bullet, item: ItemBase): boolean {
+    //     for (let i: number = 0; i < bullet.speed; i++) {
+    //         bullet.y++;
+    //         if (bullet.y > Parameters.fieldHeight - bullet.size) {
+    //             this.bullets.splice(this.bullets.indexOf(bullet), 1);
+    //             return true;
+    //         }
+    //         if (this.destroy(bullet, item)) {
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
+
+    // private bulletLeft(bullet: Bullet, item: ItemBase): boolean {
+    //     for (let i: number = 0; i < bullet.speed; i++) {
+    //         bullet.x--;
+    //         if (bullet.x < 0) {
+    //             this.bullets.splice(this.bullets.indexOf(bullet), 1);
+    //             return true;
+    //         }
+    //         if (this.destroy(bullet, item)) {
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
+
+    // private bulletRight(bullet: Bullet, item: ItemBase): boolean {
+    //     for (let i: number = 0; i < bullet.speed; i++) {
+    //         bullet.x++;
+    //         if (bullet.x > Parameters.fieldWidth - bullet.size) {
+    //             this.bullets.splice(this.bullets.indexOf(bullet), 1);
+    //             return true;
+    //         }
+    //         if (this.destroy(bullet, item)) {
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
 
     // private respawn(tank: Tank) {
     //     if (tank.lifes == 0) {
