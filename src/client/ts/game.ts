@@ -11,8 +11,6 @@ import { Block } from "./models/block";
 import { ItemBase } from "./models/item-base";
 import { Directoin } from "./models/direction";
 import { BulletsFactory } from "./bullets-factory";
-import { ItemType } from "./models/item-type";
-import { truncate } from 'fs';
 
 export class Game {
     private tanks: Tank[] = [];
@@ -41,9 +39,9 @@ export class Game {
         this.deleteUselessEvents();
         this.filteredEvents.forEach(event => event());
         this.filteredEvents.splice(0, this.filteredEvents.length);
-        // if (this.bullets.length !== 0) {
-        //     this.moveBullet();
-        // }
+        if (this.bullets.length !== 0) {
+            //this.moveBullet();
+        }
     }
 
     private drawing() {
@@ -63,12 +61,17 @@ export class Game {
         document.onkeyup = (e) => {
             keys.splice(keys.indexOf(e.which), 1);
         };
-
+        this.view();
         setInterval(() => {
-            this.drawing();
             if (this.allEvents.length !== 0 || this.bullets.length !== 0) {
                 this.calculate();
             }
+        }, Parameters.timer);
+    }
+
+    private async view() {
+        await setInterval(() => {
+            this.drawing();
         }, Parameters.timer);
     }
 
