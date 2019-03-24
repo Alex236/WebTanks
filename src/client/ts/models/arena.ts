@@ -3,6 +3,7 @@ import { UnitType } from "./unit-type";
 import { SpawnPoint } from "./spawn-point";
 import { Directoin } from "./direction";
 import { ItemType } from "./item-type";
+import { DrawPriority } from './draw-priority';
 
 export class Arena {
     public blocks: Block[] = [
@@ -41,7 +42,7 @@ export class Arena {
         // new Block(18, 20, UnitType.Brick, ItemType.Block, false, false, true),
         // new Block(18, 21, UnitType.Brick, ItemType.Block, false, false, true),
 
-        new Block(25, 30, 1, UnitType.Brick, false, false, true),
+        new Block(25, 30, 1, UnitType.Brick, false, false, true, DrawPriority.Height),
         // new Block(25, 31, UnitType.Brick, ItemType.Block, false, false, true),
         // new Block(25, 32, UnitType.Brick, ItemType.Block, false, false, true),
         // new Block(25, 33, UnitType.Brick, ItemType.Block, false, false, true),

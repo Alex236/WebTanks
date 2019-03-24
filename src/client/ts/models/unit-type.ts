@@ -5,6 +5,7 @@ export enum UnitType {
     HeavyTank,
     SlowBullet,
     FastBullet,
+    Road,
     Brick,
     HardBrick,
     Grass,
