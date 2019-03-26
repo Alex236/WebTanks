@@ -8,8 +8,8 @@ export class Tank extends RunningItem {
     public bulletType: UnitType;
     public avaliableShoots: number;
 
-    constructor (spawnPoint: SpawnPoint, size: number, unitType: UnitType, itemType: ItemType, speed: number, health: number, bulletType: UnitType, avaliableShoots: number) {
-        super(spawnPoint.x, spawnPoint.y, size, unitType, spawnPoint.direction, itemType, speed);
+    constructor (spawnPoint: SpawnPoint, size: number, unitType: UnitType, speed: number, health: number, bulletType: UnitType, avaliableShoots: number) {
+        super(spawnPoint.x, spawnPoint.y, size, unitType, spawnPoint.direction, ItemType.Tank, speed);
         this.health = health;
         this.bulletType = bulletType;
         this.avaliableShoots = avaliableShoots;
