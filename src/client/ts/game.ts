@@ -48,10 +48,6 @@ export class Game {
         for (let i: number = 0; i < this.blocks.length; i++) {
             this.blockMap[this.blocks[i].y][this.blocks[i].x] = this.blocks[i];
         }
-<<<<<<< HEAD
-        //console.log(this.blockMap[30][25]);
-=======
->>>>>>> fba5e524f914509b9c83b0b5c750e1b2780a2262
     }
 
     private calculate() {
