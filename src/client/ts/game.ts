@@ -55,7 +55,7 @@ export class Game {
         this.filteredEvents.forEach(event => event());
         this.filteredEvents.splice(0, this.filteredEvents.length);
         if (this.bullets.length !== 0) {
-            this.moveBullet();
+            this.moveBullets();
         }
         this.needRedraw = true;
     }
@@ -183,29 +183,20 @@ export class Game {
         }
         switch (tank.direction) {
             case Directoin.Up:
-                Directoin.Down !== necessaryDirection ? this.turnFromAxisY(tank, necessaryDirection) : tank.direction = necessaryDirection;
+                Directoin.Down !== necessaryDirection ? tank.y = Math.round(tank.y) : {};
                 break;
             case Directoin.Down:
-                Directoin.Up !== necessaryDirection ? this.turnFromAxisY(tank, necessaryDirection) : tank.direction = necessaryDirection;
+                Directoin.Up !== necessaryDirection ? tank.y = Math.round(tank.y) : {};
                 break;
             case Directoin.Left:
-                Directoin.Right !== necessaryDirection ? this.turnFromAxisX(tank, necessaryDirection) : tank.direction = necessaryDirection;
+                Directoin.Right !== necessaryDirection ? tank.x = Math.round(tank.x) : {};
                 break;
             case Directoin.Right:
-                Directoin.Left !== necessaryDirection ? this.turnFromAxisX(tank, necessaryDirection) : tank.direction = necessaryDirection;
+                Directoin.Left !== necessaryDirection ? tank.x = Math.round(tank.x) : {};
                 break;
         }
+        tank.direction = necessaryDirection;
         return true;
-    }
-
-    private turnFromAxisY(currentTank: Tank, direction: Directoin) {
-        currentTank.y = Math.round(currentTank.y);
-        currentTank.direction = direction;
-    }
-
-    private turnFromAxisX(currentTank: Tank, direction: Directoin) {
-        currentTank.x = Math.round(currentTank.x);
-        currentTank.direction = direction;
     }
 
     private getAvaliableStep(step: number, avaliableStep: number) {
@@ -389,35 +380,7 @@ export class Game {
         return avaliableStep;
     }
 
-    private moveBullet() {
-        this.bullets.forEach((bullet) => {
-            let breakPoint = false;
-            this.changeCoordinate(bullet);
-            for (let i: number = 0; i < bullet.speed; i++) {
-                this.tanks.forEach(item => {
-                    if (this.defineBulletDirection(bullet, item)) {
-                        breakPoint = true;
-                        return;
-                    }
-                });
-                if (breakPoint) {
-                    break;
-                }
-                this.bullets.forEach(item => {
-                    if (this.defineBulletDirection(bullet, item)) {
-                        breakPoint = true;
-                        return;
-                    }
-                });
-                if (breakPoint) {
-                    break;
-                }
-                this.destroyWall(bullet);
-            }
-        });
-    }
-
-    private changeCoordinate(bullet: Bullet) {
+    private moveBulletOrDelete(bullet: Bullet): boolean {
         switch (bullet.direction) {
             case Directoin.Up:
                 bullet.y--;
@@ -432,31 +395,40 @@ export class Game {
                 bullet.x++;
                 break;
         }
-    }
-
-    private defineBulletDirection(bullet: Bullet, item: RunningItem): boolean {
-        if(!(bullet === item || bullet.owner === item)) {
-            this.bulletMove(bullet, item);
+        if (bullet.y < 0 || bullet.y > Parameters.fieldHeight - bullet.size || bullet.x < 0 || bullet.x > Parameters.fieldWidth - bullet.size) {
+            this.bullets.splice(this.bullets.indexOf(bullet), 1);
+            return true;
         }
         return false;
     }
 
-    private damageTank(bullet: Bullet, tank: Tank) {
-        tank.health -= bullet.damage;
+    private moveBullets() {
+        this.bullets.forEach((currentBullet) => {
+            for (let i: number = 0; i < currentBullet.speed; i++) {
+                if (this.moveBulletOrDelete(currentBullet)) {
+                    continue;
+                }
+                this.tanks.forEach(tank => {
+                    if (currentBullet.owner !== tank) {
+                        this.destroy(currentBullet, tank);
+                        return;
+                    }
+                });
+                this.bullets.forEach(bullet => {
+                    if (currentBullet !== bullet) {
+                        this.destroy(currentBullet, bullet);
+                        return;
+                    }
+                });
+                if (this.destroyWall(currentBullet)) {
+                    continue;
+                }
+            }
+        });
     }
 
-    private destroyWall(bullet: Bullet) {
-        switch (bullet.direction) {
-            case Directoin.Up:
-                this.destroyWallUp(bullet);
-            case Directoin.Down:
-                this.destroyWallDown(bullet);
-            case Directoin.Left:
-                this.destroyWallLeft(bullet);
-            case Directoin.Right:
-                this.destroyWallRight(bullet);
-
-        }
+    private damageTank(bullet: Bullet, tank: Tank) {
+        tank.health -= bullet.damage;
     }
 
     private destroy(bullet: Bullet, item: RunningItem): boolean {
@@ -479,52 +451,51 @@ export class Game {
         return false;
     }
 
-    private destroyWallUp(bullet: Bullet): boolean {
-        if (!(this.blockMap[bullet.y][bullet.x].sweep && this.blockMap[bullet.y][bullet.x + 1].sweep)) {
-            for (let j: number = 0; j < Parameters.bulletDestroy; j++) {
-                let tempX: number = bullet.x - 1 + j;
-                let tempY: number = bullet.y;
-                this.destroyBlock(tempX, tempY);
-            }
-            this.bullets.splice(this.bullets.indexOf(bullet), 1);
-            return true;
+    private destroyWall(bullet: Bullet) {
+        let destroyBullet: boolean = false;
+        switch (bullet.direction) {
+            case Directoin.Up:
+                if (!(this.blockMap[bullet.y][bullet.x].sweep && this.blockMap[bullet.y][bullet.x + 1].sweep)) {
+                    for (let j: number = 0; j < Parameters.bulletDestroy; j++) {
+                        let tempX: number = bullet.x - 1 + j;
+                        let tempY: number = bullet.y;
+                        this.destroyBlock(tempX, tempY);
+                    }
+                    destroyBullet = true;
+                }
+                break;
+            case Directoin.Down:
+                if (!(this.blockMap[bullet.y + 1][bullet.x].sweep && this.blockMap[bullet.y + 1][bullet.x + 1].sweep)) {
+                    for (let j: number = 0; j < Parameters.bulletDestroy; j++) {
+                        let tempX: number = bullet.x - 1 + j;
+                        let tempY: number = bullet.y + 1;
+                        this.destroyBlock(tempX, tempY);
+                    }
+                    destroyBullet = true;
+                }
+                break;
+            case Directoin.Left:
+                if (!(this.blockMap[bullet.y][bullet.x].sweep && this.blockMap[bullet.y + 1][bullet.x].sweep)) {
+                    for (let j: number = 0; j < Parameters.bulletDestroy; j++) {
+                        let tempX: number = bullet.x;
+                        let tempY: number = bullet.y - 1 + j;
+                        this.destroyBlock(tempX, tempY);
+                    }
+                    destroyBullet = true;
+                }
+                break;
+            case Directoin.Right:
+                if (!(this.blockMap[bullet.y][bullet.x + 1].sweep && this.blockMap[bullet.y + 1][bullet.x + 1].sweep)) {
+                    for (let j: number = 0; j < Parameters.bulletDestroy; j++) {
+                        let tempX: number = bullet.x + 1;
+                        let tempY: number = bullet.y - 1 + j;
+                        this.destroyBlock(tempX, tempY);
+                    }
+                    destroyBullet = true;
+                }
+                break;
         }
-        return false;
-    }
-
-    private destroyWallDown(bullet: Bullet): boolean {
-        if (!(this.blockMap[bullet.y + 1][bullet.x].sweep && this.blockMap[bullet.y + 1][bullet.x + 1].sweep)) {
-            for (let j: number = 0; j < Parameters.bulletDestroy; j++) {
-                let tempX: number = bullet.x - 1 + j;
-                let tempY: number = bullet.y + 1;
-                this.destroyBlock(tempX, tempY);
-            }
-            this.bullets.splice(this.bullets.indexOf(bullet), 1);
-            return true;
-        }
-        return false;
-    }
-
-    private destroyWallLeft(bullet: Bullet): boolean {
-        if (!(this.blockMap[bullet.y][bullet.x].sweep && this.blockMap[bullet.y + 1][bullet.x].sweep)) {
-            for (let j: number = 0; j < Parameters.bulletDestroy; j++) {
-                let tempX: number = bullet.x;
-                let tempY: number = bullet.y - 1 + j;
-                this.destroyBlock(tempX, tempY);
-            }
-            this.bullets.splice(this.bullets.indexOf(bullet), 1);
-            return true;
-        }
-        return false;
-    }
-
-    private destroyWallRight(bullet: Bullet): boolean {
-        if (!(this.blockMap[bullet.y][bullet.x + 1].sweep && this.blockMap[bullet.y + 1][bullet.x + 1].sweep)) {
-            for (let j: number = 0; j < Parameters.bulletDestroy; j++) {
-                let tempX: number = bullet.x + 1;
-                let tempY: number = bullet.y - 1 + j;
-                this.destroyBlock(tempX, tempY);
-            }
+        if (destroyBullet) {
             this.bullets.splice(this.bullets.indexOf(bullet), 1);
             return true;
         }
@@ -536,17 +507,5 @@ export class Game {
             this.blocks.splice(this.blocks.indexOf(this.blockMap[y][x], 1));
             this.blockMap[y].splice(x, 1, this.blockFactory.createBlock(UnitType.Road, x, y));
         }
-    }
-
-    private bulletMove(bullet: Bullet, item: RunningItem) {
-        if (bullet.y < 1 || bullet.y > Parameters.fieldHeight - bullet.size - 1 || bullet.x < 1 || bullet.x > Parameters.fieldWidth - bullet.size - 1) {
-            this.bullets.splice(this.bullets.indexOf(bullet), 1);
-            this.needRedraw = true;
-            return true;
-        }
-        if (this.destroy(bullet, item)) {
-            return true;
-        }
-        return false;
     }
 }
