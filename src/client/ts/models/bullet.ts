@@ -8,8 +8,8 @@ export class Bullet extends RunningItem {
     public damage: number;
     public owner: Tank;
 
-    constructor (x: number, y: number, size: number, unitType: UnitType, direction: Directoin, speed: number, damage: number, owner: Tank) {
-        super(x, y, size, unitType, direction, ItemType.Bullet, speed);
+    constructor (x: number, y: number, unitType: UnitType, direction: Directoin, speed: number, damage: number, owner: Tank) {
+        super(x, y, 2, unitType, direction, ItemType.Bullet, speed);
         this.damage = damage;
         this.owner = owner;
     }
