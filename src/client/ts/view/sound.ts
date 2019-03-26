@@ -5,5 +5,4 @@ export class Sound{
         this.audio.src = require("../../assets/" + name + ".mp3");
         this.audio.play();
     }
-
 }

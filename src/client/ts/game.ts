@@ -47,7 +47,7 @@ export class Game {
         for (let i: number = 0; i < this.blocks.length; i++) {
             this.blockMap[this.blocks[i].y][this.blocks[i].x] = this.blocks[i];
         }
-        console.log(this.blockMap[30][25]);
+        //console.log(this.blockMap[30][25]);
     }
 
     private calculate() {
