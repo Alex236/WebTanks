@@ -2,6 +2,7 @@ src/client/js/*
 node_modules/*
 src/client/ts/main.js
 dist/*
+./vscode
 
 # General
 .DS_Store

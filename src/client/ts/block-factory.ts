@@ -1,20 +1,19 @@
 import { UnitType } from './models/unit-type';
 import { Block } from './models/block';
-import { DrawPriority } from './models/draw-priority';
 
 export class BlockFactory {
     public createBlock(block: UnitType, x: number, y: number): Block {
         switch(block) {
             case UnitType.Road:
-            return new Block(x, y, 1, block, true, true, false, DrawPriority.Low);
+            return new Block(x, y, block, true, true, false);
             case UnitType.Brick:
-            return new Block(x, y, 1, block, false, false, true, DrawPriority.Height);
+            return new Block(x, y, block, false, false, true);
             case UnitType.HardBrick:
-            return new Block(x, y, 1, block, false, false, false, DrawPriority.Height);
+            return new Block(x, y, block, false, false, false);
             case UnitType.Water:
-            return new Block(x, y, 1, block, true, false, false, DrawPriority.Low);
+            return new Block(x, y, block, true, false, false);
             case UnitType.Grass:
-            return new Block(x, y, 1, block, true, true, false, DrawPriority.Height);
+            return new Block(x, y, block, true, true, false);
         }
     }
 }
