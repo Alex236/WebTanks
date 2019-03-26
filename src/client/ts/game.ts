@@ -250,7 +250,7 @@ export class Game {
     }
 
     private moveUp(item: ItemBase, tank: Tank, avaliableStep: number = tank.speed): number {
-        if (item.x === tank.x && item.y === tank.y) {
+        if (item === tank) {
             return avaliableStep;
         }
         if (tank.y >= item.y + item.size && tank.x < item.x + item.size && tank.x + tank.size > item.x) {
@@ -291,7 +291,7 @@ export class Game {
     }
 
     private moveDown(item: ItemBase, tank: Tank, avaliableStep: number = tank.speed): number {
-        if (item.x === tank.x && item.y === tank.y) {
+        if (item === tank) {
             return avaliableStep;
         }
         if (tank.y + tank.size <= item.y && tank.x < item.x + item.size && tank.x + tank.size > item.x) {
@@ -335,7 +335,7 @@ export class Game {
     }
 
     private moveLeft(item: ItemBase, tank: Tank, avaliableStep: number = tank.speed): number {
-        if (item.x === tank.x && item.y === tank.y) {
+        if (item === tank) {
             return avaliableStep;
         }
         if (tank.x >= item.x + item.size && tank.y < item.y + item.size && tank.y + tank.size > item.y) {
@@ -379,7 +379,7 @@ export class Game {
     }
 
     private moveRight(item: ItemBase, tank: Tank, avaliableStep: number = tank.speed): number {
-        if (item.x === tank.x && item.y === tank.y) {
+        if (item === tank) {
             return avaliableStep;
         }
         if (tank.x + tank.size <= item.x && tank.y < item.y + item.size && tank.y + tank.size > item.y) {
@@ -460,12 +460,9 @@ export class Game {
     }
 
     private destroy(bullet: Bullet, item: RunningItem): boolean {
-        console.log(item);
-        console.log(item.item)
         switch (item.item) {
             case ItemType.Tank:
                 if (item.x + item.size > bullet.x && bullet.x + bullet.size > item.x && item.y + item.size > bullet.y && bullet.y + bullet.size > item.y) {
-                    console.log("tank")
                     this.damageTank(bullet, <Tank>item);
                     this.bullets.splice(this.bullets.indexOf(bullet), 1);
                     return true;
@@ -473,7 +470,6 @@ export class Game {
                 break;
             case ItemType.Bullet:
                 if (item.x + item.size >= bullet.x && bullet.x + bullet.size >= item.x && item.y + item.size >= bullet.y && bullet.y + bullet.size >= item.y) {
-                    console.log("bullet")
                     this.bullets.splice(this.bullets.indexOf(<Bullet>item));
                     this.bullets.splice(this.bullets.indexOf(bullet), 1);
                     return true;
@@ -484,7 +480,7 @@ export class Game {
     }
 
     private destroyWallUp(bullet: Bullet): boolean {
-        if (!this.blockMap[bullet.y][bullet.x].sweep || !this.blockMap[bullet.y][bullet.x + 1].sweep) {
+        if (!(this.blockMap[bullet.y][bullet.x].sweep && this.blockMap[bullet.y][bullet.x + 1].sweep)) {
             for (let j: number = 0; j < Parameters.bulletDestroy; j++) {
                 let tempX: number = bullet.x - 1 + j;
                 let tempY: number = bullet.y;
@@ -497,7 +493,7 @@ export class Game {
     }
 
     private destroyWallDown(bullet: Bullet): boolean {
-        if (!this.blockMap[bullet.y + 1][bullet.x].sweep || !this.blockMap[bullet.y + 1][bullet.x + 1].sweep) {
+        if (!(this.blockMap[bullet.y + 1][bullet.x].sweep && this.blockMap[bullet.y + 1][bullet.x + 1].sweep)) {
             for (let j: number = 0; j < Parameters.bulletDestroy; j++) {
                 let tempX: number = bullet.x - 1 + j;
                 let tempY: number = bullet.y + 1;
@@ -510,7 +506,7 @@ export class Game {
     }
 
     private destroyWallLeft(bullet: Bullet): boolean {
-        if (!this.blockMap[bullet.y][bullet.x].sweep || !this.blockMap[bullet.y + 1][bullet.x].sweep) {
+        if (!(this.blockMap[bullet.y][bullet.x].sweep && this.blockMap[bullet.y + 1][bullet.x].sweep)) {
             for (let j: number = 0; j < Parameters.bulletDestroy; j++) {
                 let tempX: number = bullet.x;
                 let tempY: number = bullet.y - 1 + j;
@@ -523,7 +519,7 @@ export class Game {
     }
 
     private destroyWallRight(bullet: Bullet): boolean {
-        if (!this.blockMap[bullet.y][bullet.x + 1].sweep || !this.blockMap[bullet.y + 1][bullet.x + 1].sweep) {
+        if (!(this.blockMap[bullet.y][bullet.x + 1].sweep && this.blockMap[bullet.y + 1][bullet.x + 1].sweep)) {
             for (let j: number = 0; j < Parameters.bulletDestroy; j++) {
                 let tempX: number = bullet.x + 1;
                 let tempY: number = bullet.y - 1 + j;

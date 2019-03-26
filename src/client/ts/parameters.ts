@@ -5,5 +5,5 @@ export class Parameters {
     static readonly bulletDestroy: number = 4;
     static readonly bulletSize: number = 2;
     static readonly blockSize: number = 1;
-    static readonly timer: number = 30;
+    static readonly timer: number = 20;
 }
