@@ -31,6 +31,7 @@ export class Game {
 
     constructor(tanks: Tank[], arena: Arena) {
         this.blocks = arena.blocks;
+        console.log(this.blocks);
         this.tanks = tanks;
         this.initializeMap();
         this.sound.run("startGame");
