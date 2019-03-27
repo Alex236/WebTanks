@@ -223,15 +223,9 @@ export class Game {
         this.tanks.forEach(item => {
             step = this.getAvaliableStep(step, this.moveUp(item, tank));
         });
-        if (step === 0) {
-            return;
-        }
         this.bullets.forEach(item => {
             step = this.getAvaliableStep(step, this.moveUp(item, tank));
         });
-        if (step === 0) {
-            return;
-        }
         if (tank.speed > tank.y - Math.trunc(tank.y)) {
             if (!this.checkBlocks(this.blockMap[Math.trunc(tank.y) - 1].slice(tank.x, tank.x + tank.size))) {
                 step = this.getAvaliableStep(step, tank.y - Math.trunc(tank.y));
@@ -264,15 +258,9 @@ export class Game {
         this.tanks.forEach(item => {
             step = this.getAvaliableStep(step, this.moveDown(item, tank));
         });
-        if (step === 0) {
-            return;
-        }
         this.bullets.forEach(item => {
             step = this.getAvaliableStep(step, this.moveDown(item, tank));
         });
-        if (step === 0) {
-            return;
-        }
         if (tank.speed > Math.ceil(tank.y) - tank.y) {
             if (!this.checkBlocks(this.blockMap[Math.ceil(tank.y) + tank.size].slice(tank.x, tank.x + tank.size))) {
                 step = this.getAvaliableStep(step, Math.ceil(tank.y) - tank.y);
@@ -304,15 +292,9 @@ export class Game {
         this.tanks.forEach(item => {
             step = this.getAvaliableStep(step, this.moveLeft(item, tank));
         });
-        if (step === 0) {
-            return;
-        }
         this.bullets.forEach(item => {
             step = this.getAvaliableStep(step, this.moveLeft(item, tank));
         });
-        if (step === 0) {
-            return;
-        }
         if (tank.speed > tank.x - Math.trunc(tank.x)) {
             let temp: Block[] = [];
             for (let i: number = 0; i < tank.size; i++) {
@@ -348,15 +330,9 @@ export class Game {
         this.tanks.forEach(item => {
             step = this.getAvaliableStep(step, this.moveRight(item, tank));
         });
-        if (step === 0) {
-            return;
-        }
         this.bullets.forEach(item => {
             step = this.getAvaliableStep(step, this.moveRight(item, tank));
         });
-        if (step === 0) {
-            return;
-        }
         if (tank.speed > Math.ceil(tank.x) - tank.x) {
             let temp: Block[] = [];
             for (let i: number = 0; i < tank.size; i++) {
