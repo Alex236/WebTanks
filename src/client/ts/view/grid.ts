@@ -34,12 +34,6 @@ export class Grid {
 
   draw(blocks: Block[], tanks: Tank[], bullets: Bullet[]):void {
     this.drawRoad();
-    let result = this.getItems((<ItemBase[]>blocks).concat(tanks).concat(bullets));
-    result.forEach(item => this.drawBlock(<ItemBase>item))
+    ((<ItemBase[]>blocks).concat(tanks).concat(bullets)).forEach(item => this.drawBlock(<ItemBase>item));
   };
-
-  getItems(items: ItemBase[]): ItemBase[]{
-    return items;
-  }
-
 }
