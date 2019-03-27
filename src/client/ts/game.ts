@@ -27,14 +27,14 @@ export class Game {
     private bullets: Bullet[] = [];
     private blockMap: Block[][] = new Array();
     private blockFactory = new BlockFactory();
-    private needRedraw: boolean = true;
+    private needRedraw: boolean;
 
     constructor(tanks: Tank[], arena: Arena) {
         this.blocks = arena.blocks;
-        console.log(this.blocks);
         this.tanks = tanks;
         this.initializeMap();
         this.sound.run("startGame");
+        this.needRedraw = true;
     }
 
     private initializeMap() {
@@ -58,6 +58,7 @@ export class Game {
         if (this.bullets.length !== 0) {
             this.moveBullets();
         }
+        this.getBlocks();
         this.needRedraw = true;
     }
 
@@ -89,6 +90,15 @@ export class Game {
                 this.needRedraw = false;
             }
         }, 10);
+    }
+
+    private getBlocks() {
+        this.blocks = [];
+        for(let i: number = 0; i < Parameters.fieldHeight; i++) {
+            for (let j: number = 0; j < Parameters.fieldWidth; j++) {
+                this.blockMap[i][j].unitType !== UnitType.Road ? this.blocks.push(this.blockMap[i][j]) : {};
+            }
+        }
     }
 
     private defineEvent(keys: number[]) {
@@ -172,10 +182,6 @@ export class Game {
             }
         }
         this.allEvents.splice(0, count);
-    }
-
-    private getItems(): ItemBase[] {
-        return (<ItemBase[]>[]).concat(this.blocks, this.tanks, this.bullets);
     }
 
     private turn(tank: Tank, necessaryDirection: Directoin): boolean {
@@ -481,8 +487,7 @@ export class Game {
 
     private destroyBlock(x: number, y: number) {
         if (this.blockMap[y][x].demolish) {
-            this.blocks.splice(this.blocks.indexOf(this.blockMap[y][x], 1));
-            this.blockMap[y].splice(x, 1, this.blockFactory.createBlock(UnitType.Road, x, y));
+            this.blockMap[y][x] = this.blockFactory.createBlock(UnitType.Road, x, y);
         }
     }
 }
