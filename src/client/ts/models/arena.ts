@@ -4,7 +4,7 @@ import { SpawnPoint } from "./spawn-point";
 import { Directoin } from "./direction";
 
 export class Arena {
-    public blocks: Block[] = [
+    public blocks: Block[] //= [
         // new Block(5, 6, UnitType.Brick, ItemType.Block, false, false, true),
         // new Block(5, 7, UnitType.Brick, ItemType.Block, false, false, true),
         // new Block(5, 8, UnitType.Brick, ItemType.Block, false, false, true),
@@ -40,7 +40,7 @@ export class Arena {
         // new Block(18, 20, UnitType.Brick, ItemType.Block, false, false, true),
         // new Block(18, 21, UnitType.Brick, ItemType.Block, false, false, true),
 
-        new Block(25, 30, UnitType.Brick, false, false, true),
+        //new Block(25, 30, UnitType.Brick, false, false, true),
         // new Block(25, 31, UnitType.Brick, ItemType.Block, false, false, true),
         // new Block(25, 32, UnitType.Brick, ItemType.Block, false, false, true),
         // new Block(25, 33, UnitType.Brick, ItemType.Block, false, false, true),
@@ -79,7 +79,14 @@ export class Arena {
 
         // new Block(5, 7, UnitType.HardBrick, ItemType.Block, false, false, true),
         // new Block(5, 6, UnitType.HardBrick, ItemType.Block, false, false, true)
-    ];
+    //];
+
+    constructor(blocks: Block[]){
+        this.blocks = new Array();
+        blocks.forEach(block => {
+            this.blocks.push(new Block(block.x, block.y, block.unitType, block.sweep, block.drive, block.demolish));
+        });
+    }
 
     public spawnPoints: SpawnPoint[] = [
         new SpawnPoint(20, 40, Directoin.Up),

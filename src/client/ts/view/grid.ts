@@ -27,13 +27,19 @@ export class Grid {
     this.ctx.fillRect(0, 0, this.gameSize, this.gameSize)
   };
 
-  drawBlock(item: any){
-    let direction = (item.__proto__.constructor.name == "Block" || item.__proto__.constructor.name ==  "Base") ? "" : Directoin[item.direction];
+  drawBlock(block: Block){
+    this.ctx.drawImage(this.sprite.get(UnitType[block.unitType]), block.x * this.cellSize, block.y * this.cellSize, block.size * this.cellSize, block.size * this.cellSize);
+  }
+
+  drawTanksBulletsBase(item: any){
+    let direction = item.__proto__.constructor.name ==  "Base" ? "" : Directoin[item.direction];
     this.ctx.drawImage(this.sprite.get(UnitType[item.unitType] + direction), item.x * this.cellSize, item.y * this.cellSize, item.size * this.cellSize, item.size * this.cellSize);
   }
 
   draw(blocks: Block[], tanks: Tank[], bullets: Bullet[]):void {
     this.drawRoad();
-    ((<ItemBase[]>blocks).concat(tanks).concat(bullets)).forEach(item => this.drawBlock(<ItemBase>item));
+    blocks.forEach(block => this.drawBlock(block));
+
+    ((<ItemBase[]>tanks).concat(bullets)).forEach(item => this.drawTanksBulletsBase(<ItemBase>item));
   };
 }

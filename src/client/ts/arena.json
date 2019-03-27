@@ -1,0 +1,10 @@
+{
+    "blocks" :  [
+        {"x": 25, "y": 30, "unitType": 7, "sweep": false, "drive": false, "demolish": true },
+        {"x": 40, "y": 30, "unitType": 7, "sweep": false, "drive": false, "demolish": true },
+        {"x": 41, "y": 30, "unitType": 7, "sweep": false, "drive": false, "demolish": true },
+        {"x": 42, "y": 30, "unitType": 7, "sweep": false, "drive": false, "demolish": true },
+        {"x": 43, "y": 30, "unitType": 7, "sweep": false, "drive": false, "demolish": true },
+        {"x": 43, "y": 30, "unitType": 7, "sweep": false, "drive": false, "demolish": true }
+    ]
+}
