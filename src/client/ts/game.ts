@@ -84,7 +84,7 @@ export class Game {
     private async view() {
         await setInterval(() => {
             if (this.needRedraw) {
-                this.grid.draw(this.getItems());
+                this.grid.draw(this.blocks, this.tanks, this.bullets);
                 this.needRedraw = false;
             }
         }, 10);
