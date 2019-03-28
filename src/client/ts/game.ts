@@ -89,7 +89,7 @@ export class Game {
                 this.grid.draw(this.blocks, this.tanks, this.bullets);
                 this.needRedraw = false;
             }
-        }, 10);
+        }, 5);
     }
 
     private getBlocks() {
