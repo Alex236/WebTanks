@@ -12,7 +12,7 @@ buttons.forEach(button => {
                 //которая была выбрана по клику.
             }
             let arena = require('./rounds/' + this.getAttribute("data") + '.json');
-                let game = new Game([(new TankFactory).createTanks(), (new TankFactory).createTanks()], new Arena(arena.blocks));
+                let game = new Game([(new TankFactory).createTanks(3, 5), (new TankFactory).createTanks(3, 10)], new Arena(arena.blocks));
                 game.start();
         }
     })

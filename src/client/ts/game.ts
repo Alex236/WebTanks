@@ -75,6 +75,8 @@ export class Game {
             keys.splice(keys.indexOf(e.which), 1);
         };
         this.view();
+        this.needRedraw = true;
+
         setInterval(() => {
             if (this.allEvents.length !== 0 || this.bullets.length !== 0) {
                 this.calculate();
