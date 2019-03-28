@@ -27,14 +27,13 @@ export class Game {
     private bullets: Bullet[] = [];
     private blockMap: Block[][] = new Array();
     private blockFactory = new BlockFactory();
-    private needRedraw: boolean;
+    private needRedraw: boolean = true;
 
     constructor(tanks: Tank[], arena: Arena) {
         this.blocks = arena.blocks;
         this.tanks = tanks;
         this.initializeMap();
         this.sound.run("startGame");
-        this.needRedraw = true;
     }
 
     private initializeMap() {
