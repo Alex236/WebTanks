@@ -39,6 +39,9 @@ export class Grid {
   draw(blocks: Block[], tanks: Tank[], bullets: Bullet[]):void {
     this.drawRoad();
     ((<ItemBase[]>tanks).concat(bullets)).forEach(item => this.drawTanksBulletsBase(<ItemBase>item));
+    var time = performance.now();
     blocks.forEach(block => this.drawBlock(block));
+    time = performance.now() - time;
+    console.log('Время выполнения = ', time);
   };
 }

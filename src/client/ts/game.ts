@@ -79,7 +79,9 @@ export class Game {
 
         setInterval(() => {
             if (this.allEvents.length !== 0 || this.bullets.length !== 0) {
+                
                 this.calculate();
+                
             }
         }, Parameters.timer);
     }
@@ -95,7 +97,7 @@ export class Game {
 
     private getBlocks() {
         this.blocks = [];
-        for(let i: number = 0; i < Parameters.fieldHeight; i++) {
+        for (let i: number = 0; i < Parameters.fieldHeight; i++) {
             for (let j: number = 0; j < Parameters.fieldWidth; j++) {
                 this.blockMap[i][j].unitType !== UnitType.Road ? this.blocks.push(this.blockMap[i][j]) : {};
             }
