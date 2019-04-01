@@ -33,7 +33,6 @@ export class Game {
         this.blocks = arena.blocks;
         this.tanks = tanks;
         this.initializeMap();
-        this.sound.run("startGame");
     }
 
     private initializeMap() {
@@ -181,6 +180,7 @@ export class Game {
                         this.allEvents[i].tank === bullet.owner ? counter++ : {};
                     });
                     counter < this.allEvents[i].tank.avaliableShoots ? this.bullets.push(this.bulletsFactory.createBullet(this.allEvents[i].tank)) : {};
+                    this.sound.run("fire");
                     break;
             }
         }
@@ -414,6 +414,7 @@ export class Game {
     }
 
     private damageTank(bullet: Bullet, tank: Tank) {
+        this.sound.run("killSomeone");
         tank.health -= bullet.damage;
     }
 
