@@ -1,12 +1,11 @@
-﻿using System;
-
-namespace server
+﻿namespace WebTanksServer
 {
     class Program
     {
-        static void Main(string[] args)
+        public static void Main()
         {
-            Console.WriteLine("Hello World!");
+            Server server = new Server();
+            server.ConnectionHandler();
         }
     }
 }
