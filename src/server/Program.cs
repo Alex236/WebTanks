@@ -1,11 +1,17 @@
-﻿namespace WebTanksServer
+﻿using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+
+namespace EchoApp
 {
-    class Program
+    public class Program
     {
-        public static void Main()
+        public static void Main(string[] args)
         {
-            Server server = new Server();
-            server.ConnectionHandler();
+            CreateWebHostBuilder(args).Build().Run();
         }
+
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
+              .UseStartup<Startup>();
     }
 }

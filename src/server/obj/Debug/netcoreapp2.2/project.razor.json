@@ -1,13 +1,13 @@
 {
-  "ProjectFilePath": "/Users/alexsofin/Git/WebTanks/src/server/server.csproj",
+  "ProjectFilePath": "/Users/alexsofin/Git/WebTanks/src/server/EchoApp.csproj",
   "TargetFramework": "netcoreapp2.2",
   "TagHelpers": [],
   "Configuration": {
-    "ConfigurationName": "UnsupportedRazor",
-    "LanguageVersion": "1.0",
+    "ConfigurationName": "MVC-2.1",
+    "LanguageVersion": "2.1",
     "Extensions": [
       {
-        "ExtensionName": "UnsupportedRazorExtension"
+        "ExtensionName": "MVC-2.1"
       }
     ]
   }
