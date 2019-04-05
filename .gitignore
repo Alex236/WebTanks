@@ -36,3 +36,5 @@ src/server/obj/EchoApp.csproj.nuget.g.props
 src/server/obj/project.assets.json
 src/server/obj/Debug/netcoreapp2.2/EchoApp.csproj.CoreCompileInputs.cache
 src/server/obj/Debug/netcoreapp2.2/project.razor.json
+src/server/obj/Debug/netcoreapp2.2/EchoApp.csproj.CoreCompileInputs.cache
+src/server/obj/Debug/netcoreapp2.2/project.razor.json
