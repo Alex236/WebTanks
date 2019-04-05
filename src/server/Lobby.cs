@@ -7,7 +7,8 @@ namespace EchoApp
 {
     class Lobby
     {
-        public static List<WebSocket> Clients = new List<WebSocket>();
+        public static List<Player> Players = new List<Player>();
         public static ReaderWriterLockSlim Locker = new ReaderWriterLockSlim();
+        public readonly int MaxPlayers = 2;
     }
 }
