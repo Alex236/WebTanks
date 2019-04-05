@@ -34,7 +34,7 @@ const config = {
   },
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'src/server/wwwroot')
   },
   resolve: {
     extensions: [ '.ts', '.tsx', ".js", ".json"]
