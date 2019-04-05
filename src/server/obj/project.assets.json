@@ -12095,11 +12095,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/alexsofin/Desktop/WebSocketsSample/EchoApp.csproj",
+      "projectUniqueName": "/Users/alexsofin/Git/WebTanks/src/server/EchoApp.csproj",
       "projectName": "EchoApp",
-      "projectPath": "/Users/alexsofin/Desktop/WebSocketsSample/EchoApp.csproj",
+      "projectPath": "/Users/alexsofin/Git/WebTanks/src/server/EchoApp.csproj",
       "packagesPath": "/Users/alexsofin/.nuget/packages/",
-      "outputPath": "/Users/alexsofin/Desktop/WebSocketsSample/obj/",
+      "outputPath": "/Users/alexsofin/Git/WebTanks/src/server/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
