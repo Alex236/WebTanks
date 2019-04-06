@@ -30,7 +30,8 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
-
+/Users/alexsofin/Git/WebTanks/src/server/wwwroot/*
+/dist/*
 src/server/obj/EchoApp.csproj.nuget.cache
 src/server/obj/EchoApp.csproj.nuget.g.props
 src/server/obj/project.assets.json

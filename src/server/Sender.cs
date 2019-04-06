@@ -4,6 +4,7 @@ using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 
 namespace EchoApp
@@ -16,7 +17,7 @@ namespace EchoApp
             Lobby.Locker.EnterWriteLock();
             try
             {
-                Lobby.Clients.Add(socket);
+                Lobby.Players.Add(new Player(socket));
             }
             finally
             {
@@ -26,14 +27,15 @@ namespace EchoApp
             {
                 var buffer = new ArraySegment<byte>(new byte[1024]);
                 var result = await socket.ReceiveAsync(buffer, CancellationToken.None);
-                for (int i = 0; i < Lobby.Clients.Count; i++)
+;
+                for (int i = 0; i < Lobby.Players.Count; i++)
                 {
-                    WebSocket client = Lobby.Clients[i];
+                    WebSocket player = Lobby.Players[i].Socket;
                     try
                     {
-                        if (client.State == WebSocketState.Open)
+                        if (player.State == WebSocketState.Open)
                         {
-                            await client.SendAsync(buffer, WebSocketMessageType.Text, true, CancellationToken.None);
+                            await player.SendAsync(buffer, WebSocketMessageType.Text, true, CancellationToken.None);
                         }
                     }
                     catch (ObjectDisposedException)
@@ -41,7 +43,7 @@ namespace EchoApp
                         Lobby.Locker.EnterWriteLock();
                         try
                         {
-                            Lobby.Clients.Remove(client);
+                            Lobby.Players.Remove(Lobby.Players[i]);
                             i--;
                         }
                         finally
