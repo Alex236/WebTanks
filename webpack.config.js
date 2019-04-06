@@ -5,7 +5,10 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const config = {
   mode: "development",
-  entry: "./src/client/ts/main.ts",
+  entry: {
+    main: "./src/client/ts/main.ts",
+    editorApp: "./src/client/ts/editorApp.ts"
+  },
   module: {
     rules: [
       {
@@ -33,7 +36,7 @@ const config = {
     ]
   },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'src/server/wwwroot')
   },
   resolve: {
@@ -41,7 +44,14 @@ const config = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'src/client/index.html'
+      filename: 'index.html',
+      template: 'src/client/index.html',
+      chunks: ['main']
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'arena-editor.html',
+      template: 'src/client/arena-editor.html',
+      chunks: ['editorApp']
     })
   ]
 }

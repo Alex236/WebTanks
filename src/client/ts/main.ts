@@ -23,5 +23,4 @@ buttons.forEach(button => {
     let littleGrid = new LittleGrid(button.getAttribute("data"));
 
     littleGrid.draw(<Block[]>(littleArena.blocks));
-}) ;
-
+});
