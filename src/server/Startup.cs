@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.WebSockets;
 using System.Text;
@@ -18,6 +19,11 @@ namespace EchoApp
     public class Startup
     {
         public void ConfigureServices(IServiceCollection services)
+        {
+
+        }
+
+        public void Logging()
         {
 
         }

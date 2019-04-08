@@ -28,8 +28,10 @@ export class Game {
     private blockMap: Block[][] = new Array();
     private blockFactory = new BlockFactory();
     private needRedraw: boolean = true;
+    private userID: number;
 
-    constructor(tanks: Tank[], arena: Arena) {
+    constructor(userID: number, tanks: Tank[], arena: Arena) {
+        this.userID = userID;
         this.blocks = arena.blocks;
         this.tanks = tanks;
         this.initializeMap();
