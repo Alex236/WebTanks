@@ -1,12 +1,13 @@
 import { EventType } from "./event-type";
 import { Tank } from "./tank";
+import { KeyCode } from './key-code';
 
 export class Event {
     public readonly tank: Tank;
-    public readonly eventType: EventType;
+    public readonly key: KeyCode;
 
-    constructor(tank: Tank, eventType: EventType) {
+    constructor(tank: Tank, key: KeyCode) {
         this.tank = tank;
-        this.eventType = eventType;
+        this.key = key;
     }
 }

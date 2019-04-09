@@ -1,5 +1,4 @@
 import { Parameters } from "./parameters"
-import { EventType } from "./models/event-type";
 import { KeyCode } from "./models/key-code";
 import { Grid } from "./view/grid";
 import { Arena } from "./models/arena";
@@ -15,10 +14,13 @@ import { RunningItem } from './models/running-item';
 import { ItemType } from './models/item-type';
 import { UnitType } from './models/unit-type';
 import { BlockFactory } from './block-factory';
+import { Message } from './models/Message';
+import { NetworkCommands } from './models/network-commands';
 
 export class Game {
-    private tanks: Tank[] = [];
-    private allEvents: Event[] = [];
+    private static game: Game = new Game();
+    public tanks: Tank[] = [];
+    public allEvents: Event[] = [];
     private filteredEvents: (() => void)[] = [];
     private blocks: Block[] = [];
     private grid: Grid = new Grid();
@@ -29,12 +31,13 @@ export class Game {
     private blockFactory = new BlockFactory();
     private needRedraw: boolean = true;
     private userID: number;
+    private socket: WebSocket;
+    private endGameStatus: boolean = false;
 
-    constructor(userID: number, tanks: Tank[], arena: Arena) {
-        this.userID = userID;
-        this.blocks = arena.blocks;
-        this.tanks = tanks;
-        this.initializeMap();
+    private constructor() { }
+
+    public static getGame(): Game {
+        return this.game;
     }
 
     private initializeMap() {
@@ -52,7 +55,6 @@ export class Game {
     }
 
     private calculate() {
-        this.deleteUselessEvents();
         this.filteredEvents.forEach(event => event());
         this.filteredEvents.splice(0, this.filteredEvents.length);
         if (this.bullets.length !== 0) {
@@ -62,29 +64,48 @@ export class Game {
         this.needRedraw = true;
     }
 
-    public start() {
-        let keys: number[] = [];
-        document.onkeydown = (e) => {
-            var code = e.which;
-            if (keys.indexOf(code) < 0) {
-                keys.push(code);
-            }
-            this.defineEvent(keys);
-        };
-
-        document.onkeyup = (e) => {
-            keys.splice(keys.indexOf(e.which), 1);
-        };
+    public start(socket: WebSocket, userID: number, tanks: Tank[], arena: Arena) {
+        this.socket = socket;
+        this.userID = userID;
+        this.blocks = arena.blocks;
+        this.tanks = tanks;
+        this.initializeMap();
         this.view();
         this.needRedraw = true;
-
         setInterval(() => {
-            if (this.allEvents.length !== 0 || this.bullets.length !== 0) {
-                
+            this.deleteUselessEvents();
+            if (this.bullets.length !== 0 || this.filteredEvents.length !== 0) {
                 this.calculate();
-                
+            }
+            if (this.endGameStatus) {
+                this.endGameStatus = false;
+                clearInterval();
             }
         }, Parameters.timer);
+    }
+
+    public addEvent(command: string, author: number) {
+        switch (command) {
+            case "up":
+                this.filteredEvents.push(() => this.tankUp(this.tanks[author]));
+                break;
+            case "down":
+                this.filteredEvents.push(() => this.tankDown(this.tanks[author]));
+                break;
+            case "left":
+                this.filteredEvents.push(() => this.tankLeft(this.tanks[author]));
+                break;
+            case "right":
+                this.filteredEvents.push(() => this.tankRight(this.tanks[author]));
+                break;
+            case "space":
+////////////
+                break;
+        }
+    }
+
+    public endGame() {
+        this.endGameStatus = true;
     }
 
     private async view() {
@@ -105,78 +126,37 @@ export class Game {
         }
     }
 
-    private defineEvent(keys: number[]) {
-        keys.forEach(key => {
-            switch (key) {
-                case KeyCode.Up:
-                    this.allEvents.push(new Event(this.tanks[0], EventType.PressedUp));
-                    break;
-                case KeyCode.Down:
-                    this.allEvents.push(new Event(this.tanks[0], EventType.PressedDown));
-                    break;
-                case KeyCode.Left:
-                    this.allEvents.push(new Event(this.tanks[0], EventType.PressedLeft));
-                    break;
-                case KeyCode.Right:
-                    this.allEvents.push(new Event(this.tanks[0], EventType.PressedRight));
-                    break;
-                case KeyCode.Enter:
-                    this.allEvents.push(new Event(this.tanks[0], EventType.PressedSpace));
-                    break;
-                case KeyCode.W:
-                    this.allEvents.push(new Event(this.tanks[1], EventType.PressedUp));
-                    break;
-                case KeyCode.S:
-                    this.allEvents.push(new Event(this.tanks[1], EventType.PressedDown));
-                    break;
-                case KeyCode.A:
-                    this.allEvents.push(new Event(this.tanks[1], EventType.PressedLeft));
-                    break;
-                case KeyCode.D:
-                    this.allEvents.push(new Event(this.tanks[1], EventType.PressedRight));
-                    break;
-                case KeyCode.Space:
-                    this.allEvents.push(new Event(this.tanks[1], EventType.PressedSpace));
-                    break;
-            };
-        });
-    }
-
     private deleteUselessEvents() {
         let count = this.allEvents.length;
-        let move = new Map();
+        let move: Tank[] = [];
         for (let i: number = 0; i < count; i++) {
             let temp: number = i;
-            switch (this.allEvents[temp].eventType) {
-                case EventType.PressedUp:
-                    if (move.get(this.allEvents[i].tank) == undefined) {
-                        move.set(this.allEvents[i].tank, true);
-                        let tempTank: Tank = this.allEvents[i].tank;
-                        this.filteredEvents.push(() => this.tankUp(tempTank));
+            switch (this.allEvents[temp].key) {
+                case KeyCode.Up:
+                    if (move.indexOf(this.allEvents[i].tank) == -1) {
+                        move.push(this.allEvents[i].tank);
+                        this.socket.send(JSON.stringify(new Message(NetworkCommands.PressedButton, this.userID, "up")));
                     }
                     break;
-                case EventType.PressedDown:
-                    if (move.get(this.allEvents[i].tank) == undefined) {
-                        move.set(this.allEvents[i].tank, true);
-                        let tempTank: Tank = this.allEvents[i].tank;
-                        this.filteredEvents.push(() => this.tankDown(tempTank));
+                case KeyCode.Down:
+                    if (move.indexOf(this.allEvents[i].tank) == -1) {
+                        move.push(this.allEvents[i].tank);
+                        this.socket.send(JSON.stringify(new Message(NetworkCommands.PressedButton, this.userID, "down")));
                     }
                     break;
-                case EventType.PressedLeft:
-                    if (move.get(this.allEvents[i].tank) == undefined) {
-                        move.set(this.allEvents[i].tank, true);
-                        let tempTank: Tank = this.allEvents[i].tank;
-                        this.filteredEvents.push(() => this.tankLeft(tempTank));
+                case KeyCode.Left:
+                    if (move.indexOf(this.allEvents[i].tank) == -1) {
+                        move.push(this.allEvents[i].tank);
+                        this.socket.send(JSON.stringify(new Message(NetworkCommands.PressedButton, this.userID, "left")));
                     }
                     break;
-                case EventType.PressedRight:
-                    if (move.get(this.allEvents[i].tank) == undefined) {
-                        move.set(this.allEvents[i].tank, true);
-                        let tempTank: Tank = this.allEvents[i].tank;
-                        this.filteredEvents.push(() => this.tankRight(tempTank));
+                case KeyCode.Right:
+                    if (move.indexOf(this.allEvents[i].tank) == -1) {
+                        move.push(this.allEvents[i].tank);
+                        this.socket.send(JSON.stringify(new Message(NetworkCommands.PressedButton, this.userID, "right")));
                     }
                     break;
-                case EventType.PressedSpace:
+                case KeyCode.Space:
                     let counter = 0;
                     this.bullets.forEach(bullet => {
                         this.allEvents[i].tank === bullet.owner ? counter++ : {};

@@ -34,11 +34,6 @@ namespace EchoApp
                     if (counterOfReadyPlayers == MaxPlayers)
                     {
                         gameStatus = GameStatus.InGame;
-                    }
-                    break;
-                case GameStatus.InGame:
-                    lock (Players)
-                    {
                         for (int i = 0; i < MaxPlayers; i++)
                         {
                             Players[i].Socket.SendAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Message(NetworkCommands.StartGame, i, ""))), WebSocketMessageType.Text, true, CancellationToken.None);

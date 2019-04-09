@@ -12,23 +12,11 @@ namespace EchoApp
 {
     class Sender
     {
+        private Player currentPlayer;
         public async Task Receive(HttpContext context)
         {
             WebSocket socket = await context.WebSockets.AcceptWebSocketAsync();
-            Lobby.Locker.EnterWriteLock();
-            Player currentPlayer;
-            try
-            {
-                currentPlayer = new Player(socket);
-                lock (Lobby.Players)
-                {
-                    Lobby.Players.Add(currentPlayer);
-                }
-            }
-            finally
-            {
-                Lobby.Locker.ExitWriteLock();
-            }
+            currentPlayer = new Player(socket);
             while (true)
             {
                 var buffer = new ArraySegment<byte>(new byte[1024]);
@@ -72,6 +60,21 @@ namespace EchoApp
                 case NetworkCommands.Name:
                     currentPlayer.Name = message.Content;
                     currentPlayer.ReadyToGame = true;
+                    if (!CheckPlayerPresence())
+                    {
+                        Lobby.Locker.EnterWriteLock();
+                        try
+                        {
+                            lock (Lobby.Players)
+                            {
+                                Lobby.Players.Add(currentPlayer);
+                            }
+                        }
+                        finally
+                        {
+                            Lobby.Locker.ExitWriteLock();
+                        }
+                    }
                     Lobby.GameProcess();
                     return false;
                 case NetworkCommands.EndGame:
@@ -80,6 +83,18 @@ namespace EchoApp
                     return false;
             }
             return true;
+        }
+
+        private bool CheckPlayerPresence()
+        {
+            foreach (var player in Lobby.Players)
+            {
+                if (currentPlayer == player)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
