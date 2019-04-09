@@ -5,21 +5,23 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Web.Http;
+using System.Net.Http;
+using Microsoft.AspNetCore.Http;
 
 namespace MvcMovie.Controllers
 {
     public class EditorController : Controller
     {
-        //POST api/Editor
-        [Route("api/Editor/CreateArena")]
-        [HttpPost("blocks")]
-        public string CreateArena(string blocks)
+
+        [HttpPost]
+        public JsonResult CreateArena([FromBody] string data)
         {
-            using (StreamWriter outputFile = new StreamWriter(Path.Combine("./rounds/", "first.json"), true))
+            using (StreamWriter outputFile = new StreamWriter(Path.Combine("./rounds/", "BLOCKS.json"), true))
             {
-                outputFile.WriteLine(blocks);
+                outputFile.WriteLine(data);
             }
-            return blocks;
+
+            return Json(data);
         }
 
     }
