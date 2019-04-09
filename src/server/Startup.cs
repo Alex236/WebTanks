@@ -34,7 +34,7 @@ namespace EchoApp
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvcCore().AddJsonFormatters();
         }
 
         public void Logging()

@@ -8,33 +8,28 @@ using System.Web.Http;
 using System.Net.Http;
 using Microsoft.AspNetCore.Http;
 
-namespace MvcMovie.Controllers
+using Newtonsoft.Json;
+
+namespace EchoApp.Controllers
 {
     public class EditorController : Controller
     {
 
         [HttpPost]
-        public JsonResult CreateArena([FromBody] string data)
+        public void CreateArena([FromBody] BlockModel[] blocks)
         {
-            using (StreamWriter outputFile = new StreamWriter(Path.Combine("./rounds/", "BLOCKS.json"), true))
+            using (StreamWriter outputFile = new StreamWriter(Path.Combine("./rounds/", "BLOCKS.json")))
             {
-                outputFile.WriteLine(data);
+            String json = JsonConvert.SerializeObject(blocks);
+                outputFile.WriteLine(json);
             }
-
-            return Json(data);
         }
-
     }
 }
-
-    public class Arena
-    {
-        public List<BlockModel> Blocks {set;get;}
-     }
 
      public class BlockModel
     {
     public int x {set;get;}
     public int y {set;get;}
-    public string UnitType {set;get;}
+    public int UnitType {set;get;}
     }
