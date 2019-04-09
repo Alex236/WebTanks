@@ -14,13 +14,27 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using Microsoft.Extensions.Logging.Debug;
 
+using Microsoft.Extensions.Configuration;
+
 namespace EchoApp
 {
+
     public class Startup
     {
+
+
+        public Startup(IConfiguration configuration)
+    {
+        // код конструктора
+    }
+    public IConfigurationRoot Configuration { get; set; }
+
+
+
+
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvcCore();
+            services.AddMvc();
         }
 
         public void Logging()
@@ -30,7 +44,7 @@ namespace EchoApp
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            
+
             app.UseWebSockets();
 
             app.Use(async (context, next) =>
@@ -56,12 +70,13 @@ namespace EchoApp
 
             app.UseFileServer();
 
-            
-            
+            app.UseStatusCodePages();
             app.UseMvc(routes =>
-            {});
-            
-            
+            {
+                routes.MapRoute("api", "api/createArena", new { controller = "Editor", action = "CreateArena" });
+
+            });
+
         }
     }
 }
