@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.WebSockets;
 using System.Text;
@@ -21,6 +22,12 @@ namespace EchoApp
         {
             services.AddMvcCore();
         }
+
+        public void Logging()
+        {
+
+        }
+
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             
