@@ -72,7 +72,6 @@ namespace EchoApp
                             lock (Lobby.Players)
                             {
                                 Lobby.Players.Add(currentPlayer);
-                                Console.WriteLine("Users: " + Lobby.Players.Count);
                             }
                         }
                         finally
