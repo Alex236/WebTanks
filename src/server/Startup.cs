@@ -19,11 +19,11 @@ namespace EchoApp
     {
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddMvcCore();
         }
-
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            
             app.UseWebSockets();
 
             app.Use(async (context, next) =>
@@ -48,6 +48,13 @@ namespace EchoApp
             });
 
             app.UseFileServer();
+
+            
+            
+            app.UseMvc(routes =>
+            {});
+            
+            
         }
     }
 }
