@@ -13,7 +13,7 @@ namespace EchoApp
         public static List<Player> Players = new List<Player>();
         public static ReaderWriterLockSlim Locker = new ReaderWriterLockSlim();
         public static readonly int MaxPlayers = 2;
-        private static GameStatus gameStatus = GameStatus.WaitingForPlayers;
+        public static GameStatus gameStatus = GameStatus.WaitingForPlayers;
 
         public static void GameProcess()
         {

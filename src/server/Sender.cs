@@ -21,7 +21,7 @@ namespace EchoApp
             {
                 var buffer = new ArraySegment<byte>(new byte[1024]);
                 var result = await socket.ReceiveAsync(buffer, CancellationToken.None);
-                if (needResend(buffer, currentPlayer))
+                if (NeedResend(buffer, currentPlayer))
                 {
                     for (int i = 0; i < Lobby.Players.Count; i++)
                     {
@@ -39,6 +39,10 @@ namespace EchoApp
                             try
                             {
                                 Lobby.Players.Remove(Lobby.Players[i]);
+                                if(Lobby.Players.Count == 0)
+                                {
+                                    Lobby.gameStatus = GameStatus.WaitingForPlayers;
+                                }
                                 i--;
                             }
                             finally
@@ -51,7 +55,7 @@ namespace EchoApp
             }
         }
 
-        private bool needResend(ArraySegment<byte> buffer, Player currentPlayer)
+        private bool NeedResend(ArraySegment<byte> buffer, Player currentPlayer)
         {
             string result = Encoding.UTF8.GetString(buffer);
             Message message = JsonConvert.DeserializeObject<Message>(result);
@@ -68,6 +72,7 @@ namespace EchoApp
                             lock (Lobby.Players)
                             {
                                 Lobby.Players.Add(currentPlayer);
+                                Console.WriteLine("Users: " + Lobby.Players.Count);
                             }
                         }
                         finally
