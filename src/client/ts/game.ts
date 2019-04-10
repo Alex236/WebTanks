@@ -398,6 +398,7 @@ export class Game {
 
     private damageTank(bullet: Bullet, tank: Tank) {
         this.sound.run("killSomeone");
+        this.socket.send(JSON.stringify(new Message(NetworkCommands.EndGame, 0, "")));
         tank.health -= bullet.damage;
     }
 

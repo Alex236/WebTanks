@@ -18,6 +18,7 @@ endButton.id = "endButton";
 // acceptSetMap.innerHTML = "Set Map";
 // acceptSetMap.id = "acceptSetMap";
 
+let name: string;
 let scheme = document.location.protocol === "https:" ? "wss" : "ws";
 let connectionUrl = scheme + "://" + document.location.hostname + ":" + document.location.port + "/ws";
 let socket = new WebSocket(connectionUrl);
@@ -30,7 +31,7 @@ let maps: [];
 
 const button = document.getElementById("confirmName");
 button.onclick = () => {
-    var name: string = (<HTMLInputElement>document.getElementById("name")).value;
+    name = (<HTMLInputElement>document.getElementById("name")).value;
     if (name !== "") {
         socket.send(JSON.stringify(new Message(NetworkCommands.Name, 0, name)));
     }
@@ -69,7 +70,15 @@ socket.onmessage = (event) => {
             break;
         case NetworkCommands.EndGame:
             game.endGame();
-            document.getElementById("endButton").remove();
+            try
+            {
+                document.getElementById("endButton").remove();
+            }
+            catch(e)
+            {
+                socket = new WebSocket(connectionUrl);
+                socket.send(JSON.stringify(new Message(NetworkCommands.Name, 0, name)));
+            }
             // document.getElementById("gameController").appendChild(setMap);
             // document.getElementById("gameController").appendChild(acceptSetMap);
             break;
