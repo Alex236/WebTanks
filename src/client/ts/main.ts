@@ -98,17 +98,21 @@ $.ajax({
         result.forEach((arena, index) => {
             var ul = document.getElementById("rounds");
             var li = document.createElement("li");
+            var a = document.createElement("a");
+            a.setAttribute('href', 'api/deleteArena/' + index.toString());
+            a.setAttribute('type', 'POST');
+            a.setAttribute('method', 'POST');
+            a.innerHTML = "X";
             li.setAttribute('data', index.toString());
-            //li.id = index.toString;
             var canvas = document.createElement("canvas");
             canvas.setAttribute('id', index.toString());
             canvas.setAttribute('width', "90%");
             canvas.setAttribute('height', "100%");
+            li.appendChild(a);
             li.appendChild(canvas);
             ul.appendChild(li);
             let littleGrid = new LittleGrid(index.toString());
             littleGrid.draw(<Block[]>(arena));
-
         });
         console.log(result);
     },
