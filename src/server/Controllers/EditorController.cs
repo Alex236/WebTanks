@@ -64,7 +64,4 @@ namespace EchoApp.Controllers
     public int x {set;get;}
     public int y {set;get;}
     public int UnitType {set;get;}
-    public Boolean sweep {set;get;}
-    public Boolean drive {set;get;}
-    public Boolean demolish {set;get;}
     }
