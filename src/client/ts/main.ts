@@ -8,9 +8,9 @@ import { Event } from "./models/event";
 let endButton = document.createElement("button");
 endButton.innerHTML = "End Game";
 endButton.id = "endButton";
-let startButton = document.createElement("button");
-startButton.innerHTML = "Start Button";
-startButton.id = "startButton";
+// let startButton = document.createElement("button");
+// startButton.innerHTML = "Start Button";
+// startButton.id = "startButton";
 let setMap = document.createElement("input");
 setMap.id = "setMap";
 let acceptSetMap = document.createElement("button");
@@ -83,7 +83,3 @@ endButton.onclick = (event) => {
 acceptSetMap.onclick = (event) => {
     socket.send(JSON.stringify(new Message(NetworkCommands.SetMap, 0, setMap.value)));
 };
-
-// startButton.onclick = (event) => {
-//     socket.send(JSON.stringify(new Message(NetworkCommands.StartGame, 0 , )))
-// };

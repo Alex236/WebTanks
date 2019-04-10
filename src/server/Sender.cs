@@ -64,7 +64,7 @@ namespace EchoApp
                         }
                         if (!lobbyExist)
                         {
-                            lobby = new GameLobby(currentPlayer.Map, 1, currentPlayer);//lobby size
+                            lobby = new GameLobby(currentPlayer.Map, 2, currentPlayer);//lobby size
                             MainLobby.Lobbys.Add(lobby);
                         }
                     }
