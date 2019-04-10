@@ -83,3 +83,7 @@ endButton.onclick = (event) => {
 acceptSetMap.onclick = (event) => {
     socket.send(JSON.stringify(new Message(NetworkCommands.SetMap, 0, setMap.value)));
 };
+
+// startButton.onclick = (event) => {
+//     socket.send(JSON.stringify(new Message(NetworkCommands.StartGame, 0 , )))
+// };
