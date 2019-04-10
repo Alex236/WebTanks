@@ -15,14 +15,16 @@ namespace EchoApp
         private readonly int MaxPlayers;
         private GameStatus gameStatus = GameStatus.WaitingForPlayers;
         public readonly string MapName;
+        public readonly string MapIndex;
 
-        public GameLobby(string mapName, int maxNumberOfPlayers, Player currentPlayer)
+        public GameLobby(string mapName, string mapIndex, int maxNumberOfPlayers, Player currentPlayer)
         {
             lock (Players)
             {
                 Players.Add(currentPlayer);
                 Console.WriteLine(Players.Count);
             }
+            MapIndex = mapIndex;
             MaxPlayers = maxNumberOfPlayers;
             MapName = mapName;
             var timer = Task.Run(async () =>
@@ -70,7 +72,7 @@ namespace EchoApp
                     gameStatus = GameStatus.InGame;
                     for (int i = 0; i < MaxPlayers; i++)
                     {
-                        Players[i].Socket.SendAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Message(NetworkCommands.StartGame, i, ""))), WebSocketMessageType.Text, true, CancellationToken.None);
+                        Players[i].Socket.SendAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Message(NetworkCommands.StartGame, i, MapIndex))), WebSocketMessageType.Text, true, CancellationToken.None);
                     }
                 }
             }

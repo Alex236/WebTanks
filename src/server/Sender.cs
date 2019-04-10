@@ -12,6 +12,7 @@ namespace EchoApp
 {
     class Sender
     {
+        public static int lobbysCounter = 0;
         private Player currentPlayer;
         private GameLobby lobby;
         public async Task Receive(HttpContext context)
@@ -52,7 +53,7 @@ namespace EchoApp
                         bool lobbyExist = false;
                         foreach (var lobby in MainLobby.Lobbys)
                         {
-                            if (lobby.MapName == currentPlayer.Map)
+                            if (lobby.MapIndex == currentPlayer.Map)
                             {
                                 if (lobby.AddPlayer(currentPlayer))
                                 {
@@ -64,7 +65,10 @@ namespace EchoApp
                         }
                         if (!lobbyExist)
                         {
-                            lobby = new GameLobby(currentPlayer.Map, 1, currentPlayer);//lobby size
+                            unchecked
+                            {
+                                lobby = new GameLobby(lobbysCounter++.ToString(), currentPlayer.Map, 2, currentPlayer);//lobby size
+                            }
                             MainLobby.Lobbys.Add(lobby);
                         }
                     }
