@@ -22,7 +22,6 @@ namespace EchoApp
     public class Startup
     {
 
-
         public Startup(IConfiguration configuration)
     {
         // код конструктора
@@ -71,11 +70,7 @@ namespace EchoApp
             app.UseFileServer();
 
             app.UseStatusCodePages();
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute("api", "api/createArena", new { controller = "Editor", action = "CreateArena" });
-
-            });
+            app.UseMvc();
 
         }
     }
