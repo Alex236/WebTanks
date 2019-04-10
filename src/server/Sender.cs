@@ -64,7 +64,7 @@ namespace EchoApp
                         }
                         if (!lobbyExist)
                         {
-                            lobby = new GameLobby(currentPlayer.Map, 2, currentPlayer);//lobby size
+                            lobby = new GameLobby(currentPlayer.Map, 1, currentPlayer);//lobby size
                             MainLobby.Lobbys.Add(lobby);
                         }
                     }
@@ -80,8 +80,9 @@ namespace EchoApp
                     return false;
                 case NetworkCommands.EndGame:
                     currentPlayer.Socket.SendAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Message(NetworkCommands.EndGame, 0, ""))), WebSocketMessageType.Text, true, CancellationToken.None);
+                    lobby.Players.RemoveAt(lobby.Players.IndexOf(currentPlayer));
                     lobby = null;
-                    return true;
+                    return false;
             }
             return true;
         }

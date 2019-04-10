@@ -46,7 +46,7 @@ export class Game {
         }
         for (let i: number = 0; i < Parameters.fieldHeight; i++) {
             for (let j: number = 0; j < Parameters.fieldWidth; j++) {
-                this.blockMap[i][j] = this.blockFactory.createBlock(UnitType.Road, j, i);
+                this.blockMap[i][j] = new Block(UnitType.Road, j, i);
             }
         }
         for (let i: number = 0; i < this.blocks.length; i++) {
@@ -95,7 +95,7 @@ export class Game {
                 this.filteredEvents.push(() => this.tankRight(this.tanks[author]));
                 break;
             case "space":
-////////////
+                this.bullets.push(this.bulletsFactory.createBullet(this.tanks[author]));
                 break;
         }
     }
@@ -125,6 +125,7 @@ export class Game {
     private deleteUselessEvents() {
         let count = this.allEvents.length;
         let move: Tank[] = [];
+        let shoot: Tank[] = [];
         for (let i: number = 0; i < count; i++) {
             let temp: number = i;
             switch (this.allEvents[temp].key) {
@@ -157,7 +158,11 @@ export class Game {
                     this.bullets.forEach(bullet => {
                         this.allEvents[i].tank === bullet.owner ? counter++ : {};
                     });
-                    counter < this.allEvents[i].tank.avaliableShoots ? this.bullets.push(this.bulletsFactory.createBullet(this.allEvents[i].tank)) : {};
+                    if(counter < this.allEvents[i].tank.avaliableShoots) { 
+                        //this.bullets.push(this.bulletsFactory.createBullet(this.allEvents[i].tank));
+                        shoot.push(this.allEvents[i].tank)
+                        this.socket.send(JSON.stringify(new Message(NetworkCommands.PressedButton, this.userID, "space")));
+                    } 
                     this.sound.run("fire");
                     break;
             }

@@ -4,12 +4,11 @@ import { SpawnPoint } from "./spawn-point";
 import { Directoin } from "./direction";
 
 export class Arena {
-    public blocks: Block[];
+    public blocks: Block[] = [];
 
     constructor(blocks: Block[]){
-        this.blocks = new Array();
         blocks.forEach(block => {
-            this.blocks.push(new Block(block.x, block.y, block.unitType, block.sweep, block.drive, block.demolish));
+            this.blocks.push(new Block(block.x, block.y, block.unitType));
         });
     }
 

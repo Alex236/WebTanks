@@ -20,8 +20,10 @@ namespace EchoApp
                 {
                     lock (Lobbys)
                     {
+                        Console.WriteLine("lobbys: " + Lobbys.Count);
                         for (int i = 0; i < Lobbys.Count; i++)
                         {
+                            Console.WriteLine(i + " lobby " + Lobbys[i].Players.Count);
                             if (Lobbys[i].Players.Count == 0)
                             {
                                 Lobbys.RemoveAt(i--);

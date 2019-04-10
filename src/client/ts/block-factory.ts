@@ -5,15 +5,15 @@ export class BlockFactory {
     public createBlock(block: UnitType, x: number, y: number): Block {
         switch(block) {
             case UnitType.Road:
-            return new Block(x, y, block, true, true, false);
+            return new Block(x, y, block);
             case UnitType.Brick:
-            return new Block(x, y, block, false, false, true);
+            return new Block(x, y, block);
             case UnitType.HardBrick:
-            return new Block(x, y, block, false, false, false);
+            return new Block(x, y, block);
             case UnitType.Water:
-            return new Block(x, y, block, true, false, false);
+            return new Block(x, y, block);
             case UnitType.Grass:
-            return new Block(x, y, block, true, true, false);
+            return new Block(x, y, block);
         }
     }
 }
