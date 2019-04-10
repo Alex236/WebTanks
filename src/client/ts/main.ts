@@ -29,6 +29,7 @@ let game: Game = Game.getGame();
 let arena: Arena = new Arena([]);
 let keys: number[] = [];
 let tankFactory = new TankFactory();
+let maps: any;
 
 const button = document.getElementById("confirmName");
 button.onclick = () => {
@@ -93,10 +94,12 @@ $.ajax({
     url: "api/allRounds",
     contentType: "text/plain",
     success: function (result: []) {
+        maps = result;
         result.forEach((arena, index) => {
             var ul = document.getElementById("rounds");
             var li = document.createElement("li");
             li.setAttribute('data', index.toString());
+            //li.id = index.toString;
             var canvas = document.createElement("canvas");
             canvas.setAttribute('id', index.toString());
             canvas.setAttribute('width', "90%");
@@ -105,6 +108,7 @@ $.ajax({
             ul.appendChild(li);
             let littleGrid = new LittleGrid(index.toString());
             littleGrid.draw(<Block[]>(arena));
+
         });
         console.log(result);
     },
