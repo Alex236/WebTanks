@@ -59,7 +59,7 @@ socket.onmessage = (event) => {
             (<Block[]>maps[parseInt(message.Content)]).forEach(block => {
                 arena.blocks.push(new Block(block.x, block.y, block.unitType));
             });
-            
+
             game.start(socket, author, [tankFactory.createTanks(3, 5), tankFactory.createTanks(3, 10)], arena);
             // document.getElementById("setMap").remove();
             // document.getElementById("acceptSetMap").remove();
@@ -88,23 +88,22 @@ socket.onmessage = (event) => {
             maps.forEach((arena, index) => {
                 var ul = document.getElementById("rounds");
                 var li = document.createElement("li");
+                var a = document.createElement("a");
+                a.setAttribute('href', 'api/deleteArena/' + index.toString());
+                a.setAttribute('type', 'POST');
+                a.setAttribute('method', 'POST');
+                a.innerHTML = "X";
                 li.setAttribute('data', index.toString());
-                li.id = index.toString();
                 var canvas = document.createElement("canvas");
                 canvas.setAttribute('id', index.toString());
                 canvas.setAttribute('width', "90%");
                 canvas.setAttribute('height', "100%");
-
-                let chooseMap = document.createElement("button");
-                chooseMap.id = index.toString() + "button";
-                chooseMap.innerHTML = index.toString();
-
-                //li.appendChild(canvas);
-                li.appendChild(chooseMap);
+                li.appendChild(a);
+                li.appendChild(canvas);
                 ul.appendChild(li);
-                //let littleGrid = new LittleGrid(index.toString());
-                //littleGrid.draw(<Block[]>(arena));
-                li.addEventListener("click", (event) => {
+                let littleGrid = new LittleGrid(index.toString());
+                littleGrid.draw(<Block[]>(arena));
+                canvas.addEventListener("click", (event) => {
                     socket.send(JSON.stringify(new Message(NetworkCommands.SetMap, 0, index.toString())));
                 });
             });
@@ -129,22 +128,29 @@ $.ajax({
     contentType: "text/plain",
     success: function (result: []) {
         maps = result;
-        // result.forEach((arena, index) => {
-        //     var ul = document.getElementById("rounds");
-        //     var li = document.createElement("li");
-        //     li.setAttribute('data', index.toString());
-        //     //li.id = index.toString;
-        //     var canvas = document.createElement("canvas");
-        //     canvas.setAttribute('id', index.toString());
-        //     canvas.setAttribute('width', "90%");
-        //     canvas.setAttribute('height', "100%");
-        //     li.appendChild(canvas);
-        //     ul.appendChild(li);
-        //     let littleGrid = new LittleGrid(index.toString());
-        //     littleGrid.draw(<Block[]>(arena));
+/*
+        result.forEach((arena, index) => {
+            var ul = document.getElementById("rounds");
+            var li = document.createElement("li");
+            var a = document.createElement("a");
+            a.setAttribute('href', 'api/deleteArena/' + index.toString());
+            a.setAttribute('type', 'POST');
+            a.setAttribute('method', 'POST');
+            a.innerHTML = "X";
+            li.setAttribute('data', index.toString());
+            var canvas = document.createElement("canvas");
+            canvas.setAttribute('id', index.toString());
+            canvas.setAttribute('width', "90%");
+            canvas.setAttribute('height', "100%");
+            li.appendChild(a);
+            li.appendChild(canvas);
+            ul.appendChild(li);
+            let littleGrid = new LittleGrid(index.toString());
+            littleGrid.draw(<Block[]>(arena));
+        });
+        console.log(result);
+        */
 
-        // });
-        // console.log(result);
     },
     error: function (xhr: any, resp: any, text: any) {
         console.log("error");

@@ -35,7 +35,7 @@ namespace EchoApp.Controllers
             var allRounds = new Dictionary<string, BlockModel[]>();
             foreach (var round in rounds)
             {
-                using (StreamReader r = new StreamReader(rounds[0]))
+                using (StreamReader r = new StreamReader(round))
                 {
                     string json = r.ReadToEnd();
                     allRounds.Add(round, JsonConvert.DeserializeObject<BlockModel[]>(json));
@@ -55,6 +55,19 @@ namespace EchoApp.Controllers
                 string json = r.ReadToEnd();
                 items = JsonConvert.DeserializeObject<BlockModel[]>(json);
             }
+        }
+
+        [Route("api/deleteArena/{id}")]
+        [HttpPost("{id}")]
+        public void DeleteArena(int id)
+        {
+            string[] rounds = Directory.GetFiles("./rounds/");
+            string fullPath = Path.Combine(rounds[id]);
+            if (System.IO.File.Exists(fullPath))
+                {
+                System.IO.File.Delete(fullPath);
+                }
+            Response.Redirect("/");
         }
     }
 }
