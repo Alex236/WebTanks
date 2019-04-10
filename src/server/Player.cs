@@ -6,7 +6,7 @@ namespace EchoApp
     class Player
     {
         public string Name { get; set; }
-        public bool ReadyToGame { get; set; } = false;
+        public string Map { get; set; } = string.Empty;
         public readonly WebSocket Socket;
 
         public Player(WebSocket socket)

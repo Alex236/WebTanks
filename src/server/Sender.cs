@@ -13,6 +13,7 @@ namespace EchoApp
     class Sender
     {
         private Player currentPlayer;
+        private GameLobby lobby;
         public async Task Receive(HttpContext context)
         {
             WebSocket socket = await context.WebSockets.AcceptWebSocketAsync();
@@ -23,31 +24,14 @@ namespace EchoApp
                 var result = await socket.ReceiveAsync(buffer, CancellationToken.None);
                 if (NeedResend(buffer, currentPlayer))
                 {
-                    for (int i = 0; i < Lobby.Players.Count; i++)
+                    lock (MainLobby.Players)
                     {
-                        WebSocket player = Lobby.Players[i].Socket;
-                        try
+                        for (int i = 0; i < lobby.Players.Count; i++)
                         {
+                            WebSocket player = lobby.Players[i].Socket;
                             if (player.State == WebSocketState.Open)
                             {
-                                await player.SendAsync(buffer, WebSocketMessageType.Text, true, CancellationToken.None);
-                            }
-                        }
-                        catch (ObjectDisposedException)
-                        {
-                            Lobby.Locker.EnterWriteLock();
-                            try
-                            {
-                                Lobby.Players.Remove(Lobby.Players[i]);
-                                if(Lobby.Players.Count == 0)
-                                {
-                                    Lobby.gameStatus = GameStatus.WaitingForPlayers;
-                                }
-                                i--;
-                            }
-                            finally
-                            {
-                                Lobby.Locker.ExitWriteLock();
+                                player.SendAsync(buffer, WebSocketMessageType.Text, true, CancellationToken.None);
                             }
                         }
                     }
@@ -61,44 +45,45 @@ namespace EchoApp
             Message message = JsonConvert.DeserializeObject<Message>(result);
             switch (message.NetworkCommand)
             {
-                case NetworkCommands.Name:
-                    currentPlayer.Name = message.Content;
-                    currentPlayer.ReadyToGame = true;
-                    if (!CheckPlayerPresence())
+                case NetworkCommands.SetMap:
+                    currentPlayer.Map = message.Content;
+                    lock (MainLobby.Lobbys)
                     {
-                        Lobby.Locker.EnterWriteLock();
-                        try
+                        bool lobbyExist = false;
+                        foreach (var lobby in MainLobby.Lobbys)
                         {
-                            lock (Lobby.Players)
+                            if (lobby.MapName == currentPlayer.Map)
                             {
-                                Lobby.Players.Add(currentPlayer);
+                                if (lobby.AddPlayer(currentPlayer))
+                                {
+                                    this.lobby = lobby;
+                                    lobbyExist = true;
+                                    break;
+                                }
                             }
                         }
-                        finally
+                        if (!lobbyExist)
                         {
-                            Lobby.Locker.ExitWriteLock();
+                            lobby = new GameLobby(currentPlayer.Map, 2, currentPlayer);//lobby size
+                            MainLobby.Lobbys.Add(lobby);
                         }
                     }
-                    Lobby.GameProcess();
+                    lobby.GameStart();
+                    return false;
+                case NetworkCommands.Name:
+                    currentPlayer.Name = message.Content;
+                    lock (MainLobby.Players)
+                    {
+                        MainLobby.Players.Add(currentPlayer);
+                    }
+                    currentPlayer.Socket.SendAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Message(NetworkCommands.Name, 0, message.Content))), WebSocketMessageType.Text, true, CancellationToken.None);
                     return false;
                 case NetworkCommands.EndGame:
-                    currentPlayer.ReadyToGame = false;
-                    Lobby.GameProcess();
-                    return false;
+                    currentPlayer.Socket.SendAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Message(NetworkCommands.EndGame, 0, ""))), WebSocketMessageType.Text, true, CancellationToken.None);
+                    lobby = null;
+                    return true;
             }
             return true;
-        }
-
-        private bool CheckPlayerPresence()
-        {
-            foreach (var player in Lobby.Players)
-            {
-                if (currentPlayer == player)
-                {
-                    return true;
-                }
-            }
-            return false;
         }
     }
 }

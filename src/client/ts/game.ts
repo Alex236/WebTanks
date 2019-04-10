@@ -32,7 +32,7 @@ export class Game {
     private needRedraw: boolean = true;
     private userID: number;
     private socket: WebSocket;
-    private endGameStatus: boolean = false;
+    private gameProcess: any;
 
     private constructor() { }
 
@@ -72,14 +72,10 @@ export class Game {
         this.initializeMap();
         this.view();
         this.needRedraw = true;
-        setInterval(() => {
+        this.gameProcess = setInterval(() => {
             this.deleteUselessEvents();
             if (this.bullets.length !== 0 || this.filteredEvents.length !== 0) {
                 this.calculate();
-            }
-            if (this.endGameStatus) {
-                this.endGameStatus = false;
-                clearInterval();
             }
         }, Parameters.timer);
     }
@@ -105,7 +101,7 @@ export class Game {
     }
 
     public endGame() {
-        this.endGameStatus = true;
+        clearInterval(this.gameProcess);
     }
 
     private async view() {

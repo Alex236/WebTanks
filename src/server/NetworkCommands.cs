@@ -5,6 +5,7 @@ namespace EchoApp
         Name,
         StartGame,
         PressedButton,
-        EndGame
+        EndGame,
+        SetMap
     }
 }
