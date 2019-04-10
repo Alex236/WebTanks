@@ -54,6 +54,7 @@ socket.onmessage = (event) => {
     let message: Message = <Message>JSON.parse(buffer.substring(0, buffer.indexOf("}") + 1));
     switch (message.NetworkCommand) {
         case NetworkCommands.StartGame:
+            document.getElementById("divForRounds").hidden = true;
             author = message.Author;
             arena.blocks = [];
             (<Block[]>maps[parseInt(message.Content)]).forEach(block => {
@@ -72,6 +73,7 @@ socket.onmessage = (event) => {
             game.endGame();
             try
             {
+                document.getElementById("divForRounds").hidden = false;
                 document.getElementById("endButton").remove();
             }
             catch(e)

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WebTanks</title>
+</head>
+
+<body style="width:100%; height:100%; margin:0; background-color:darkgrey;">
+    <div id="arena"
+        style="display: inline-block; text-align: center; margin: 2%; padding: 0; position: fixed; width: 80%; height: 96%;">
+        <canvas id="canvas" style="display: inline-block; margin: 0 auto;"></canvas>
+    </div>
+    <div id="bar-menu"
+        style="font-size:30px; width: 16%; height: 96%; display: inline-block; float:right; margin: 2% auto;">
+        <div id="gameController">
+            <input type="text" id="name">
+            <button type="button" id="confirmName" onclick="confirmName()">Confirm Name</button>
+        </div>
+        </br>
+        <div id="divForRounds">
+        </div>
+        <a href="arena-editor.html">Create custom arena</a>
+    </div>
+<script type="text/javascript" src="main.bundle.js"></script></body>
+
+</html>
