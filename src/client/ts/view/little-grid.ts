@@ -4,8 +4,8 @@ import { Block } from '../models/block';
 export class LittleGrid {
     private canvas: HTMLCanvasElement;
     private ctx: CanvasRenderingContext2D;
-    private totalHeight: number = document.getElementById('first')!.offsetHeight;
-    private totalWidth: number = document.getElementById('first')!.offsetWidth;
+    private totalHeight: number = document.getElementById('0')!.offsetHeight;
+    private totalWidth: number = document.getElementById('0')!.offsetWidth;
     private gameSize: number = this.totalHeight <= this.totalWidth ? this.totalHeight : this.totalWidth;
     private cellSize: number = this.gameSize / 52;
     private sprite: Map<string, HTMLImageElement> = new Sprite().all;

@@ -1,6 +1,6 @@
 import { Editor } from "./editor";
 import { Brush } from "./view-editor/brush";
-
+import * as $ from 'jquery';
 let editor = new Editor();
 
 editor.run();
@@ -21,7 +21,21 @@ editor.unitCan.addEventListener("click", function (evt) {
 
     if(createButton.startX <= mousePos.x && createButton.endX >= mousePos.x){
         if(createButton.startY <= mousePos.y && mousePos.y <= createButton.endY){
-            console.log("Create new Arena");
+            $.ajax({
+                type: "POST",
+                url: "api/createArena",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(editor.grid.arena.blocks),
+                success: function (result) {
+                    console.log(result);
+                    console.log("success");
+                    window.location.href = "/";
+                },
+                error: function (xhr, resp, text) {
+                    console.log(xhr, resp, text);
+                    console.log("error");
+                }
+            });
         }
     }
 

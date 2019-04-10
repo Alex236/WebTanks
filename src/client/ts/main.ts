@@ -5,6 +5,10 @@ import { Game } from './game';
 import { Arena } from './models/arena';
 import { Event } from "./models/event";
 
+import * as $ from 'jquery';
+import { LittleGrid } from './view/little-grid';
+import { Block } from './models/block';
+
 let endButton = document.createElement("button");
 endButton.innerHTML = "End Game";
 endButton.id = "endButton";
@@ -83,3 +87,28 @@ endButton.onclick = (event) => {
 acceptSetMap.onclick = (event) => {
     socket.send(JSON.stringify(new Message(NetworkCommands.SetMap, 0, setMap.value)));
 };
+
+$.ajax({
+    type: "GET",
+    url: "api/allRounds",
+    contentType: "text/plain",
+    success: function (result: []) {
+        result.forEach((arena, index) => {
+            var ul = document.getElementById("rounds");
+            var li = document.createElement("li");
+            li.setAttribute('data', index.toString());
+            var canvas = document.createElement("canvas");
+            canvas.setAttribute('id', index.toString());
+            canvas.setAttribute('width', "90%");
+            canvas.setAttribute('height', "100%");
+            li.appendChild(canvas);
+            ul.appendChild(li);
+            let littleGrid = new LittleGrid(index.toString());
+            littleGrid.draw(<Block[]>(arena));
+        });
+        console.log(result);
+    },
+    error: function (xhr: any, resp: any, text: any) {
+        console.log("error");
+    }
+});
