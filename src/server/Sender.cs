@@ -67,7 +67,7 @@ namespace EchoApp
                         {
                             unchecked
                             {
-                                lobby = new GameLobby(lobbysCounter++.ToString(), currentPlayer.Map, 2, currentPlayer);//lobby size
+                                lobby = new GameLobby(lobbysCounter++.ToString(), currentPlayer.Map, 1, currentPlayer);//lobby size
                             }
                             MainLobby.Lobbys.Add(lobby);
                         }

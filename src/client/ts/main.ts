@@ -18,6 +18,7 @@ endButton.id = "endButton";
 // acceptSetMap.innerHTML = "Set Map";
 // acceptSetMap.id = "acceptSetMap";
 
+let name: string;
 let scheme = document.location.protocol === "https:" ? "wss" : "ws";
 let connectionUrl = scheme + "://" + document.location.hostname + ":" + document.location.port + "/ws";
 let socket = new WebSocket(connectionUrl);
@@ -30,7 +31,7 @@ let maps: [];
 
 const button = document.getElementById("confirmName");
 button.onclick = () => {
-    var name: string = (<HTMLInputElement>document.getElementById("name")).value;
+    name = (<HTMLInputElement>document.getElementById("name")).value;
     if (name !== "") {
         socket.send(JSON.stringify(new Message(NetworkCommands.Name, 0, name)));
     }
@@ -69,7 +70,15 @@ socket.onmessage = (event) => {
             break;
         case NetworkCommands.EndGame:
             game.endGame();
-            document.getElementById("endButton").remove();
+            try
+            {
+                document.getElementById("endButton").remove();
+            }
+            catch(e)
+            {
+                socket = new WebSocket(connectionUrl);
+                socket.send(JSON.stringify(new Message(NetworkCommands.Name, 0, name)));
+            }
             // document.getElementById("gameController").appendChild(setMap);
             // document.getElementById("gameController").appendChild(acceptSetMap);
             break;
@@ -127,29 +136,6 @@ $.ajax({
     contentType: "text/plain",
     success: function (result: []) {
         maps = result;
-/*
-        result.forEach((arena, index) => {
-            var ul = document.getElementById("rounds");
-            var li = document.createElement("li");
-            var a = document.createElement("a");
-            a.setAttribute('href', 'api/deleteArena/' + index.toString());
-            a.setAttribute('type', 'POST');
-            a.setAttribute('method', 'POST');
-            a.innerHTML = "X";
-            li.setAttribute('data', index.toString());
-            var canvas = document.createElement("canvas");
-            canvas.setAttribute('id', index.toString());
-            canvas.setAttribute('width', "90%");
-            canvas.setAttribute('height', "100%");
-            li.appendChild(a);
-            li.appendChild(canvas);
-            ul.appendChild(li);
-            let littleGrid = new LittleGrid(index.toString());
-            littleGrid.draw(<Block[]>(arena));
-        });
-        console.log(result);
-        */
-
     },
     error: function (xhr: any, resp: any, text: any) {
         console.log("error");
