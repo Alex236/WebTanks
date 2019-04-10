@@ -46,7 +46,7 @@ export class Game {
         }
         for (let i: number = 0; i < Parameters.fieldHeight; i++) {
             for (let j: number = 0; j < Parameters.fieldWidth; j++) {
-                this.blockMap[i][j] = this.blockFactory.createBlock(UnitType.Road, j, i);
+                this.blockMap[i][j] = new Block(UnitType.Road, j, i);
             }
         }
         for (let i: number = 0; i < this.blocks.length; i++) {
