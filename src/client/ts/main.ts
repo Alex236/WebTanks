@@ -76,8 +76,16 @@ socket.onmessage = (event) => {
         case NetworkCommands.Name:
             document.getElementById("name").remove();
             document.getElementById("confirmName").remove();
+            var div = document.getElementById("divForRounds");
+                var h = document.createElement("h6");
+                h.innerHTML = "All Rounds";
+                var ul = document.createElement("ul");
+                ul.setAttribute('id', 'rounds');
+                ul.setAttribute('style', "list-style-type: none; padding-inline-start: 0;");
+                div.appendChild(h);
+                div.appendChild(ul);
+
             maps.forEach((arena, index) => {
-                var ul = document.getElementById("rounds");
                 var li = document.createElement("li");
                 var a = document.createElement("a");
                 a.setAttribute('href', 'api/deleteArena/' + index.toString());
