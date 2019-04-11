@@ -158,11 +158,11 @@ export class Game {
                     this.bullets.forEach(bullet => {
                         this.allEvents[i].tank === bullet.owner ? counter++ : {};
                     });
-                    if(counter < this.allEvents[i].tank.avaliableShoots) { 
+                    if (counter < this.allEvents[i].tank.avaliableShoots) {
                         //this.bullets.push(this.bulletsFactory.createBullet(this.allEvents[i].tank));
                         shoot.push(this.allEvents[i].tank)
                         this.socket.send(JSON.stringify(new Message(NetworkCommands.PressedButton, this.userID, "space")));
-                    } 
+                    }
                     this.sound.run("fire");
                     break;
             }
@@ -397,9 +397,11 @@ export class Game {
     }
 
     private damageTank(bullet: Bullet, tank: Tank) {
-        this.sound.run("killSomeone");
-        this.socket.send(JSON.stringify(new Message(NetworkCommands.EndGame, 0, "")));
         tank.health -= bullet.damage;
+        if (tank.health <= 0) {
+            this.sound.run("killSomeone");
+            this.socket.send(JSON.stringify(new Message(NetworkCommands.EndGame, 0, "")));
+        }
     }
 
     private destroy(bullet: Bullet, item: RunningItem): boolean {

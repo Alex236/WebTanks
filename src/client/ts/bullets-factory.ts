@@ -30,11 +30,11 @@ export class BulletsFactory {
         switch (tank.bulletType) {
             case UnitType.FastBullet:
             speed = 2;
-            damage = 50;
+            damage = 20;
             break;
             case UnitType.SlowBullet:
             speed = 2;
-            damage = 100;
+            damage = 20;
             break;
         }
         return new Bullet(x, y, tank.bulletType, tank.direction, speed, damage, tank);

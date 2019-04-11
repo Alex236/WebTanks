@@ -1,0 +1,17 @@
+/Users/alexsofin/Git/WebTanks/src/server/bin/Relese/netcoreapp2.2/linux-x64/libhostpolicy.so
+/Users/alexsofin/Git/WebTanks/src/server/bin/Relese/netcoreapp2.2/linux-x64/libhostfxr.so
+/Users/alexsofin/Git/WebTanks/src/server/bin/Relese/netcoreapp2.2/linux-x64/EchoApp
+/Users/alexsofin/Git/WebTanks/src/server/bin/Relese/netcoreapp2.2/linux-x64/EchoApp.deps.json
+/Users/alexsofin/Git/WebTanks/src/server/bin/Relese/netcoreapp2.2/linux-x64/EchoApp.runtimeconfig.json
+/Users/alexsofin/Git/WebTanks/src/server/bin/Relese/netcoreapp2.2/linux-x64/EchoApp.runtimeconfig.dev.json
+/Users/alexsofin/Git/WebTanks/src/server/bin/Relese/netcoreapp2.2/linux-x64/EchoApp.dll
+/Users/alexsofin/Git/WebTanks/src/server/bin/Relese/netcoreapp2.2/linux-x64/EchoApp.pdb
+/Users/alexsofin/Git/WebTanks/src/server/obj/Relese/netcoreapp2.2/linux-x64/EchoApp.csprojAssemblyReference.cache
+/Users/alexsofin/Git/WebTanks/src/server/obj/Relese/netcoreapp2.2/linux-x64/EchoApp.csproj.CoreCompileInputs.cache
+/Users/alexsofin/Git/WebTanks/src/server/obj/Relese/netcoreapp2.2/linux-x64/EchoApp.RazorAssemblyInfo.cache
+/Users/alexsofin/Git/WebTanks/src/server/obj/Relese/netcoreapp2.2/linux-x64/EchoApp.RazorAssemblyInfo.cs
+/Users/alexsofin/Git/WebTanks/src/server/obj/Relese/netcoreapp2.2/linux-x64/EchoApp.AssemblyInfoInputs.cache
+/Users/alexsofin/Git/WebTanks/src/server/obj/Relese/netcoreapp2.2/linux-x64/EchoApp.AssemblyInfo.cs
+/Users/alexsofin/Git/WebTanks/src/server/obj/Relese/netcoreapp2.2/linux-x64/EchoApp.RazorTargetAssemblyInfo.cache
+/Users/alexsofin/Git/WebTanks/src/server/obj/Relese/netcoreapp2.2/linux-x64/EchoApp.dll
+/Users/alexsofin/Git/WebTanks/src/server/obj/Relese/netcoreapp2.2/linux-x64/EchoApp.pdb

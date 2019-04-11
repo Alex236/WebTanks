@@ -33,13 +33,15 @@ export class Grid {
 
   drawTanksBulletsBase(item: any){
     let direction;
-    if(item.__proto__.constructor.name ==  "Base"){
+    if(item.__proto__.constructor.name == "Base"){
       direction = "";
-    }else{
+    }else if(item.__proto__.constructor.name == "Tank"){
       direction = Directoin[item.direction];
       this.ctx.fillStyle = "rgb(255, 255, 255)";
       this.ctx.font = "10px Arial";
       this.ctx.fillText(item.health, item.x * this.cellSize, item.y * this.cellSize);
+    }else{
+      direction = Directoin[item.direction];
     }
     this.ctx.drawImage(this.sprite.get(UnitType[item.unitType] + direction), item.x * this.cellSize, item.y * this.cellSize, item.size * this.cellSize, item.size * this.cellSize);
   }
