@@ -16,7 +16,7 @@ using Microsoft.Extensions.Logging.Debug;
 
 using Microsoft.Extensions.Configuration;
 
-namespace EchoApp
+namespace WebTanksServer
 {
 
     public class Startup

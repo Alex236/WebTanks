@@ -1,4 +1,4 @@
-namespace EchoApp
+namespace WebTanksServer
 {
     enum NetworkCommands
     {

@@ -12095,9 +12095,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/alexsofin/Git/WebTanks/src/server/EchoApp.csproj",
-      "projectName": "EchoApp",
-      "projectPath": "/Users/alexsofin/Git/WebTanks/src/server/EchoApp.csproj",
+      "projectUniqueName": "/Users/alexsofin/Git/WebTanks/src/server/WebTanksServer.csproj",
+      "projectName": "WebTanksServer",
+      "projectPath": "/Users/alexsofin/Git/WebTanks/src/server/WebTanksServer.csproj",
       "packagesPath": "/Users/alexsofin/.nuget/packages/",
       "outputPath": "/Users/alexsofin/Git/WebTanks/src/server/obj/",
       "projectStyle": "PackageReference",

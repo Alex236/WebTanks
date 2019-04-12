@@ -1,7 +1,7 @@
 using System.Net.WebSockets;
 
 
-namespace EchoApp
+namespace WebTanksServer
 {
     class Player
     {

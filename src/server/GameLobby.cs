@@ -7,7 +7,7 @@ using System.Threading;
 using Newtonsoft.Json;
 
 
-namespace EchoApp
+namespace WebTanksServer
 {
     class GameLobby
     {

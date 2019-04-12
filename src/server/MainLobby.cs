@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Net.WebSockets;
 
 
-namespace EchoApp
+namespace WebTanksServer
 {
     class MainLobby
     {

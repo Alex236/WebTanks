@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Http;
 
 using Newtonsoft.Json;
 
-namespace EchoApp.Controllers
+namespace WebTanksServer.Controllers
 {
     public class EditorController : Controller
     {
