@@ -45,12 +45,12 @@ const config = {
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: 'src/client/index.html',
+      template: 'src/client/views/index.html',
       chunks: ['main']
     }),
     new HtmlWebpackPlugin({
       filename: 'arena-editor.html',
-      template: 'src/client/arena-editor.html',
+      template: 'src/client/views/arena-editor.html',
       chunks: ['editorMain']
     })
   ]
