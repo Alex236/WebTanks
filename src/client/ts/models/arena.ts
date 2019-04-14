@@ -1,5 +1,4 @@
 import { Block } from "./block";
-import { UnitType } from "./unit-type";
 import { SpawnPoint } from "./spawn-point";
 import { Directoin } from "./direction";
 

@@ -24,14 +24,14 @@ export class UnitsControl{
         this.maxBrushSize = Brush.SixteenCell * this.cellSize;
     }
 
-    draw(){
+    draw(): void{
         this.rubberView();
         this.brushes();
         this.units();
         this.createButtonView();
     };
 
-    rubberView(){
+    rubberView(): void{
         this.rubber = new Object({startX: 0, startY: this.maxBrushSize, endX: this.maxBrushSize, endY: this.maxBrushSize});
         let img = new Image();
         img.src = require("../../assets/sprites/Rubber.svg");
@@ -40,7 +40,7 @@ export class UnitsControl{
         };
     }
 
-    brushes(){
+    brushes(): void{
         const vals = Object.keys(Brush).slice(0, Object.keys(Brush).length/2);
         vals.forEach(brushSize => {
             this.brush.push({brush: Number(brushSize),startX: this.maxBrushSize*1.5 - (Number(brushSize) * this.cellSize)/2, startY: Number(brushSize) * this.maxBrushSize, cell: this.cellSize});
@@ -49,7 +49,7 @@ export class UnitsControl{
         });
     }
 
-    units(){
+    units(): void{
         let blocks = Object.keys(Block).slice(0, Object.keys(Block).length/2);
         blocks.forEach(block => {
             this.blocks.push({block: Number(block),startX: this.canvas.width - this.maxBrushSize, startY: Number(block) *  this.maxBrushSize * 2, size: this.maxBrushSize});
@@ -61,7 +61,7 @@ export class UnitsControl{
         });
     }
 
-    createButtonView(){
+    createButtonView(): void{
         this.createButton = new Object({startX: 0, startY: this.maxBrushSize * Object.keys(Block).length, endX: this.canvas.width, endY: this.maxBrushSize + this.maxBrushSize * Object.keys(Block).length});
         let img = new Image();
         img.src = require("../../assets/sprites/CreateButton.svg");

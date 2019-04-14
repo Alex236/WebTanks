@@ -27,13 +27,10 @@ editor.unitCan.addEventListener("click", function (evt) {
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(editor.grid.arena.blocks),
                 success: function (result) {
-                    console.log(result);
-                    console.log("success");
                     window.location.href = "/";
                 },
                 error: function (xhr, resp, text) {
-                    console.log(xhr, resp, text);
-                    console.log("error");
+                    //go to error page
                 }
             });
         }
@@ -41,7 +38,7 @@ editor.unitCan.addEventListener("click", function (evt) {
 
     if(rubber.startX <= mousePos.x && rubber.endX >= mousePos.x){
         if(rubber.startY <= mousePos.y && mousePos.y <= rubber.endY + editor.unit.maxBrushSize){
-            editor.grid.draw();
+            editor.grid.emptyArena();
         }
     }
 
@@ -50,7 +47,7 @@ editor.unitCan.addEventListener("click", function (evt) {
         var cell = brushObject.cell;
         if(((Brush.SixteenCell * cell*1.5 - brushObject.brush*cell/2) <= mousePos.x) && ((Brush.SixteenCell * cell*1.5 + brushObject.brush*cell/2) >= mousePos.x)){
             if((Brush.SixteenCell * cell * brushObject.brush <= mousePos.y) && (Brush.SixteenCell * cell * brushObject.brush + cell * brushObject.brush >= mousePos.y)){
-                editor.actingBrush[0] = Number(brushObject.brush);
+                editor.activeBrush[0] = Number(brushObject.brush);
             }
         }
     });
@@ -61,13 +58,11 @@ editor.unitCan.addEventListener("click", function (evt) {
         var blockSize = Object.values(block)[3];
         if((x < mousePos.x && mousePos.x < x + blockSize))
             if(blockEnum*blockSize*2 <= mousePos.y && (blockEnum*blockSize*2+blockSize) >= mousePos.y){
-                editor.actingBrush[1] = Number(blockEnum);
+                editor.activeBrush[1] = Number(blockEnum);
             }
     });
 }, false);
 
-document.addEventListener("click", fillCell, false);
-
-function fillCell(e:any) {
-    editor.grid.fillCell(editor.actingBrush, e.clientX, e.clientY);
-};
+document.addEventListener("click", function fillCell(e:any){
+    editor.grid.fillCell(editor.activeBrush, e.clientX, e.clientY);
+}, false);

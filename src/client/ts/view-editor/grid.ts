@@ -19,16 +19,12 @@ export class Grid {
         this.canvas.height = this.totalHeight;
     };
 
-    draw(){
-        this.emptyArena(this.arena);
-    };
-
-    emptyArena(arena: Arena){
+    emptyArena(): void{
         this.arena.blocks = [];
         this.ctx.fillStyle = "rgb(0,0,0)";
         this.ctx.fillRect(0, 0, this.canvas.width,  this.canvas.height);
-        for(var i = 0; i < arena.size[0]; i++){
-            for(var j = 0; j < arena.size[1]; j++ ){
+        for(var i = 0; i < this.arena.size[0]; i++){
+            for(var j = 0; j < this.arena.size[1]; j++ ){
                 if(i%4==0 && j%4==0){
                     this.ctx.strokeStyle = "rgba(255,255,255, 0.6)";
                     this.ctx.strokeRect(i*this.cellSize, j*this.cellSize, this.cellSize*4, this.cellSize*4);
@@ -39,7 +35,7 @@ export class Grid {
         };
     };
 
-    fillCell(activeBrush: number[], x: number, y: number){
+    fillCell(activeBrush: number[], x: number, y: number): void{
         let i = Math.floor(x * (52 / activeBrush[0]) / this.arenaSize);
         let j = Math.floor(y * (52 / activeBrush[0]) / this.arenaSize);
         if((i >=0 && i < 52 / activeBrush[0]) && (j >= 0 && j < 52 / activeBrush[0])){

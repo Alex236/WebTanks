@@ -7,7 +7,7 @@ const config = {
   mode: "development",
   entry: {
     main: "./src/client/ts/main.ts",
-    editorApp: "./src/client/ts/editorApp.ts"
+    editorMain: "./src/client/ts/editor-main.ts"
   },
   module: {
     rules: [
@@ -45,13 +45,13 @@ const config = {
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: 'src/client/index.html',
+      template: 'src/client/views/index.html',
       chunks: ['main']
     }),
     new HtmlWebpackPlugin({
       filename: 'arena-editor.html',
-      template: 'src/client/arena-editor.html',
-      chunks: ['editorApp']
+      template: 'src/client/views/arena-editor.html',
+      chunks: ['editorMain']
     })
   ]
 }
