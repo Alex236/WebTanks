@@ -25,9 +25,6 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-.vscode
-.vscode/launch.json
-.vscode/task.json
 node_modules
 src/server/obj
 src/server/bin
