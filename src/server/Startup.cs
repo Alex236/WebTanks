@@ -23,10 +23,10 @@ namespace WebTanksServer
     {
 
         public Startup(IConfiguration configuration)
-    {
-        // код конструктора
-    }
-    public IConfigurationRoot Configuration { get; set; }
+        {
+            // код конструктора
+        }
+        public IConfigurationRoot Configuration { get; set; }
 
 
 

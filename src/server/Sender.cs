@@ -19,7 +19,7 @@ namespace WebTanksServer
         {
             WebSocket socket = await context.WebSockets.AcceptWebSocketAsync();
             currentPlayer = new Player(socket);
-            while (true)
+            while (socket.State == WebSocketState.Open)
             {
                 var buffer = new ArraySegment<byte>(new byte[1024]);
                 var result = await socket.ReceiveAsync(buffer, CancellationToken.None);
