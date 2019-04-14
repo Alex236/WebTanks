@@ -33,5 +33,4 @@ src/client/ts/main.js
 src/client/js
 src/server/wwwroot
 dist
-.vscode
 src/server/rounds
