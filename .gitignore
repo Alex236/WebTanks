@@ -33,3 +33,5 @@ src/client/js
 src/server/wwwroot
 dist
 src/server/rounds
+src/server.tests/obj
+src/server.tests/bin
