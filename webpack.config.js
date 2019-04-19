@@ -44,8 +44,8 @@ const config = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: 'src/client/views/index.html',
+      filename: 'index.cshtml',
+      template: 'src/client/views/index.cshtml',
       chunks: ['main']
     }),
     new HtmlWebpackPlugin({

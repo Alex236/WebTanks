@@ -1,11 +1,11 @@
 namespace WebTanksServer
 {
-    enum NetworkCommands
+    public enum MessageType
     {
-        Name,
+        SetName,
+        SetMap,
         StartGame,
         PressedButton,
-        EndGame,
-        SetMap
+        EndGame
     }
 }

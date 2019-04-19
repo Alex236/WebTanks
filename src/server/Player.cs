@@ -1,36 +1,45 @@
-using Microsoft.AspNetCore.Http;
 using System;
-using System.Net.WebSockets;
 using System.Text;
+using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Diagnostics;
 using Newtonsoft.Json;
 
 
 namespace WebTanksServer
 {
-    public class MessageHandler
+    public class Player
     {
-        private Player player;
-        private WebSocket socket;
-        private MessageFactory messageFactory = new MessageFactory();
+        public string Name { get; private set; }
+        public string Map { get; set; }
+        public readonly WebSocket Socket;
+        private MessageFactory messageFactory;
         private WebSocketMessageType type = WebSocketMessageType.Text;
         private CancellationToken token = CancellationToken.None;
 
-        public MessageHandler(WebSocket socket, Player player)
+        public Player(WebSocket socket, MessageFactory messageFactory)
         {
-            this.socket = socket;
-            this.player = player;
+            Socket = socket;
+            this.messageFactory = messageFactory;
             Task.Run(MessageListener);
         }
 
+        public bool SetName(string name)
+        {
+            if (name != null)
+            {
+                Name = name;
+                return true;
+            }
+            return false;
+        }//delete
+
         private async Task MessageListener()
         {
-            while (socket.State == WebSocketState.Open)
+            while (Socket.State == WebSocketState.Open)
             {
                 var buffer = new ArraySegment<byte>(new byte[1024]);
-                var result = await socket.ReceiveAsync(buffer, CancellationToken.None);
+                var result = await Socket.ReceiveAsync(buffer, CancellationToken.None);
                 IMessage message = messageFactory.DeserializeMessage(buffer);
                 await Handler(message);
             }
@@ -61,16 +70,16 @@ namespace WebTanksServer
         private async Task ActionSetName(IMessage message)
         {
             SetName setName = (SetName)message;
-            if (!player.SetName(setName.Name))
+            if (!this.SetName(setName.Name))
             {
-                await socket.SendAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(setName)), type, true, token);
+                await Socket.SendAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(setName)), type, true, token);
             }
         }
 
         private async Task ActionSetMap(IMessage message)
         {
             SetMap setMap = (SetMap)message;
-            
+
         }
 
         private async Task ActionStartGame(IMessage message)

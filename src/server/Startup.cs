@@ -13,32 +13,30 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using Microsoft.Extensions.Logging.Debug;
-
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc;
+
 
 namespace WebTanksServer
 {
 
     public class Startup
     {
+        LobbyController lobbyController = new LobbyController();
+        MessageFactory messageFactory = new MessageFactory();
 
         public Startup(IConfiguration configuration)
         {
-            // код конструктора
+            Configuration = configuration;
         }
-        public IConfigurationRoot Configuration { get; set; }
 
-
-
+        public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvcCore().AddJsonFormatters();
-        }
-
-        public void Logging()
-        {
-
+            //services.AddMvcCore().AddJsonFormatters();
+            services.AddMvc();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -52,8 +50,8 @@ namespace WebTanksServer
                 {
                     if (context.WebSockets.IsWebSocketRequest)
                     {
-                        Sender sender = new Sender();
-                        await sender.Receive(context);
+                        Player player = new Player(await context.WebSockets.AcceptWebSocketAsync(), messageFactory);
+                        lobbyController.AddPlayerInController(player);
                     }
                     else
                     {
@@ -69,9 +67,16 @@ namespace WebTanksServer
 
             app.UseFileServer();
 
-            app.UseStatusCodePages();
-            app.UseMvc();
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
 
+            app.UseStatusCodePages();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Game}/{action=Game}/{id?}");
+            });
         }
     }
 }

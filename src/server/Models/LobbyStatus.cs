@@ -1,9 +1,8 @@
 namespace WebTanksServer
 {
-    enum GameStatus
+    public enum LobbyStatus
     {
         WaitingForPlayers,
-        InGame,
-        EndGame
+        InGame
     }
 }
