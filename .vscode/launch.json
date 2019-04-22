@@ -9,9 +9,9 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/dist/Build/bin/Debug/netcoreapp2.2/WebTanksServer.dll",
+            "program": "${workspaceFolder}/src/server/bin/Debug/netcoreapp2.2/WebTanksServer.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/dist/Build",
+            "cwd": "${workspaceFolder}/src/server",
             "stopAtEntry": false,
             "launchBrowser": {
                 "enabled": true
