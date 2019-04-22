@@ -42,6 +42,12 @@ namespace WebTanksServer
                     {
                         lobby.AddPlayer(player);
                         playersInLobbies.TryAdd(player, lobby);
+                        player.lobby = lobby;
+                        if(lobby.players.Count == 2)
+                        {
+                            lobby.status = LobbyStatus.InGame;
+                            
+                        }
                         return;
                     }
                 }
@@ -69,6 +75,19 @@ namespace WebTanksServer
             {
                 e.ToString();
             }
+        }
+
+        public bool SetName(Player currentPlayer, string name)
+        {
+            foreach(var player in players)
+            {
+                if(player.Name == name)
+                {
+                    return false;
+                }
+            }
+            currentPlayer.Name = name;
+            return true;
         }
     }
 }

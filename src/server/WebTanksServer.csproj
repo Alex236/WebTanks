@@ -2,8 +2,8 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
-    <OutputPath>..\..\dist\$(SolutionDir)\Build\$(ProjectName)\bin\$(Configuration)</OutputPath>
-    <BaseIntermediateOutputPath>..\..\dist\$(SolutionDir)\Build\$(ProjectName)\obj</BaseIntermediateOutputPath>
+    <!--<OutputPath>..\..\dist\$(SolutionDir)\Build\$(ProjectName)\bin\$(Configuration)</OutputPath>
+    <BaseIntermediateOutputPath>..\..\dist\$(SolutionDir)\Build\$(ProjectName)\obj</BaseIntermediateOutputPath>-->
   </PropertyGroup>
 
   <ItemGroup>

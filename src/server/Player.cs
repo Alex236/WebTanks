@@ -4,95 +4,89 @@ using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using type = System.Net.WebSockets.WebSocketMessageType;
+using token = System.Threading.CancellationToken;
 
 
 namespace WebTanksServer
 {
     public class Player
     {
-        public string Name { get; private set; }
+        public string Name { get; set; }
         public string Map { get; set; }
+        public Lobby lobby { get; set; }
         public readonly WebSocket Socket;
+        private LobbyController lobbyController;
         private MessageFactory messageFactory;
-        private WebSocketMessageType type = WebSocketMessageType.Text;
-        private CancellationToken token = CancellationToken.None;
 
-        public Player(WebSocket socket, MessageFactory messageFactory)
+        public Player(WebSocket socket, MessageFactory messageFactory, LobbyController lobbyController)
         {
             Socket = socket;
+            this.lobbyController = lobbyController;
             this.messageFactory = messageFactory;
             Task.Run(MessageListener);
         }
-
-        public bool SetName(string name)
-        {
-            if (name != null)
-            {
-                Name = name;
-                return true;
-            }
-            return false;
-        }//delete
 
         private async Task MessageListener()
         {
             while (Socket.State == WebSocketState.Open)
             {
                 var buffer = new ArraySegment<byte>(new byte[1024]);
-                var result = await Socket.ReceiveAsync(buffer, CancellationToken.None);
+                var result = await Socket.ReceiveAsync(buffer, token.None);
                 IMessage message = messageFactory.DeserializeMessage(buffer);
-                await Handler(message);
+                if (message != null)
+                {
+                    Handler(message);
+                }
             }
+            lobbyController.DeletePlayer(this);
         }
 
-        private async Task Handler(IMessage message)
+        private void Handler(IMessage message)
         {
             switch (message.Type)
             {
                 case MessageType.SetName:
-                    await ActionSetName(message);
+                    SetName(message);
                     break;
                 case MessageType.SetMap:
-                    await ActionSetMap(message);
-                    break;
-                case MessageType.StartGame:
-                    await ActionStartGame(message);
+                    SetMap(message);
                     break;
                 case MessageType.PressedButton:
-                    await ActionPressedButton(message);
+                    PressedButton(message);
                     break;
                 case MessageType.EndGame:
-                    await ActionEndGame(message);
+                    EndGame(message);
                     break;
             }
         }
 
-        private async Task ActionSetName(IMessage message)
+        private void SetName(IMessage message)
         {
             SetName setName = (SetName)message;
-            if (!this.SetName(setName.Name))
+            if (lobbyController.SetName(this, setName.Name))
             {
-                await Socket.SendAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(setName)), type, true, token);
+                Socket.SendAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(setName)), type.Text, true, token.None);
             }
         }
 
-        private async Task ActionSetMap(IMessage message)
+        private void SetMap(IMessage message)
         {
             SetMap setMap = (SetMap)message;
-
+            lobbyController.AddPlayerInLobby(this, setMap.Map);
+            Socket.SendAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(setMap)), type.Text, true, token.None);
         }
 
-        private async Task ActionStartGame(IMessage message)
-        {
-            StartGame startGame = (StartGame)message;
-        }
-
-        private async Task ActionPressedButton(IMessage message)
+        private void PressedButton(IMessage message)
         {
             PressedButton pressedButton = (PressedButton)message;
+            foreach (var player in lobby.players)
+            {
+                player.Socket.SendAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(pressedButton)), type.Text, true, token.None);
+            }
         }
 
-        private async Task ActionEndGame(IMessage message)
+        private void EndGame(IMessage message)
         {
             EndGame endGame = (EndGame)message;
         }
