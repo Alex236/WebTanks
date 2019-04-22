@@ -64,32 +64,45 @@ namespace WebTanksServer
 
         private void SetName(MessageBase message)
         {
-            MessageSetName setName = (MessageSetName)message;
-            if (lobbyController.SetName(this, setName.Name))
+            MessageSetName setName = message as MessageSetName;
+            if (setName != null)
             {
-                Socket.SendAsync(Encoding.UTF8.GetBytes(messageFactory.SerealizeMessage(setName)), type.Text, true, token.None);
+                if (lobbyController.SetName(this, setName.Name))
+                {
+                    Socket.SendAsync(Encoding.UTF8.GetBytes(messageFactory.SerealizeMessage(setName)), type.Text, true, token.None);
+                }
             }
         }
 
         private void SetMap(MessageBase message)
         {
-            MessageSetMap setMap = (MessageSetMap)message;
-            lobbyController.AddPlayerInLobby(this, setMap.Map);
-            Socket.SendAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(setMap)), type.Text, true, token.None);
+            MessageSetMap setMap = message as MessageSetMap;
+            if (setMap != null)
+            {
+                lobbyController.AddPlayerInLobby(this, setMap.Map);
+                Socket.SendAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(setMap)), type.Text, true, token.None);
+            }
         }
 
         private void PressedButton(MessageBase message)
         {
-            MessagePressedButton pressedButton = (MessagePressedButton)message;
-            foreach (var player in lobby.players)
+            MessagePressedButton pressedButton = message as MessagePressedButton;
+            if (pressedButton != null)
             {
-                player.Socket.SendAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(pressedButton)), type.Text, true, token.None);
+                foreach (var player in lobby.players)
+                {
+                    player.Socket.SendAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(pressedButton)), type.Text, true, token.None);
+                }
             }
         }
 
         private void EndGame(MessageBase message)
         {
-            MessageEndGame endGame = (MessageEndGame)message;
+            MessageEndGame endGame = message as MessageEndGame;
+            if(endGame != null)
+            {
+                
+            }
         }
     }
 }
