@@ -14,12 +14,12 @@ import { RunningItem } from './models/running-item';
 import { ItemType } from './models/item-type';
 import { UnitType } from './models/unit-type';
 import { BlockFactory } from './block-factory';
-import { Message } from './models/Message';
-import { NetworkCommands } from './models/network-commands';
+import { MessageFactory } from './message-factory';
+
 
 export class Game {
     private static game: Game = new Game();
-    public tanks: Tank[] = [];
+    public tanks: Map<string, Tank>;
     public allEvents: Event[] = [];
     private filteredEvents: (() => void)[] = [];
     private blocks: Block[] = [];
@@ -30,9 +30,10 @@ export class Game {
     private blockMap: Block[][] = new Array();
     private blockFactory = new BlockFactory();
     private needRedraw: boolean = true;
-    private userID: number;
+    private name: string;
     private socket: WebSocket;
     private gameProcess: any;
+    private messageFactory: MessageFactory = new MessageFactory();
 
     private constructor() { }
 
@@ -64,9 +65,9 @@ export class Game {
         this.needRedraw = true;
     }
 
-    public start(socket: WebSocket, userID: number, tanks: Tank[], arena: Arena) {
+    public start(socket: WebSocket, name: string, tanks: Map<string, Tank>, arena: Arena) {
         this.socket = socket;
-        this.userID = userID;
+        this.name = name;
         this.blocks = arena.blocks;
         this.tanks = tanks;
         this.initializeMap();
@@ -80,22 +81,22 @@ export class Game {
         }, Parameters.timer);
     }
 
-    public addEvent(command: string, author: number) {
-        switch (command) {
-            case "up":
-                this.filteredEvents.push(() => this.tankUp(this.tanks[author]));
+    public addEvent(button: KeyCode, currentUserName: string) {
+        switch (button) {
+            case KeyCode.Up:
+                this.filteredEvents.push(() => this.tankUp(this.tanks.get(currentUserName)));
                 break;
-            case "down":
-                this.filteredEvents.push(() => this.tankDown(this.tanks[author]));
+            case KeyCode.Down:
+                this.filteredEvents.push(() => this.tankDown(this.tanks.get(currentUserName)));
                 break;
-            case "left":
-                this.filteredEvents.push(() => this.tankLeft(this.tanks[author]));
+            case KeyCode.Left:
+                this.filteredEvents.push(() => this.tankLeft(this.tanks.get(currentUserName)));
                 break;
-            case "right":
-                this.filteredEvents.push(() => this.tankRight(this.tanks[author]));
+            case KeyCode.Right:
+                this.filteredEvents.push(() => this.tankRight(this.tanks.get(currentUserName)));
                 break;
-            case "space":
-                this.bullets.push(this.bulletsFactory.createBullet(this.tanks[author]));
+            case KeyCode.Space:
+                this.bullets.push(this.bulletsFactory.createBullet(this.tanks.get(currentUserName)));
                 break;
         }
     }
@@ -107,7 +108,7 @@ export class Game {
     private async view() {
         await setInterval(() => {
             if (this.needRedraw) {
-                this.grid.draw(this.blocks, this.tanks, this.bullets);
+                this.grid.draw(this.blocks, Array.from(this.tanks.values()), this.bullets);
                 this.needRedraw = false;
             }
         }, 5);
@@ -132,25 +133,25 @@ export class Game {
                 case KeyCode.Up:
                     if (move.indexOf(this.allEvents[i].tank) == -1) {
                         move.push(this.allEvents[i].tank);
-                        this.socket.send(JSON.stringify(new Message(NetworkCommands.PressedButton, this.userID, "up")));
+                        this.socket.send(this.messageFactory.createMessagePressedButton(KeyCode.Up, this.name));
                     }
                     break;
                 case KeyCode.Down:
                     if (move.indexOf(this.allEvents[i].tank) == -1) {
                         move.push(this.allEvents[i].tank);
-                        this.socket.send(JSON.stringify(new Message(NetworkCommands.PressedButton, this.userID, "down")));
+                        this.socket.send(this.messageFactory.createMessagePressedButton(KeyCode.Down, this.name));
                     }
                     break;
                 case KeyCode.Left:
                     if (move.indexOf(this.allEvents[i].tank) == -1) {
                         move.push(this.allEvents[i].tank);
-                        this.socket.send(JSON.stringify(new Message(NetworkCommands.PressedButton, this.userID, "left")));
+                        this.socket.send(this.messageFactory.createMessagePressedButton(KeyCode.Left, this.name));
                     }
                     break;
                 case KeyCode.Right:
                     if (move.indexOf(this.allEvents[i].tank) == -1) {
                         move.push(this.allEvents[i].tank);
-                        this.socket.send(JSON.stringify(new Message(NetworkCommands.PressedButton, this.userID, "right")));
+                        this.socket.send(this.messageFactory.createMessagePressedButton(KeyCode.Right, this.name));
                     }
                     break;
                 case KeyCode.Space:
@@ -159,9 +160,8 @@ export class Game {
                         this.allEvents[i].tank === bullet.owner ? counter++ : {};
                     });
                     if (counter < this.allEvents[i].tank.avaliableShoots) {
-                        //this.bullets.push(this.bulletsFactory.createBullet(this.allEvents[i].tank));
                         shoot.push(this.allEvents[i].tank)
-                        this.socket.send(JSON.stringify(new Message(NetworkCommands.PressedButton, this.userID, "space")));
+                        this.socket.send(this.messageFactory.createMessagePressedButton(KeyCode.Space, this.name));
                     }
                     this.sound.run("fire");
                     break;
@@ -400,7 +400,7 @@ export class Game {
         tank.health -= bullet.damage;
         if (tank.health <= 0) {
             this.sound.run("killSomeone");
-            this.socket.send(JSON.stringify(new Message(NetworkCommands.EndGame, 0, "")));
+            this.socket.send(this.messageFactory.createMessageEndGame(this.name));
         }
     }
 

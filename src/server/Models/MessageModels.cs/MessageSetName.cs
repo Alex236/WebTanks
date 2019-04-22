@@ -2,9 +2,8 @@ using Newtonsoft.Json;
 
 namespace WebTanksServer
 {
-    public class SetName : IMessage
+    public class MessageSetName : MessageBase
     {
-        public MessageType Type { get; } = MessageType.SetName;
         public string Name { get; set; }
     }
 }

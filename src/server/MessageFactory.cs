@@ -7,7 +7,7 @@ namespace WebTanksServer
 {
     public class MessageFactory
     {
-        public IMessage DeserializeMessage(ArraySegment<byte> message)
+        public MessageBase DeserializeMessage(ArraySegment<byte> message)
         {
             Message deserializedMessage;
             dynamic content;
@@ -37,39 +37,65 @@ namespace WebTanksServer
             }
         }
 
-        private SetName CreateMessageSetName(dynamic content)
+        public string SerealizeMessage(dynamic content)
         {
-            SetName setName = new SetName();
+            var message = new Message();
+            message.Content = JsonConvert.SerializeObject(content);
+            switch (content.Type)
+            {
+                case MessageType.SetName:
+                    message.Type = MessageType.SetName;
+                    return JsonConvert.SerializeObject(message);
+                case MessageType.SetMap:
+                    message.Type = MessageType.SetMap;
+                    return JsonConvert.SerializeObject(message);
+                case MessageType.StartGame:
+                    message.Type = MessageType.SetName;
+                    return JsonConvert.SerializeObject(message);
+                case MessageType.PressedButton:
+                    message.Type = MessageType.SetName;
+                    return JsonConvert.SerializeObject(message);
+                case MessageType.EndGame:
+                    message.Type = MessageType.SetName;
+                    return JsonConvert.SerializeObject(message);
+                default:
+                    return null;
+            }
+        }
+
+        private MessageSetName CreateMessageSetName(dynamic content)
+        {
+            MessageSetName setName = new MessageSetName();
             setName.Name = content.Name;
             return setName;
         }
 
-        private SetMap CreateMessageSetMap(dynamic content)
+        private MessageSetMap CreateMessageSetMap(dynamic content)
         {
-            SetMap setMap = new SetMap();
+            MessageSetMap setMap = new MessageSetMap();
             setMap.Name = content.Name;
             setMap.Map = content.Map;
             return setMap;
         }
 
-        private StartGame CreateMessageStartGame(dynamic content)
+        private MessageStartGame CreateMessageStartGame(dynamic content)
         {
-            StartGame startGame = new StartGame();
+            MessageStartGame startGame = new MessageStartGame();
             startGame.Name = content.Name;
             return startGame;
         }
 
-        private PressedButton CreateMessagePressedButton(dynamic content)
+        private MessagePressedButton CreateMessagePressedButton(dynamic content)
         {
-            PressedButton pressedButton = new PressedButton();
+            MessagePressedButton pressedButton = new MessagePressedButton();
             pressedButton.Button = content.PressedButton;
             pressedButton.Name = content.Name;
             return pressedButton;
         }
 
-        private EndGame CreateMessageEndGame(dynamic content)
+        private MessageEndGame CreateMessageEndGame(dynamic content)
         {
-            EndGame endGame = new EndGame();
+            MessageEndGame endGame = new MessageEndGame();
             endGame.Name = content.Name;
             return endGame;
         }

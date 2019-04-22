@@ -27,7 +27,8 @@ namespace WebTanksServer
                 {
                     if (context.WebSockets.IsWebSocketRequest)
                     {
-                        Player player = new Player(await context.WebSockets.AcceptWebSocketAsync(), messageFactory, lobbyController);
+                        Player player = new Player(messageFactory, lobbyController);
+                        await player.StartMessageListening(context);
                         lobbyController.AddPlayerInController(player);
                     }
                     else

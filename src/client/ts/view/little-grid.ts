@@ -17,19 +17,21 @@ export class LittleGrid {
         this.ctx = <CanvasRenderingContext2D>this.canvas.getContext("2d");
     };
 
-    drawRoad():void {
+    drawRoad(): void {
         this.ctx.fillStyle = '#000'
         this.ctx.fillRect(0, 0, this.gameSize, this.gameSize)
     };
 
-    drawBlock(block: Block){
+    drawBlock(block: Block) {
         block.size = 1;
         this.ctx.fillStyle = '#ddd'
         this.ctx.fillRect(block.x * this.cellSize, block.y * this.cellSize, block.size * this.cellSize, block.size * this.cellSize);
     }
 
-    draw(blocks: Block[]){
+    draw(blocks: Block[]) {
         this.drawRoad();
-        blocks.forEach(block => this.drawBlock(block));
+        if (blocks !== null) {
+            blocks.forEach(block => this.drawBlock(block));
+        }
     };
 }
