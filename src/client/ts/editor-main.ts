@@ -1,68 +1,30 @@
-import { Editor } from "./editor";
-import { Brush } from "./view-editor/brush";
-import * as $ from 'jquery';
-let editor = new Editor();
+import { Application } from './controllers/application';
+import { Grid } from './view-editor/grid';
+import { View } from './models-mvc/view';
+import { Parameters } from './parameters';
+import { Brush } from './view-editor/brush';
 
-editor.run();
+let application = new Application();
+let editor = new Grid();
+        //new View(canvas, startXPercent, startYPercent, widthPercent, heightPercent); startXPercent - стартовая точка отрисовки нового вью по ширине в процентном соотношении от основного канваса (startYPercent - по высоте);
+let unitControl = new View(editor.canvas, 80, 0, 100, 100);
+    let arenaField = new View(editor.canvas, 0, 0, 75, 75);
+    let cellSize: number = arenaField.width / Parameters.fieldWidth;
+    unitControl.createControl("Button", 0, 0, 25, 5, "", "./assets/Rubber.svg");
 
-function getMousePosition(canvas: HTMLCanvasElement, evt: MouseEvent) {
-    var rect = canvas.getBoundingClientRect();
-    return {
-        x: evt.clientX - rect.left,
-        y: evt.clientY - rect.top
-    };
-}
-
-editor.unitCan.addEventListener("click", function (evt) {
-    var mousePos = getMousePosition(editor.unitCan, evt);
-    var rubber = Object(editor.unit.rubber);
-    var createButton = Object(editor.unit.createButton);
-
-
-    if(createButton.startX <= mousePos.x && createButton.endX >= mousePos.x){
-        if(createButton.startY <= mousePos.y && mousePos.y <= createButton.endY){
-            $.ajax({
-                type: "POST",
-                url: "api/createArena",
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify(editor.grid.arena.blocks),
-                success: function (result) {
-                    window.location.href = "/";
-                },
-                error: function (xhr, resp, text) {
-                    //go to error page
-                }
-            });
+    for(let i = 0; i < Parameters.fieldWidth; i++){
+        for(let j = 0; j < Parameters.fieldWidth; j++){
+            if(i%Brush.SixteenCell==0 && j%Brush.SixteenCell==0){
+                arenaField.ctx.strokeStyle = "rgba(255,255,255, 0.6)";
+                arenaField.ctx.strokeRect(i*cellSize, j*cellSize, cellSize*Brush.SixteenCell, cellSize*Brush.SixteenCell);
+            }
+            arenaField.ctx.strokeStyle = "rgba(255,255,255, 0.1)";
+            arenaField.ctx.strokeRect(i*cellSize, j*cellSize, cellSize, cellSize);
         }
     }
 
-    if(rubber.startX <= mousePos.x && rubber.endX >= mousePos.x){
-        if(rubber.startY <= mousePos.y && mousePos.y <= rubber.endY + editor.unit.maxBrushSize){
-            editor.grid.emptyArena();
-        }
-    }
+    unitControl.ctx.strokeStyle = "rgb(255,255,255)";
+    unitControl.ctx.strokeRect(0, 0, unitControl.width,  unitControl.height);
 
-    editor.unit.brush.map(brush => {
-        var brushObject = Object(brush);
-        var cell = brushObject.cell;
-        if(((Brush.SixteenCell * cell*1.5 - brushObject.brush*cell/2) <= mousePos.x) && ((Brush.SixteenCell * cell*1.5 + brushObject.brush*cell/2) >= mousePos.x)){
-            if((Brush.SixteenCell * cell * brushObject.brush <= mousePos.y) && (Brush.SixteenCell * cell * brushObject.brush + cell * brushObject.brush >= mousePos.y)){
-                editor.activeBrush[0] = Number(brushObject.brush);
-            }
-        }
-    });
-
-    editor.unit.blocks.map(block => {
-        var blockEnum = Object.values(block)[0];
-        var x = Object.values(block)[1];
-        var blockSize = Object.values(block)[3];
-        if((x < mousePos.x && mousePos.x < x + blockSize))
-            if(blockEnum*blockSize*2 <= mousePos.y && (blockEnum*blockSize*2+blockSize) >= mousePos.y){
-                editor.activeBrush[1] = Number(blockEnum);
-            }
-    });
-}, false);
-
-document.addEventListener("click", function fillCell(e:any){
-    editor.grid.fillCell(editor.activeBrush, e.clientX, e.clientY);
-}, false);
+    application.registerView(unitControl);
+    application.registerView(arenaField);
