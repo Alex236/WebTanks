@@ -1,6 +1,6 @@
 namespace WebTanksServer
 {
-    public enum KeyCode
+    internal enum KeyCode
     {
         Up = 38,
         Down = 40,

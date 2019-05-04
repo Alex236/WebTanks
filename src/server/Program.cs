@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging.Debug;
 
 namespace WebTanksServer
 {
-    public class Program
+    internal class Program
     {
         public static void Main(string[] args)
         {
@@ -15,6 +15,7 @@ namespace WebTanksServer
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-            .UseStartup<Startup>();
+            .UseStartup<Startup>()
+            .UseUrls("http://*:5000;http://localhost:5002");
     }
 }

@@ -1,29 +1,41 @@
 using System.Collections.Generic;
+using System.Diagnostics;
+using System;
 
 namespace WebTanksServer
 {
-    public class Lobby
+    internal class Lobby
     {
-        private static int generatorID = 0;
-        public readonly int ID;
-        public string Map { get; }
-        public LobbyStatus status { get; set; }
-        public List<Player> players = new List<Player>();
+        private readonly int id;
+        private string map { get; }
+        private LobbyStatus status { get; set; } = LobbyStatus.WaitingForPlayers;
+        private List<PlayerController> Players = new List<PlayerController>();
 
-        public Lobby(Player player, string map)
+        public Lobby(PlayerController player, string map, int lobbyId)
         {
-            players.Add(player);
-            Map = map;
-            status = LobbyStatus.WaitingForPlayers;
-            unchecked
-            {
-                ID = generatorID++;
-            }
+            Players.Add(player);
+            //player.Lobby = this;
+            this.map = map;
+            id = lobbyId;
+            ExecuteCommand("npm run main.js");
         }
 
-        public void AddPlayer(Player player)
+        public void ExecuteCommand(string command)
         {
-            players.Add(player);
+            Process proc = new System.Diagnostics.Process();
+            proc.StartInfo.FileName = "/bin/bash";
+            proc.StartInfo.Arguments = "-c \" " + command + " \"";
+            proc.Start();
+        }
+        public void AddPlayer(PlayerController player)
+        {
+            //player.Lobby = this;
+            Players.Add(player);
+        }
+
+        public void StartGame()
+        {
+            status = LobbyStatus.InGame;
         }
     }
 }

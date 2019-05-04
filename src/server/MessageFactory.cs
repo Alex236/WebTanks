@@ -5,9 +5,9 @@ using Newtonsoft.Json;
 
 namespace WebTanksServer
 {
-    public class MessageFactory
+    internal static class MessageFactory
     {
-        public MessageBase DeserializeMessage(ArraySegment<byte> message)
+        public static MessageBase DeserializeMessage(ArraySegment<byte> message)
         {
             Message deserializedMessage;
             dynamic content;
@@ -37,7 +37,7 @@ namespace WebTanksServer
             }
         }
 
-        public string SerealizeMessage(dynamic content)
+        public static string SerealizeMessage(dynamic content)
         {
             var message = new Message();
             message.Content = JsonConvert.SerializeObject(content);
@@ -63,14 +63,14 @@ namespace WebTanksServer
             }
         }
 
-        private MessageSetName CreateMessageSetName(dynamic content)
+        private static MessageSetName CreateMessageSetName(dynamic content)
         {
             MessageSetName setName = new MessageSetName();
             setName.Name = content.Name;
             return setName;
         }
 
-        private MessageSetMap CreateMessageSetMap(dynamic content)
+        private static MessageSetMap CreateMessageSetMap(dynamic content)
         {
             MessageSetMap setMap = new MessageSetMap();
             setMap.Name = content.Name;
@@ -78,14 +78,14 @@ namespace WebTanksServer
             return setMap;
         }
 
-        private MessageStartGame CreateMessageStartGame(dynamic content)
+        private static MessageStartGame CreateMessageStartGame(dynamic content)
         {
             MessageStartGame startGame = new MessageStartGame();
             startGame.Name = content.Name;
             return startGame;
         }
 
-        private MessagePressedButton CreateMessagePressedButton(dynamic content)
+        private static MessagePressedButton CreateMessagePressedButton(dynamic content)
         {
             MessagePressedButton pressedButton = new MessagePressedButton();
             pressedButton.Button = content.PressedButton;
@@ -93,14 +93,14 @@ namespace WebTanksServer
             return pressedButton;
         }
 
-        private MessageEndGame CreateMessageEndGame(dynamic content)
+        private static MessageEndGame CreateMessageEndGame(dynamic content)
         {
             MessageEndGame endGame = new MessageEndGame();
             endGame.Name = content.Name;
             return endGame;
         }
 
-        private string DeleteUslessSymbols(string content)
+        private static string DeleteUslessSymbols(string content)
         {
             char[] symbols = content.ToCharArray();
             int breacketsCounter = 0;

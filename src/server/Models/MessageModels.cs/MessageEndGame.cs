@@ -1,6 +1,6 @@
 namespace WebTanksServer
 {
-    public class MessageEndGame : MessageBase
+    internal class MessageEndGame : MessageBase
     {
         public string Name { get; set; }
     }

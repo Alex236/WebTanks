@@ -1,6 +1,6 @@
 namespace WebTanksServer
 {
-    public class MessageBase
+    internal class MessageBase
     {
         public MessageType Type { get; }
     }

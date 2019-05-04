@@ -1,11 +1,12 @@
 namespace WebTanksServer
 {
-    public enum MessageType
+    internal enum MessageType
     {
         SetName,
         SetMap,
         StartGame,
         PressedButton,
-        EndGame
+        EndGame,
+        SetServerEcho
     }
 }

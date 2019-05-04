@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 
 namespace WebTanksServer.Controllers
 {
-    public class EditorController : Controller
+    internal class EditorController : Controller
     {
 
         [Route("api/createArena")]
