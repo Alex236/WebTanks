@@ -2,17 +2,17 @@ using System;
 using Xunit;
 using WebTanksServer;
 using System.Collections.Generic;
+using System.Diagnostics;
+using server.mock;
 
 namespace WebTanksServer.Tests
 {
-    public class MessageFactoryTest
+    public class GameControllerTest
     {
-        [Theory]
-        [InlineData("{\"type\":1,\"content\":\"{\"type\":1,\"name\":\"Bob\",\"map\":\"Map1\"}\"}")]
-        public void DeserializeMessageTest(string message)
-        {
-            
+        [Fact]
+        public void MainGameControllerTest()
+        {            
+            //Assert.Equal(res, 0);
         }
-        
     }
 }

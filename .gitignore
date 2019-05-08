@@ -31,6 +31,8 @@ src/server/obj
 src/server/bin
 src/client/ts/main.js
 src/client/js
+src/server.mock/obj
+src/server.mock/bin
 src/server/wwwroot
 dist
 src/server/rounds

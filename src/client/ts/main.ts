@@ -13,7 +13,6 @@ import { MessageSetMap } from './models/message-models/message-set-map';
 import { MessageSetName } from './models/message-models/message-set-name';
 import { MessagePressedButton } from './models/message-models/message-pressed-button';
 import { Tank } from './models/tank';
-import { stringify } from 'querystring';
 import { GameStatus } from './models/game-status';
 
 let endButton = document.createElement("button");
@@ -22,7 +21,7 @@ endButton.id = "endButton";
 
 let name: string;
 let scheme = document.location.protocol === "https:" ? "wss" : "ws";
-let connectionUrl = scheme + "://" + document.location.hostname + ":" + document.location.port + "/ws";
+let connectionUrl = scheme + "://" + document.location.hostname + ":" + document.location.port + document.location.pathname + "ws";
 let socket = new WebSocket(connectionUrl);
 let game: Game = Game.getGame();
 let arena: Arena = new Arena([]);

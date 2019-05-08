@@ -13,12 +13,16 @@ namespace WebTanksServer
 {
     internal class PlayerController : IWsConnection
     {
-        public WebSocket Socket { get; set; }
+        public WebSocket Socket { get; private set; }
         private LobbyController lobbyController;
+        public Lobby CurrentLobby { get; set; }
+        public GameController Controller { private get; set; }
         
         public PlayerController(LobbyController lobbyController)
         {
             this.lobbyController = lobbyController;
+            //temp
+            lobbyController.AddPlayer(this);
         }
 
         public async Task StartListening(HttpContext context)

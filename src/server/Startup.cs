@@ -14,7 +14,7 @@ namespace WebTanksServer
         private const int globalPort = 5000;
         private const int localPort = 5002;
         LobbyController lobbyController = new LobbyController();
-        
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvcCore().AddJsonFormatters();
@@ -27,9 +27,9 @@ namespace WebTanksServer
             app.Use(async (context, next) =>
             {
                 int port = context.Connection.LocalPort;
-                IWsConnection connection;
                 if (context.Request.Path == "/ws")
                 {
+                    IWsConnection connection = null;
                     switch (port)
                     {
                         case globalPort:
@@ -41,6 +41,7 @@ namespace WebTanksServer
                             await AcceptConnection(context, connection);
                             break;
                     }
+                    lobbyController.AddConnection(connection);
                 }
                 else
                 {

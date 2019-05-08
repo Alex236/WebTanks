@@ -36,5 +36,10 @@
     "url": "https://github.com/Alex236/WebTanks/issues"
   },
   "homepage": "https://github.com/Alex236/WebTanks#readme",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "node-static": "^0.7.11",
+    "websocket": "^1.0.28",
+    "ws": "^7.0.0"
+  }
 }

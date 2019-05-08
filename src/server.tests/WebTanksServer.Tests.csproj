@@ -13,7 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WebTanksServer\WebTanksServer.csproj" />
+    <ProjectReference Include="..\server\WebTanksServer.csproj" />
+    <ProjectReference Include="..\server.mock\server.mock.csproj" />
   </ItemGroup>
 
 </Project>
