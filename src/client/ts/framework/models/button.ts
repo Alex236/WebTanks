@@ -12,6 +12,8 @@ export class Button extends Control{
     public backgroundImage: string;
     public backgroundColor: string;
 
+    public click: ()=> void;
+
     constructor(ctx: LocalContext, x: number, y: number, width: number, height?: number, text?: string, backgroundImage?: string, backgroundColor?: string)
     {
         super(ctx, x, y, width, height);

@@ -1,11 +1,11 @@
-import { View } from '../models-mvc/view';
+import { View } from '../../models/view';
 import { Subject } from 'rxjs';
-import { Grid } from '../view-editor/grid';
-import { Brush } from '../view-editor/brush';
-import { Parameters } from '../parameters';
+import { Controller } from '../../controllers/controller';
 
 export class Application{
     private views: View[] = [];
+    private controllers: Controller[] = [];
+
     private subject: Subject<MouseEvent> = new Subject<MouseEvent>();
 
     constructor(){
@@ -14,8 +14,10 @@ export class Application{
         });
     }
 
-    registerView(view: View){
+    registerView(view: View, controller: Controller){
         this.views.push(view);
+        this.controllers.push(controller);
+
         view.setSubject(this.subject);
         view.draw();
     }

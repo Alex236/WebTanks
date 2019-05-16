@@ -1,15 +1,22 @@
-import { Application } from './controllers/application';
+import { Application } from './framework/ui/application/application';
 import { Grid } from './view-editor/grid';
-import { View } from './models-mvc/view';
+import { View } from './framework/models/view';
 import { Parameters } from './parameters';
 import { Brush } from './view-editor/brush';
+import { Control } from './framework/models/control';
+import { Button } from './framework/models/button';
+import { EditorController } from './framework/ui/editor/editor-controller';
+import { EditorView } from './framework/ui/editor/editor-view';
 
 let application = new Application();
 let editor = new Grid();
-        //new View(canvas, startXPercent, startYPercent, widthPercent, heightPercent); startXPercent - стартовая точка отрисовки нового вью по ширине в процентном соотношении от основного канваса (startYPercent - по высоте);
-let unitControl = new View(editor.canvas, 80, 0, 100, 100);
-    let arenaField = new View(editor.canvas, 0, 0, 75, 75);
-    let cellSize: number = arenaField.width / Parameters.fieldWidth;
+let unitControl = new EditorView(editor.canvas);
+let editorContr = new EditorController();
+
+unitControl.run();
+
+/*let arenaField = new View(editor.canvas, 0, 0, 75, 75);
+let cellSize: number = arenaField.width / Parameters.fieldWidth;
     unitControl.createControl("Button", 0, 0, 25, 5, "", "./assets/Rubber.svg");
 
     for(let i = 0; i < Parameters.fieldWidth; i++){
@@ -22,9 +29,8 @@ let unitControl = new View(editor.canvas, 80, 0, 100, 100);
             arenaField.ctx.strokeRect(i*cellSize, j*cellSize, cellSize, cellSize);
         }
     }
+    */
+    application.registerView(unitControl, editorContr);
 
-    unitControl.ctx.strokeStyle = "rgb(255,255,255)";
-    unitControl.ctx.strokeRect(0, 0, unitControl.width,  unitControl.height);
 
-    application.registerView(unitControl);
-    application.registerView(arenaField);
+    //application.registerView(arenaField);
