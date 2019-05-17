@@ -30,8 +30,6 @@ construcor View in last
     }
 */
 
-    public draw(){
-        console.log("Hello from Panel");
-    };
+    public draw(){};
 
 }

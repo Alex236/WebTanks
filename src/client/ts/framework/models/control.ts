@@ -8,7 +8,6 @@ export abstract class Control {
     public height: number;
     public name: string;
     public text: string;
-    public backgroundImage: string;
     public backgroundColor: string;
     public controls : Control[] = [];
 

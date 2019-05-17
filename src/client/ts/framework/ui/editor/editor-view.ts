@@ -3,46 +3,100 @@ import { EditorController } from './editor-controller';
 import { Button } from '../../models/button';
 import { Panel } from '../../models/panel';
 import { LocalContext } from '../../models/localContext';
+import { Block } from '../../../view-editor/block';
+import { Brush } from '../../../view-editor/brush';
+import { Arena } from '../../../view-editor/arena';
+import { Parameters } from '../../../parameters';
+import { Sprites } from '../../../view-editor/sprites';
 
 export class EditorView extends View
 {
     public width: number = parent.innerWidth;
     public height: number = parent.innerHeight;
-    public controller: EditorController = new EditorController();
+
+    public arena: Arena = new Arena;
+
+    private arenaWidth: number = parent.innerWidth*0.8;
+    private arenaHeight: number = parent.innerHeight;
+
+    private arenaSize: number = this.height <= this.arenaWidth ? this.arenaHeight : this.arenaWidth;
+    readonly cellSize: number = this.arenaSize / Parameters.fieldWidth;
+    readonly sprites: Map<string, HTMLImageElement>= (new Sprites()).all;
+    public spawnPoint: boolean = false;
+
+    public maxBrushSize: number = Brush.SixteenCell * this.cellSize;
+    public blocks: Object[] = [];
+    public brush: Object[] = [];
+    public rubber: Object = new Object();
+    public spawnPoints: Object = new Object();
+    public createButton: Object = new Object();
+
+    public controller: EditorController = new EditorController(this);
 
     constructor(canvas: HTMLCanvasElement){
         super(canvas);
     }
 
-    public run(){
-        this.ctx.strokeStyle = "rgb(255,255,255)";
-        this.ctx.strokeRect(0, 0, this.width,  this.height);
-
-        this.createButtons();
+    public run(): void{
         this.createToolbar();
+        this.createArena();
     }
 
-    createButtons(){
-        let but = new Button(this.ctx, 0, 0, 50, 50, "", "./assets/Rubber.svg");
-        but.click = this.controller.sayHiFromController;
-        
-        this.registerControl(but);
+    createArena(){
+        let arenaPanel: Panel = new Panel(this.ctx, 0, 0, 80, 100);
+        this.createEmptyArena(arenaPanel);
+        this.registerControl(arenaPanel);
     }
 
-    createToolbar(){
-        let toolbar = new Panel(this.ctx, 80,0,100,100);
+    createEmptyArena(arenaPanel: Panel): void{
+        for(var i = 0; i < Parameters.fieldWidth; i++){
+            for(var j = 0; j < Parameters.fieldHeight; j++ ){
+                if(i%4==0 && j%4==0){
+                    arenaPanel.ctx.strokeRect("rgba(255,255,255, 0.6)", i*this.cellSize, j*this.cellSize, this.cellSize*4, this.cellSize*4);
+                }
+                arenaPanel.ctx.strokeRect("rgba(255,255,255, 0.1)", i*this.cellSize, j*this.cellSize, this.cellSize, this.cellSize);
+            }
+        };
+    }
 
-        let but1 = new Button(toolbar.ctx, 50, 50, 50, 50, "", "./assets/Base.svg");
-        but1.click = this.controller.myFunc;
 
 
-        toolbar.registerControlToPanel(but1);
-
-
-        //toolbar.controls.push(but1);
-        this.ctx.strokeStyle = "rgb(255,100,100)";
-        this.ctx.strokeRect(toolbar.x, toolbar.y, toolbar.width, toolbar.height);
+    createToolbar(): void{
+        let toolbar: Panel = new Panel(this.ctx, 82,0,98,100);
+        this.createRubberToToolbar(toolbar);
+        this.createUnitToToolbar(toolbar);
+        this.createBrushToToolbar(toolbar);
+        this.createSpawnPoint(toolbar);
         this.registerControl(toolbar);
-        console.log(toolbar.controls);
     }
+
+    createRubberToToolbar(toolbar: Panel): void{
+        let but = new Button(this.ctx, "rubber", 0, 0, this.maxBrushSize, this.maxBrushSize, "", "./assets/Rubber.svg");
+        but.click = this.controller.sayHiFromController;
+        toolbar.registerControlToPanel(but);
+    }
+
+    createUnitToToolbar(toolbar: Panel): void{
+        let blocks = Object.keys(Block).slice(0, Object.keys(Block).length/2);
+        blocks.forEach(block => {
+            let unitButton = new Button(this.ctx, Block[Number(block)], toolbar.width-this.maxBrushSize, Number(block) * this.maxBrushSize * 2, this.maxBrushSize, this.maxBrushSize, "", "./assets/" + Brush[Brush.OneCell] + Block[Number(block)] + ".svg");
+            unitButton.click = this.controller.myFunc;
+            toolbar.registerControlToPanel(unitButton);
+        });
+    }
+
+    createBrushToToolbar(toolbar: Panel): void{
+        const brushes = Object.keys(Brush).slice(0, Object.keys(Brush).length/2);
+        brushes.forEach(brushSize => {
+            let brushButton = new Button(this.ctx, Brush[Number(brushSize)], this.maxBrushSize/2 - (Number(brushSize) * this.cellSize)/2, Number(brushSize) * this.maxBrushSize + this.maxBrushSize/4, Number(brushSize) * this.cellSize, Number(brushSize) * this.cellSize, "myText", "noImage", "noBackground", "rgb(200,200,200)");
+            toolbar.registerControlToPanel(brushButton);
+        });
+    }
+
+    createSpawnPoint(toolbar: Panel): void{
+        let createButton = new Button(this.ctx, "createButton", 0, this.maxBrushSize*12, toolbar.width, this.maxBrushSize, "", "./assets/CreateButton.svg");
+        createButton.click = this.controller.myFunc;
+        toolbar.registerControlToPanel(createButton);
+    }
+
 }

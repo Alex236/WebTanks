@@ -4,9 +4,9 @@ export class LocalContext{
     public x: number = 0;
     public y: number = 0;
 
-    public fillStyle: string = "rgb(0,0,0)";
+    public fillStyle: string = "rgb(255,255,255)";
     public font: string = "30px Arial";
-    public strokeStyle: string = "rgb(0,0,0)";
+    public strokeStyle: string = "rgb(255,255,255)";
 
     constructor(ctx: CanvasRenderingContext2D, x: number, y: number){
         this.ctx = ctx;
@@ -19,13 +19,13 @@ export class LocalContext{
         this.ctx.fillText(text, this.x + x, this.y + y);
     }
 
-    fillRect(startX: number, startY: number, width: number, height: number){
-        this.ctx.fillStyle = this.fillStyle;
+    fillRect(color: string, startX: number, startY: number, width: number, height: number){
+        this.ctx.fillStyle = color;
         this.ctx.fillRect(this.x + startX, this.y + startY, width, height);
     }
 
-    strokeRect(x: number, y: number, width: number, height: number){
-        this.ctx.strokeStyle = this.strokeStyle;
+    strokeRect(color: string, x: number, y: number, width: number, height: number){
+        this.ctx.strokeStyle = color;
         this.ctx.strokeRect(this.x + x, this.y + y, width, height);
     }
 

@@ -1,8 +1,17 @@
 import { Controller } from '../../controllers/controller';
+import { Control } from '../../models/control';
+import { View } from '../../models/view';
 
 export class EditorController extends Controller
 {
+    public view: View;
     private static i: number = 0;
+
+    constructor(view: View){
+        super();
+        this.view = view;
+    }
+
     public sayHiFromController() {
         EditorController.i++;
         if(EditorController.i < 3){
@@ -14,13 +23,12 @@ export class EditorController extends Controller
         console.log(EditorController.i);
     }
 
-    hell(): void
-    {
-        console.log("HELLLLLLL!!!!!!");
+    sayNameOfUnit(){
+        console.log("Unit");
     }
 
     myFunc(): void
     {
-        console.log("Hello from my func");
+        console.log("!!!");
     }
 }
