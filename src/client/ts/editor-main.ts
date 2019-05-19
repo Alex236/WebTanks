@@ -4,8 +4,9 @@ import { EditorController } from './framework/ui/editor/editor-controller';
 import { EditorView } from './framework/ui/editor/editor-view';
 
 let application = new Application();
-let editor = new Grid();
-let editorView = new EditorView(editor.canvas);
+
+
+let editorView = new EditorView((new Grid()).canvas);
 let editorContr = new EditorController(editorView);
 
 editorView.run();

@@ -5,8 +5,8 @@ export class Panel extends Control
 {
     public click: () => void = () => {};
 
-    constructor(ctx: LocalContext, x: number, y: number, width: number, height?: number){
-        super(ctx, x, y, width, height);
+    constructor(ctx: LocalContext, name: string, x: number, y: number, width: number, height: number){
+        super(ctx, name, x, y, width, height);
         this.x = parent.innerWidth * x * 0.01;
         this.y = parent.innerHeight * y * 0.01;
         this.width = parent.innerWidth * width * 0.01 - this.x;

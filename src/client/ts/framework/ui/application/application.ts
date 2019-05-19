@@ -17,7 +17,6 @@ export class Application{
     registerView(view: View, controller: Controller){
         this.views.push(view);
         this.controllers.push(controller);
-
         view.setSubject(this.subject);
         view.draw();
     }

@@ -25,8 +25,9 @@ construcor View in last
     }
 */
 
-    constructor(ctx: LocalContext, x: number, y: number, width: number, height?: number){
+    constructor(ctx: LocalContext, name: string, x: number, y: number, width: number, height?: number){
         this.ctx = ctx;
+        this.name = name;
         this.x = x;
         this.y = y;
         this.width = width;

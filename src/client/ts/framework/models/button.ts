@@ -2,8 +2,6 @@ import { Control } from './control';
 import { LocalContext } from './localContext';
 
 export class Button extends Control{
-
-    public name: string;
     public text: string;
     public backgroundImage: string;
     public backgroundColor: string;
@@ -13,9 +11,8 @@ export class Button extends Control{
 
     constructor(ctx: LocalContext, name: string, x: number, y: number, width: number, height: number = width, text: string = "default text", backgroundImage: string = "./assets/defaultButton.svg", backgroundColor: string = "noBackground", borderColor: string = "no")
     {
-        super(ctx, x, y, width, height);
+        super(ctx, name, x, y, width, height);
         this.text = text;
-        this.name = name;
         this.backgroundImage = backgroundImage;
         this.backgroundColor = backgroundColor;
         this.borderColor = borderColor;
@@ -30,8 +27,6 @@ export class Button extends Control{
         {
             this.ctx.fillRect(this.backgroundColor, this.x, this.y, this.width, this.height);
         }
-
         if(this.borderColor != "no"){this.ctx.strokeRect(this.borderColor, this.x, this.y, this.width, this.height)};
-
     }
 }

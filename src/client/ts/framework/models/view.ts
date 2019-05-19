@@ -1,11 +1,13 @@
 import { Control } from './control';
 import { Subject } from 'rxjs';
 import { LocalContext } from './localContext';
+import { Controller } from '../controllers/controller';
 
 export abstract class View{
     public controls: Control[] = [];
     public canvas: HTMLCanvasElement;
     public ctx: LocalContext;
+    public controller: Controller;
 
     constructor(canvas: HTMLCanvasElement){
         this.canvas = canvas;
@@ -31,7 +33,6 @@ export abstract class View{
             switch(event.type)
             {
                 case 'click' :
-                console.log("evetn x: " + event.x + "; event y: " + event.y);
                 this.controls.forEach(control => {
                     if(control.x <= event.x && control.y <= event.y && (control.x + control.width) >= event.x && (control.y + control.height) >= event.y){
                         control.click();
