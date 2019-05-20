@@ -52,7 +52,7 @@ export class EditorController extends Controller
         return isClick;
     }
 
-    clickedCells(x: Control, a: number, b: number) {
+    private clickedCells(x: Control, a: number, b: number) {
         let isClick = false;
         if (Number(x.name.split('/')[0]) >= Number(a) &&
         Number(x.name.split('/')[0]) < Number(a+this.activeBrush[0]) &&
@@ -65,16 +65,6 @@ export class EditorController extends Controller
             isClick = true;
         }
         return isClick;
-    }
-
-    isUniq(button: Control): boolean {
-        let res = true;
-        let buttonName = (<any>button).name.split('/');
-        this.arena.blocks.forEach(but => {
-            if((<any>but)['x'] == buttonName[0] && (<any>but)['y'] == buttonName[1])
-            { res = false; }
-        });
-        return res;
     }
 
     myFunc(): void

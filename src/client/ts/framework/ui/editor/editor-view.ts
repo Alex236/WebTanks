@@ -6,30 +6,17 @@ import { Block } from '../../../view-editor/block';
 import { Brush } from '../../../view-editor/brush';
 import { Arena } from '../../../view-editor/arena';
 import { Parameters } from '../../../parameters';
-import { Sprites } from '../../../view-editor/sprites';
 
 export class EditorView extends View
 {
-    public width: number = parent.innerWidth;
-    public height: number = parent.innerHeight;
-
-    public arena: Arena = new Arena();
-
     private arenaWidth: number = parent.innerWidth*0.8;
     private arenaHeight: number = parent.innerHeight;
-
-    private arenaSize: number = this.height <= this.arenaWidth ? this.arenaHeight : this.arenaWidth;
+    private arenaSize: number = this.arenaHeight <= this.arenaWidth ? this.arenaHeight : this.arenaWidth;
+    
     readonly cellSize: number = this.arenaSize / Parameters.fieldWidth;
-    readonly sprites: Map<string, HTMLImageElement>= (new Sprites()).all;
-    public spawnPoint: boolean = false;
 
+    public arena: Arena = new Arena();
     public maxBrushSize: number = Brush.SixteenCell * this.cellSize;
-    public blocks: Object[] = [];
-    public brush: Object[] = [];
-    public rubber: Object = new Object();
-    public spawnPoints: Object = new Object();
-    public createButton: Object = new Object();
-
     public controller: EditorController = new EditorController(this);
 
     constructor(canvas: HTMLCanvasElement){
@@ -95,7 +82,7 @@ export class EditorView extends View
 
     createSpawnPoint(toolbar: Panel): void{
         let createButton = new Button(this.ctx, "createButton", 0, this.maxBrushSize*12, toolbar.width, this.maxBrushSize, "", "./assets/CreateButton.svg");
+        //createButton.click = this.controller.
         toolbar.registerControlToPanel(createButton);
     }
-
 }

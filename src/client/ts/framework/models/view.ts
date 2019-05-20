@@ -8,6 +8,8 @@ export abstract class View{
     public canvas: HTMLCanvasElement;
     public ctx: LocalContext;
     public controller: Controller;
+    public width: number = parent.innerWidth;
+    public height: number = parent.innerHeight;
 
     constructor(canvas: HTMLCanvasElement){
         this.canvas = canvas;
@@ -21,8 +23,7 @@ export abstract class View{
     }
 
     registerControl(control: Control): void{
-        if(control.controls.length !== 0)
-        {
+        if(control.controls.length !== 0){
             control.controls.forEach(i => this.controls.push(i));
         }
         this.controls.push(control);
