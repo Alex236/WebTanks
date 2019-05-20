@@ -53,6 +53,7 @@ export class EditorView extends View
         this.createUnitToToolbar(toolbar);
         this.createBrushToToolbar(toolbar);
         this.createSpawnPoint(toolbar);
+        this.createButton(toolbar);
         this.registerControl(toolbar);
     }
 
@@ -80,9 +81,14 @@ export class EditorView extends View
         });
     }
 
-    createSpawnPoint(toolbar: Panel): void{
+    createButton(toolbar: Panel): void{
         let createButton = new Button(this.ctx, "createButton", 0, this.maxBrushSize*12, toolbar.width, this.maxBrushSize, "", "./assets/CreateButton.svg");
-        //createButton.click = this.controller.
         toolbar.registerControlToPanel(createButton);
+    }
+
+    createSpawnPoint(toolbar: Panel): void{
+        let spawnPoint = new Button(this.ctx, "spawnPoint", 0, this.maxBrushSize*6, this.maxBrushSize, this.maxBrushSize, "", "./assets/SpawnPoint.svg");
+        spawnPoint.click = this.controller.setSpawnPoint.bind(this.controller);
+        toolbar.registerControlToPanel(spawnPoint);
     }
 }
