@@ -2,7 +2,6 @@ import { View } from '../../models/view';
 import { EditorController } from './editor-controller';
 import { Button } from '../../models/button';
 import { Panel } from '../../models/panel';
-import { LocalContext } from '../../models/localContext';
 import { Block } from '../../../view-editor/block';
 import { Brush } from '../../../view-editor/brush';
 import { Arena } from '../../../view-editor/arena';
@@ -49,13 +48,10 @@ export class EditorView extends View
     }
 
     createEmptyArena(arenaPanel: Panel): void{
-        let k = 0;
         for(var i = 0; i < Parameters.fieldWidth; i++){
             for(var j = 0; j < Parameters.fieldHeight; j++ ){
-                k++;
-
-                let but = new Button(this.ctx, String(i) + "/" + String(j), i*this.cellSize, j*this.cellSize, this.cellSize, this.cellSize, "", "noImage","rgb(0,0,0)", "rgba(200,200,200, 0.1)");
-                but.click = this.controller.fillCell.bind(this.controller, k, but);
+                let but = new Button(this.ctx, String(i) + "/" + String(j) + "/" + String(Block.Road), i*this.cellSize, j*this.cellSize, this.cellSize, this.cellSize, "", "noImage","rgb(0,0,0)", "rgba(200,200,200, 0.1)");
+                but.click = this.controller.fillCell.bind(this.controller, but);
                 arenaPanel.registerControlToPanel(but);
                 if(i%4==0 && j%4==0){
                     arenaPanel.ctx.strokeRect("rgb(255,255,255)", i*this.cellSize, j*this.cellSize, this.cellSize*4, this.cellSize*4);
@@ -82,8 +78,8 @@ export class EditorView extends View
     createUnitToToolbar(toolbar: Panel): void{
         let blocks = Object.keys(Block).slice(0, Object.keys(Block).length/2);
         blocks.forEach(block => {
-            let unitButton = new Button(this.ctx, Block[Number(block)], toolbar.width-this.maxBrushSize, Number(block) * this.maxBrushSize * 2, this.maxBrushSize, this.maxBrushSize, "", "./assets/" + Brush[Brush.OneCell] + Block[Number(block)] + ".svg");
-            unitButton.click = this.controller.changeActiveBrushUnit.bind(this.controller, String(Number(block)+6))
+            let unitButton = new Button(this.ctx, Block[Number(block)], toolbar.width-this.maxBrushSize, Number(block) * this.maxBrushSize * 2, this.maxBrushSize, this.maxBrushSize, "", "./assets/" + Block[Number(block)] + ".svg");
+            unitButton.click = this.controller.changeActiveBrushUnit.bind(this.controller, String(Number(block)))
             toolbar.registerControlToPanel(unitButton);
         });
     }
@@ -99,7 +95,6 @@ export class EditorView extends View
 
     createSpawnPoint(toolbar: Panel): void{
         let createButton = new Button(this.ctx, "createButton", 0, this.maxBrushSize*12, toolbar.width, this.maxBrushSize, "", "./assets/CreateButton.svg");
-        //createButton.click = this.controller.myFunc;
         toolbar.registerControlToPanel(createButton);
     }
 

@@ -20,48 +20,65 @@ export class EditorController extends Controller
 
     changeActiveBrushUnit(unitType: string){
         this.activeBrush[1] = Number(unitType);
-        console.log(this.activeBrush);
     }
 
     changeActiveBrushSize(brushSize: string){
         this.activeBrush[0] = Number(brushSize);
-        console.log(this.activeBrush);
     }
 
     clearArena(): void{
         this.arena.blocks = [];
-        console.log(this.activeBrush);
-        console.log(this.arena);
+        let arenaControls = this.view.controls.find(x => x.name === "Arena").controls;
+        arenaControls.map(control => this.clearCell(control));
     }
 
-    fillCell(cellNumber: number, button: Button): void{
-        var a = Number(button.name.split('/')[0]);
-        var b = Number(button.name.split('/')[1]);
-
-        let ar = this.view.controls.find(x => x.name === "Arena");
-
-        var wasClicked = ar.controls.filter(control => this.trueUnits(control, a, b));
-        wasClicked.forEach(unit => {
-            this.arena.blocks.push(unit)
-        });
-        console.log(this.arena.blocks);
+    clearCell(control: Control){
+        let contrName = control.name.split('/');
+        control.name = contrName[0] + '/' + contrName[1] + '/' + String(0);
+        control.ctx.strokeRect("rgba(255, 255, 255, 0.3)", control.x, control.y, control.width, control.height);
+        control.ctx.fillRect("rgb(0, 0, 0)", control.x, control.y, control.width, control.height);
     }
 
-    trueUnits(x: Control, a: number, b: number) {
+    fillCell(button: Button): void{
+        var buttonName = button.name.split('/');
+        let arenaControls = this.view.controls.find(x => x.name === "Arena").controls;
+        arenaControls.map(control => this.clickedCells(control, Number(buttonName[0]), Number(buttonName[1])));
+        arenaControls.map(control => this.arrayOfFillingCells(control));
+    }
+
+    arrayOfFillingCells(x: Control) {
+        let isClick = false;
+        if (Number(x.name.split('/')[2]) != 0){ isClick = true; }
+        return isClick;
+    }
+
+    clickedCells(x: Control, a: number, b: number) {
         let isClick = false;
         if (Number(x.name.split('/')[0]) >= Number(a) &&
         Number(x.name.split('/')[0]) < Number(a+this.activeBrush[0]) &&
         Number(x.name.split('/')[1]) >= Number(b) &&
-        Number(x.name.split('/')[1]) < Number(b+this.activeBrush[0])){
-            x.ctx.fillRect("rgb(255,200,0)", x.x, x.y, x.width, x.height);
+        Number(x.name.split('/')[1]) < Number(b+this.activeBrush[0]))
+        {
+            x.ctx.strokeRect("rgba(0,0,0)", x.x, x.y, x.width, x.height);
+            x.ctx.drawImage("./assets/" + Block[this.activeBrush[1]] + ".svg", x.x, x.y, x.width, x.height);
+            x.name = x.name.split('/')[0] + '/' + x.name.split('/')[1] + '/' + this.activeBrush[1];
             isClick = true;
         }
         return isClick;
     }
 
+    isUniq(button: Control): boolean {
+        let res = true;
+        let buttonName = (<any>button).name.split('/');
+        this.arena.blocks.forEach(but => {
+            if((<any>but)['x'] == buttonName[0] && (<any>but)['y'] == buttonName[1])
+            { res = false; }
+        });
+        return res;
+    }
+
     myFunc(): void
     {
-        //this.arena.blocks.push({x: EditorController.i++, y: EditorController.i++});
         console.log("arena: " + this);
     }
 }
