@@ -5,7 +5,7 @@ export class LocalContext{
     public y: number = 0;
 
     public fillStyle: string = "rgb(255,255,255)";
-    public font: string = "30px Arial";
+    public font: string = "40px Arial";
     public strokeStyle: string = "rgb(255,255,255)";
 
     constructor(ctx: CanvasRenderingContext2D, x: number, y: number){
@@ -14,8 +14,9 @@ export class LocalContext{
         this.y = y;
     }
 
-    fillText(text: string, x: number, y: number){
+    fillText(text: string, color: string, x: number, y: number){
         this.ctx.font = this.font;
+        this.ctx.fillStyle = color;
         this.ctx.fillText(text, this.x + x, this.y + y);
     }
 

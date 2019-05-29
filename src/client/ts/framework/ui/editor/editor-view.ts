@@ -12,7 +12,7 @@ export class EditorView extends View
     private arenaWidth: number = parent.innerWidth*0.8;
     private arenaHeight: number = parent.innerHeight;
     private arenaSize: number = this.arenaHeight <= this.arenaWidth ? this.arenaHeight : this.arenaWidth;
-    
+
     readonly cellSize: number = this.arenaSize / Parameters.fieldWidth;
 
     public arena: Arena = new Arena();
@@ -37,11 +37,14 @@ export class EditorView extends View
     createEmptyArena(arenaPanel: Panel): void{
         for(var i = 0; i < Parameters.fieldWidth; i++){
             for(var j = 0; j < Parameters.fieldHeight; j++ ){
-                let but = new Button(this.ctx, String(i) + "/" + String(j) + "/" + String(Block.Road), i*this.cellSize, j*this.cellSize, this.cellSize, this.cellSize, "", "noImage","rgb(0,0,0)", "rgba(200,200,200, 0.1)");
+                let but = new Button(this.ctx, String(i) + "/" + String(j) + "/" + String(Block.Road), i*this.cellSize, j*this.cellSize, this.cellSize, this.cellSize, "", "noImage");
                 but.click = this.controller.fillCell.bind(this.controller, but);
                 arenaPanel.registerControlToPanel(but);
                 if(i%4==0 && j%4==0){
-                    arenaPanel.ctx.strokeRect("rgb(255,255,255)", i*this.cellSize, j*this.cellSize, this.cellSize*4, this.cellSize*4);
+                    arenaPanel.ctx.strokeRect("rgb(255,255,255, 0.3)", i*this.cellSize, j*this.cellSize, this.cellSize*4, this.cellSize*4);
+                }
+                else{
+                    arenaPanel.ctx.strokeRect("rgb(255,255,255, 0.1)", i*this.cellSize, j*this.cellSize, this.cellSize, this.cellSize);
                 }
             }
         };
@@ -64,7 +67,7 @@ export class EditorView extends View
     }
 
     createUnitToToolbar(toolbar: Panel): void{
-        let blocks = Object.keys(Block).slice(0, Object.keys(Block).length/2);
+        let blocks = Object.keys(Block).slice(0, Object.keys(Block).length/2 - 1);
         blocks.forEach(block => {
             let unitButton = new Button(this.ctx, Block[Number(block)], toolbar.width-this.maxBrushSize, Number(block) * this.maxBrushSize * 2, this.maxBrushSize, this.maxBrushSize, "", "./assets/" + Block[Number(block)] + ".svg");
             unitButton.click = this.controller.changeActiveBrushUnit.bind(this.controller, String(Number(block)))

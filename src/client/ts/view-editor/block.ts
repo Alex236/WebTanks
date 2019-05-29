@@ -4,5 +4,6 @@ export enum Block{
     HardBrick,
     Grass,
     Water,
-    Ice
+    Ice,
+    SpawnPoint
 }
