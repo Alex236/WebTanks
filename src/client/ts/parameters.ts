@@ -6,4 +6,5 @@ export class Parameters {
     static readonly bulletSize: number = 2;
     static readonly blockSize: number = 1;
     static readonly timer: number = 20;
+    static readonly maxGamers: number = 8;
 }
