@@ -33,9 +33,6 @@ export class EditorView extends View
     }
 
     public run(): void{
-        this.ctx.strokeStyle = "rgb(255,0,200)";
-        this.ctx.strokeRect(this.arenaPanel.x, this.arenaPanel.y, this.arenaSize, this.arenaSize);
-
         this.emptyArena();
         this.createElementsOfToolbar();
     }
