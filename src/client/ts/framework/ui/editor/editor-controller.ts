@@ -63,6 +63,7 @@ export class EditorController extends Controller
             this.splitBlocks(arenaControls);
         }
         this.drawMaxGamers();
+
         console.log(this.spawnPoints);
         console.log(arenaControls.filter(x => Number(x.name.split('/')[2]) != 0));
     }
@@ -135,10 +136,11 @@ export class EditorController extends Controller
     }
 
     private drawMaxGamers(){
-        let spPointOnToolbar = this.view.controls.find(but => but.name === "arenaPanel");
+        let spPointOnToolbar = this.view.controls.find(but => but.name === "spawnPoint");
         this.view.ctx.fillStyle = "rgb(0,0,0)";
         this.view.ctx.fillRect(spPointOnToolbar.x, spPointOnToolbar.y, spPointOnToolbar.width/3, -(spPointOnToolbar.height/3));
         this.view.ctx.fillStyle = "rgb(150,0,0)";
+        this.view.ctx.font = "40px Arial";
         this.view.ctx.fillText(<any>(this.maxGamers), spPointOnToolbar.x, spPointOnToolbar.y);
     }
 
@@ -155,7 +157,7 @@ export class EditorController extends Controller
         controls.forEach(control=>{
             let contrName = control.name.split('/');
             if(Number(contrName[0])%4==0 && Number(contrName[1])%4==0){
-                this.view.ctx.fillStyle = "rgb(0,0,0)";
+                this.view.ctx.strokeStyle = "rgb(0,0,0)";
                 this.view.ctx.strokeRect(control.x, control.y, control.width*4, control.height*4);
                 this.view.ctx.strokeStyle = "rgba(255,255,255,0.3)";
                 this.view.ctx.strokeRect(control.x, control.y, control.width*4, control.height*4);
