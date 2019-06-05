@@ -23,41 +23,33 @@ export class EditorView extends View
     private spritesForToolbar: Map<string, HTMLImageElement> = new Sprites().all;
 
     //view panels
-    public arenaPanel: Panel = new Panel([0,0], "arenaPanel",0,0, 80, 100);
-    public toolbar: Panel = new Panel([0,0], "Toolbar", 82,0,98,100);
+    public arenaPanel: Panel = new Panel([0,0], "arenaPanel", 0, 0, 80, 100);
+    public toolbar: Panel = new Panel([0,0], "Toolbar", 82, 0, 98, 100);
 
     constructor(canvas: HTMLCanvasElement){
         super(canvas);
-        this.getClickFunction();
         this.registerControl(this.arenaPanel);
         this.registerControl(this.toolbar);
     }
 
-    getClickFunction(){
-        
-    }
-
     public run(): void{
-
         this.ctx.strokeStyle = "rgb(255,0,200)";
         this.ctx.strokeRect(this.arenaPanel.x, this.arenaPanel.y, this.arenaSize, this.arenaSize);
-        
-        this.ctx.strokeStyle = "rgb(255,200,0)";
-        this.ctx.strokeRect(this.toolbar.x, this.toolbar.y, this.toolbar.width, this.toolbar.height);
-
 
         this.emptyArena();
-        this.createToolbar();
+        this.createElementsOfToolbar();
     }
 
     private emptyArena(){
         for(let i=0; i < Parameters.fieldWidth; i++){
             for(let j=0; j < Parameters.fieldHeight; j++){
-                let but = new Button([this.arenaPanel.x, this.arenaPanel.y], String(i) + "/" + String(j) + "/" + String(Block.Road), i*this.cellSize, j*this.cellSize, this.cellSize, this.cellSize, "", null);
-                but.click = this.controller.fillCell.bind(this.controller, but);
-                this.registerControl(but);
                 this.ctx.strokeStyle = "rgb(255,255,255, 0.1)";
                 this.ctx.strokeRect(i*this.cellSize, j*this.cellSize, this.cellSize, this.cellSize);
+
+                let but = new Button([this.arenaPanel.x, this.arenaPanel.y], String(i) + "/" + String(j) + "/" + String(Block.Road), i*this.cellSize, j*this.cellSize, this.cellSize, this.cellSize, "", null);
+                but.click = this.controller.fillCell.bind(this.controller, but);
+                this.arenaPanel.controls.push(but);
+                this.registerControl(but);
             }
         }
 
@@ -71,7 +63,7 @@ export class EditorView extends View
         }
     }
 
-    private createToolbar(){
+    private createElementsOfToolbar(){
         this.createRubberToToolbar();
         this.createUnitToToolbar();
         this.createBrushToToolbar();
@@ -79,41 +71,39 @@ export class EditorView extends View
         this.createCreateButton();
     }
 
-    createRubberToToolbar(): void{
+    private createRubberToToolbar(): void{
         let but = new Button([this.toolbar.x, this.toolbar.y], "rubber", 0, 0, this.maxBrushSize, this.maxBrushSize, "", this.spritesForToolbar.get("Rubber"));
         but.click = this.controller.clearArena.bind(this.controller);
         this.registerControl(but);
-        this.ctx.strokeStyle = "rgb(0,200,250)";
-        this.ctx.strokeRect(but.x, but.y, but.width, but.height);
     }
 
-    createUnitToToolbar(): void{
+    private createUnitToToolbar(): void{
         let blocks = Object.keys(Block).slice(0, Object.keys(Block).length/2 - 1);
         blocks.forEach(block => {
             let unitButton = new Button([this.toolbar.x, this.toolbar.y], Block[Number(block)], this.toolbar.width-this.maxBrushSize, Number(block) * this.maxBrushSize * 2, this.maxBrushSize, this.maxBrushSize, "", this.spritesForToolbar.get(Block[Number(block)]));
-            //unitButton.click = this.controller.changeActiveBrushUnit.bind(this.controller, String(Number(block)))
+            unitButton.click = this.controller.changeActiveBrushUnit.bind(this.controller, String(Number(block)))
             this.registerControl(unitButton);
         });
     }
 
-    createBrushToToolbar(): void{
+    private createBrushToToolbar(): void{
         const brushes = Object.keys(Brush).slice(0, Object.keys(Brush).length/2);
         brushes.forEach(brushSize => {
             let brushButton = new Button([this.toolbar.x, this.toolbar.y], Brush[Number(brushSize)], this.maxBrushSize/2 - (Number(brushSize) * this.cellSize)/2, Number(brushSize) * this.maxBrushSize + this.maxBrushSize/4, Number(brushSize) * this.cellSize, Number(brushSize) * this.cellSize, "myText", null, "noBackground", "rgb(200,200,200)");
-            //brushButton.click = this.controller.changeActiveBrushSize.bind(this.controller, brushSize);
+            brushButton.click = this.controller.changeActiveBrushSize.bind(this.controller, brushSize);
             this.registerControl(brushButton);
         });
     }
 
-    createCreateButton(): void{
+    private createCreateButton(): void{
         let createButton = new Button([this.toolbar.x, this.toolbar.y], "createButton", 0, this.maxBrushSize*12, this.toolbar.width, this.maxBrushSize, "", this.spritesForToolbar.get("CreateButton"));
         //createButton.click = this.controller.createJsonArena.bind(this.controller);
         this.registerControl(createButton);
     }
 
-    createSpawnPoint(): void{
+    private createSpawnPoint(): void{
         let spawnPoint = new Button([this.toolbar.x, this.toolbar.y], "spawnPoint", 0, this.maxBrushSize*6, this.maxBrushSize, this.maxBrushSize, "", this.spritesForToolbar.get("SpawnPoint"));
-        //spawnPoint.click = this.controller.setSpawnPoint.bind(this.controller);
+        spawnPoint.click = this.controller.setSpawnPoint.bind(this.controller);
         this.registerControl(spawnPoint);
     }
 }

@@ -2,6 +2,7 @@ import { Control } from './control';
 
 export class Panel extends Control
 {
+    public controls: Control[] = [];
     public click: () => void = () => {};
 
     // x, y, width, height - in persent from parent
