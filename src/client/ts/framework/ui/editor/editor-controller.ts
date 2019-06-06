@@ -115,9 +115,6 @@ export class EditorController extends Controller
     private drawSplitingOfBlocks(i: number, j: number, control: Control){
         for(let k=0; k < 4; k++){
             for(let t=0; t < 4; t++){
-
-
-
                 this.view.ctx.strokeStyle = "rgba(255,255,255,0.1)";
                 this.view.ctx.strokeRect((k+i)*control.width, (t+j)*control.height, control.width, control.height);
             }
@@ -177,10 +174,6 @@ export class EditorController extends Controller
             Number(xName[1]) >= Number(b) &&
             Number(xName[1]) < Number(b+this.activeBrush[0])){
             this.findSpawnPointUnderBlock(x, a, b);
-
-            this.view.ctx.fillStyle = "rgb(0,0,0)";
-            this.view.ctx.fillRect(x.x, x.y, x.width, x.height);
-        
 
             x.backgroundImage = this.sprites.get(Block[this.activeBrush[1]]);
             this.view.ctx.drawImage(x.backgroundImage, x.x, x.y, x.width, x.height);
