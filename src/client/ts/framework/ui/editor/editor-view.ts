@@ -80,6 +80,10 @@ export class EditorView extends View
             let unitButton = new Button([this.toolbar.x, this.toolbar.y], Block[Number(block)], this.toolbar.width-this.maxBrushSize, Number(block) * this.maxBrushSize * 2, this.maxBrushSize, this.maxBrushSize, "", this.spritesForToolbar.get(Block[Number(block)]));
             unitButton.click = this.controller.changeActiveBrushUnit.bind(this.controller, String(Number(block)))
             this.registerControl(unitButton);
+            if(block === "0"){
+                this.ctx.strokeStyle = "rgba(255,255,255, 0.6)";
+                this.ctx.strokeRect(unitButton.x, unitButton.y, unitButton.width, unitButton.height);
+            }
         });
     }
 
