@@ -2,8 +2,11 @@ import { Control } from './control';
 import { Subject } from 'rxjs';
 import { Controller } from '../controllers/controller';
 import { Button } from './button';
+import { Panel } from './panel';
+import { Sprites } from '../../view-editor/sprites';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
-export abstract class View{
+export class View{
     public controls: (Button | Control)[] = [];
     public canvas: HTMLCanvasElement;
     public ctx: CanvasRenderingContext2D;
@@ -11,9 +14,18 @@ export abstract class View{
     public width: number = parent.innerWidth;
     public height: number = parent.innerHeight;
 
+    public spritesForToolbar: Map<string, HTMLImageElement> = new Sprites().all;
+
+    public menuPanel: Panel = new Panel([0,0], "menuPanel", 0, 0, 100, 5);
+
     constructor(canvas: HTMLCanvasElement){
         this.canvas = canvas;
         this.ctx = canvas.getContext("2d");
+    }
+
+    //add layout controls
+    public run(){
+        this.backButton();
     }
 
     public draw() {
@@ -43,4 +55,14 @@ export abstract class View{
             }
         });
     }
+
+    private backButton():void {
+        let back = new Button([0, 0], "backButton", this.menuPanel.x, this.menuPanel.y, this.menuPanel.height, this.menuPanel.height, "", this.spritesForToolbar.get("backButton"));
+        //back.click = this.controller.goBack;
+        console.log(this);
+        console.log(this.controller);
+        this.registerControl(back);
+    }
+
+    
 }

@@ -11,7 +11,7 @@ import { Sprites } from '../../../view-editor/sprites';
 
 export class EditorController extends Controller
 {
-    public view: View;
+    //public view: View;
     public activeBrush: number[] = [Number(Brush.SixteenCell), Number(Block.Brick)];
     public spawnPoints: string[] = [];
     private arena: Arena = new Arena();
@@ -20,8 +20,7 @@ export class EditorController extends Controller
     public sprites: Map<string, HTMLImageElement> = new Sprites().all;
 
     constructor(view: EditorView){
-        super();
-        this.view = view;
+        super(view);
     }
 
     changeActiveBrushUnit(unitType: string){
@@ -64,8 +63,9 @@ export class EditorController extends Controller
         }
         this.drawMaxGamers();
 
-        console.log(this.spawnPoints);
-        console.log(arenaControls.filter(x => Number(x.name.split('/')[2]) != 0));
+        //необходимые данные для передачи в json
+        //console.log(this.spawnPoints);
+        //console.log(arenaControls.filter(x => Number(x.name.split('/')[2]) != 0));
     }
 
     setSpawnPoint(): void{
@@ -174,7 +174,6 @@ export class EditorController extends Controller
             Number(xName[1]) >= Number(b) &&
             Number(xName[1]) < Number(b+this.activeBrush[0])){
             this.findSpawnPointUnderBlock(x, a, b);
-
             x.backgroundImage = this.sprites.get(Block[this.activeBrush[1]]);
             this.view.ctx.drawImage(x.backgroundImage, x.x, x.y, x.width, x.height);
             x.name = xName[0] + '/' + xName[1] + '/' + this.activeBrush[1];

@@ -17,5 +17,9 @@ export class Sprites {
         let imgCreateButton = new Image();
         imgCreateButton.src = require("../../assets/sprites/CreateButton.svg");
         this.all.set("CreateButton", imgCreateButton);
+
+        let imgBackButton = new Image();
+        imgBackButton.src = require("../../assets/sprites/backButton.svg");
+        this.all.set("backButton", imgBackButton);
     }
 }

@@ -15,6 +15,5 @@ export class Panel extends Control
     }
 
     public draw(ctx: CanvasRenderingContext2D){
-        console.log("draw panel");
     };
 }

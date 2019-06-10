@@ -1,3 +1,21 @@
+//import { Application } from './framework/ui/application/application';
+//import { EditorView } from './framework/ui/editor/editor-view';
+//import { EditorController } from './framework/ui/editor/editor-controller';
+//import { Grid } from './view-editor/grid';
+
+//let application = new Application();
+
+//let editorView = new EditorView((new Grid()).canvas);
+//let editorContr = new EditorController(editorView);
+
+//editorView.run();
+//application.registerView(editorView, editorContr);
+
+
+
+
+
+/*
 import { TankFactory } from './tank-factory';
 import { Game } from './game';
 import { Arena } from './models/arena';
@@ -14,6 +32,7 @@ import { MessageSetName } from './models/message-models/message-set-name';
 import { MessagePressedButton } from './models/message-models/message-pressed-button';
 import { Tank } from './models/tank';
 import { GameStatus } from './models/game-status';
+
 
 let endButton = document.createElement("button");
 endButton.innerHTML = "End Game";
@@ -177,3 +196,4 @@ $.ajax({
         console.log("error");
     }
 });
+*/

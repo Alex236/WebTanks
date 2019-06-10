@@ -11,7 +11,7 @@ import { Sprites } from '../../../view-editor/sprites';
 export class EditorView extends View
 {
     private arenaWidth: number = parent.innerWidth*0.8;
-    private arenaHeight: number = parent.innerHeight;
+    private arenaHeight: number = parent.innerHeight*0.95;
     private arenaSize: number = this.arenaHeight <= this.arenaWidth ? this.arenaHeight : this.arenaWidth;
 
     readonly cellSize: number = this.arenaSize / Parameters.fieldWidth;
@@ -20,16 +20,17 @@ export class EditorView extends View
     public maxBrushSize: number = Brush.SixteenCell * this.cellSize;
     public controller: EditorController = new EditorController(this);
 
-    private spritesForToolbar: Map<string, HTMLImageElement> = new Sprites().all;
+    //private spritesForToolbar: Map<string, HTMLImageElement> = new Sprites().all;
 
     //view panels
-    public arenaPanel: Panel = new Panel([0,0], "arenaPanel", 0, 0, 80, 100);
-    public toolbar: Panel = new Panel([0,0], "Toolbar", 82, 0, 98, 100);
+    public arenaPanel: Panel = new Panel([0,0], "arenaPanel", 5, 5, 80, 95);
+    public toolbar: Panel = new Panel([0,0], "Toolbar", 87, 5, 100, 95);
 
     constructor(canvas: HTMLCanvasElement){
         super(canvas);
         this.registerControl(this.arenaPanel);
         this.registerControl(this.toolbar);
+        this.run();
     }
 
     public run(): void{
@@ -40,8 +41,8 @@ export class EditorView extends View
     private emptyArena(){
         for(let i=0; i < Parameters.fieldWidth; i++){
             for(let j=0; j < Parameters.fieldHeight; j++){
-                this.ctx.strokeStyle = "rgb(255,255,255, 0.1)";
-                this.ctx.strokeRect(i*this.cellSize, j*this.cellSize, this.cellSize, this.cellSize);
+                //this.ctx.strokeStyle = "rgb(255,255,255, 0.1)";
+                //this.ctx.strokeRect(i*this.cellSize, j*this.cellSize, this.cellSize, this.cellSize);
 
                 let but = new Button([this.arenaPanel.x, this.arenaPanel.y], String(i) + "/" + String(j) + "/" + String(Block.Road), i*this.cellSize, j*this.cellSize, this.cellSize, this.cellSize, "", null);
                 but.click = this.controller.fillCell.bind(this.controller, but);
@@ -50,14 +51,14 @@ export class EditorView extends View
             }
         }
 
-        for(let i=0; i < Parameters.fieldWidth; i++){
-            for(let j=0; j < Parameters.fieldHeight; j++){
-                if(i%4==0 && j%4==0){
-                    this.ctx.strokeStyle = "rgb(255,255,255, 0.3)";
-                    this.ctx.strokeRect(i*this.cellSize, j*this.cellSize, this.cellSize*4, this.cellSize*4);
-                }
-            }
-        }
+        //for(let i=0; i < Parameters.fieldWidth; i++){
+        //    for(let j=0; j < Parameters.fieldHeight; j++){
+        //        if(i%4==0 && j%4==0){
+        //            this.ctx.strokeStyle = "rgb(255,255,255, 0.3)";
+        //            this.ctx.strokeRect(i*this.cellSize, j*this.cellSize, this.cellSize*4, this.cellSize*4);
+        //        }
+        //    }
+        //}
     }
 
     private createElementsOfToolbar(){
@@ -80,6 +81,8 @@ export class EditorView extends View
             let unitButton = new Button([this.toolbar.x, this.toolbar.y], Block[Number(block)], this.toolbar.width-this.maxBrushSize, Number(block) * this.maxBrushSize * 2, this.maxBrushSize, this.maxBrushSize, "", this.spritesForToolbar.get(Block[Number(block)]));
             unitButton.click = this.controller.changeActiveBrushUnit.bind(this.controller, String(Number(block)))
             this.registerControl(unitButton);
+            
+            //ОЧЕНЬ ВАЖНЫЙ ЭЛЕМЕНТ!! Добавь в отрисовку к юнита дороги!!!!!!!!!!!!!
             if(block === "0"){
                 this.ctx.strokeStyle = "rgba(255,255,255, 0.6)";
                 this.ctx.strokeRect(unitButton.x, unitButton.y, unitButton.width, unitButton.height);

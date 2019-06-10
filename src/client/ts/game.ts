@@ -16,7 +16,6 @@ import { UnitType } from './models/unit-type';
 import { BlockFactory } from './block-factory';
 import { MessageFactory } from './message-factory';
 
-
 export class Game {
     private static game: Game = new Game();
     public tanks: Map<string, Tank>;

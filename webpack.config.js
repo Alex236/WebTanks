@@ -38,7 +38,7 @@ const config = {
         path: path.resolve(__dirname, 'src/server/wwwroot')
     },
     resolve: {
-        extensions: ['.ts', '.tsx', ".js", ".json"]
+        extensions: ['.ts', '.tsx', ".js", ".jsx", ".json"]
     },
     plugins: [
         new HtmlWebpackPlugin({
