@@ -4,15 +4,21 @@ import { Controller } from '../controllers/controller';
 import { Button } from './button';
 import { Panel } from './panel';
 import { Sprites } from '../../view-editor/sprites';
-import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
 export class View{
+
     public controls: (Button | Control)[] = [];
     public canvas: HTMLCanvasElement;
     public ctx: CanvasRenderingContext2D;
-    public controller: Controller;
+    public controller: Controller = new Controller(this);
     public width: number = parent.innerWidth;
     public height: number = parent.innerHeight;
+
+    public predecessor: View; //= this;
+
+
+
+
 
     public spritesForToolbar: Map<string, HTMLImageElement> = new Sprites().all;
 
@@ -58,11 +64,8 @@ export class View{
 
     private backButton():void {
         let back = new Button([0, 0], "backButton", this.menuPanel.x, this.menuPanel.y, this.menuPanel.height, this.menuPanel.height, "", this.spritesForToolbar.get("backButton"));
-        //back.click = this.controller.goBack;
-        console.log(this);
-        console.log(this.controller);
+        //???????ТУТ проблема
+        back.click = this.controller.goBack.bind(this.controller);
         this.registerControl(back);
     }
-
-    
 }

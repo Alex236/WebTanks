@@ -7,6 +7,17 @@ export class Controller{
     }
 
     public goBack(): void{
+        //???????ТУТ проблема
         console.log("GO BAAAACK");
+        console.log(this.view);
+        console.log("predecessor");
+        console.log(this.view.predecessor);
+
+
+
+        //console.log(view);
+        
+        //view.run();
+        //view.draw()
     }
 }

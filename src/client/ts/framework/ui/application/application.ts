@@ -5,8 +5,7 @@ import { Controller } from '../../controllers/controller';
 export class Application {
     private views: View[] = [];
     private controllers: Controller[] = [];
-    public lastView: View;
-    public currentView: View;
+    public currentView: View = this.views[0];
 
     private subject: Subject<MouseEvent>;
 
@@ -26,9 +25,14 @@ export class Application {
     runTrueView(view: View){
         this.views[0].run();
         this.views[0].draw();
-        this.lastView = this.currentView;
+        view.predecessor = this.currentView;
+
+        console.log("VIEWWWW!!!!!");
+        console.log(view);
+
         this.currentView = view;
-        this.currentView.run();
-        this.currentView.draw();
+        view.run();
+        view.draw();
     }
+
 }
